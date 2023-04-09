@@ -22,8 +22,7 @@ class App extends Component {
   render() {
     return (
       <div className="AppMain">
-        <div className="container mt-3">
-          <Routes>
+        <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
             <Route
@@ -36,8 +35,7 @@ class App extends Component {
             />
             <Route path="*" element={<NotFoundRoute />} />
           </Routes>
-          <NotificationContainer />
-        </div>
+        <NotificationContainer />
       </div>
     );
   }
