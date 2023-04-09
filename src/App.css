@@ -51,16 +51,21 @@ label {
   transition: all 0.5s ease;
   padding: 15px;
   border-radius: 10px;
-  margin: 20px 10px 20px 10px;
+  margin: 20px 10px 25px 10px;
 }
 
-.PostItem h4 {
+.PostItem h5 {
   color: blue;
 }
 
-.PostItem h4 p{
-  color: red;
+.PostItem h5 p{
+  color: gray;
   font-size: 12px;
+}
+
+.PostItem .TitlePost {
+  color: blue;
+  font-size: 18px;
 }
 
 .leftMenu {
