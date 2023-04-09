@@ -3,37 +3,84 @@ import MenuMain from "./menuMain";
 import Footer from "./footer";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import PostService from "../services/postService";
+import moment from "moment/moment";
 export default class Home extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      content: "hello",
+      page: 1,
+      limit: 10,
+      postLists: [],
+      total: 0,
     };
   }
 
-  handleSearch(value) {
-    console.log(value);
+  componentDidMount() {
+    this.fetchAllPosts(1);
+  }
+
+  async fetchAllPosts() {
+    const { limit, page } = this.state;
+    const response = await PostService.getAllPosts(page, limit);
+    this.setState({
+      postLists: response?.results || [],
+      total: response?.total || 0,
+    });
   }
 
   render() {
+    const { postLists = [] } = this.state;
+    console.log(postLists);
+
     return (
       <>
         <MenuMain />
         <Row>
           <Col xs lg="4">
             <div className="leftMenu">
-              <h4>Homepage</h4>
-              <p>....</p>
+              <h4>left menu home page</h4>
+              <p>some design such as search, user list online...</p>
             </div>
           </Col>
           <Col>
-            <div className="PostItem">
-              <span><img src="/image/icon-login.png" alt="profile-img" className="PostAvatar"/><h4>Lorem Ipsum is simply dummy text <p>2023-09-04 17:15:00</p></h4></span>
-              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries...</p>
-              <p><img src="/image/icon-login.png" alt="profile-img" height="200px"/></p>
-              <hr />
-            </div>
+            {postLists.map((post) => {
+              return (
+                <div className="PostItem">
+                  <span>
+                    <img
+                      src={post?.user?.avatar || "/image/icon-login.png"}
+                      alt={post?.user?.firstName}
+                      className="PostAvatar"
+                    />
+                    <h5>
+                      {`${post?.user?.lastName} ${post?.user?.middleName} ${post?.user?.firstName}`}
+                      <p>
+                        {moment(post.createdAt).format("YYYY-MM-DD hh:mm:ss")}
+                      </p>
+                    </h5>
+                  </span>
+                  <p className="TitlePost">{post?.title || ""}</p>
+                  <p>{post.content}</p>
+                  <p>
+                    {post?.attachments?.map((image) => {
+                      return (
+                        <>
+                          <img
+                            src={image?.url}
+                            alt={image?.originalname}
+                            height="200px"
+                            width="250px"
+                          />
+                        </>
+                      );
+                    })}
+                  </p>
+                  <hr />
+                </div>
+              );
+            })}
           </Col>
         </Row>
         <Footer />
