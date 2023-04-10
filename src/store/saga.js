@@ -1,18 +1,18 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { getAllPosts } from "../services/postService";
+import { fetchAllPosts } from "../services/postService";
+import { postAction } from './action';
 
-function* getAllPost(page, limit) {
+function* getAllPost({ payload }) {
     try {
-        console.log('rjsjjsjs');
-        const res = yield call(getAllPosts(1, 100));
-        console.log('response', res);
-        yield put({ type: "GET_ALL_POST", payload: res })
+        const { limit = 10, page = 1 } = payload;
+        const res = yield call(fetchAllPosts, page, limit);
+        yield put({ type: postAction.GET_ALL_POST_SUCCESS, payload: res?.data?.data })
     } catch (error) {
     }
 }
 
 function* watchGetAllPost() {
-    yield takeLatest("GET_ALL_POST", getAllPost)
+    yield takeLatest(postAction.GET_ALL_POST, getAllPost)
 }
 
 export default watchGetAllPost;
