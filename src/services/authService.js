@@ -4,22 +4,19 @@ import { routes } from "../common/constant";
 import { API_URL } from "../common/constant";
 
 class AuthService {
-  login(email, password) {
-    return axios
+  async login(email, password) {
+    const response = await axios
       .post(`${API_URL}/api/auth${routes.LOGIN}`, {
         email,
         password,
-      })
-      .then((response) => {
-        if (response.data.data.accessToken) {
-          sessionStorage.setItem(
-            localStorageItem.USER,
-            JSON.stringify(response.data.data)
-          );
-        }
-
-        return response.data;
       });
+    if (response.data.data.accessToken) {
+      sessionStorage.setItem(
+        localStorageItem.USER,
+        JSON.stringify(response.data.data)
+      );
+    }
+    return response.data;
   }
 
   logout() {

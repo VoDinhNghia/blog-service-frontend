@@ -3,36 +3,56 @@ import MenuMain from "./menuMain";
 import Footer from "./footer";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import PostService from "../services/postService";
+import { getAllPosts } from "../services/postService";
 import moment from "moment/moment";
-export default class Home extends Component {
+import { connect } from "react-redux"
+class Home extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       page: 1,
-      limit: 10,
+      limit: 1,
       postLists: [],
       total: 0,
     };
   }
 
   componentDidMount() {
-    this.fetchAllPosts(1);
+    this.fetchAllPosts();
   }
 
   async fetchAllPosts() {
     const { limit, page } = this.state;
-    const response = await PostService.getAllPosts(page, limit);
+    const { dispatch } = this.props;
+    dispatch({ type: 'GET_ALL_POST' })
+    const response = await getAllPosts(page, limit);
     this.setState({
       postLists: response?.results || [],
       total: response?.total || 0,
     });
   }
 
+  async gotoNextPage() {
+    const { page } = this.state;
+    this.setState({
+      page: page + 1,
+    })
+    await this.fetchAllPosts();
+  }
+
+  async gotoBack() {
+    const { page } = this.state;
+    this.setState({
+      page: page - 1,
+    })
+    await this.fetchAllPosts();
+  }
+
   render() {
-    const { postLists = [] } = this.state;
-    console.log(postLists);
+    const { postListTest } = this.props;
+    const { postLists = [], page } = this.state;
+    console.log('postListTets', postListTest);
 
     return (
       <>
@@ -45,9 +65,9 @@ export default class Home extends Component {
             </div>
           </Col>
           <Col>
-            {postLists.map((post) => {
+            {postLists?.map((post) => {
               return (
-                <div className="PostItem">
+                <div className="PostItem" key={post?.id}>
                   <span>
                     <img
                       src={post?.user?.avatar || "/image/icon-login.png"}
@@ -55,9 +75,9 @@ export default class Home extends Component {
                       className="PostAvatar"
                     />
                     <h5>
-                      {`${post?.user?.lastName} ${post?.user?.middleName} ${post?.user?.firstName}`}
+                      {`${post?.user?.lastName || ''} ${post?.user?.middleName || ''} ${post?.user?.firstName || ''}`}
                       <p>
-                        {moment(post.createdAt).format("YYYY-MM-DD hh:mm:ss")}
+                        {post?.createdAt ? moment(post?.createdAt).format("YYYY-MM-DD hh:mm:ss") : ''}
                       </p>
                     </h5>
                   </span>
@@ -68,8 +88,8 @@ export default class Home extends Component {
                       return (
                         <>
                           <img
-                            src={image?.url}
-                            alt={image?.originalname}
+                            src={image?.url || ''}
+                            alt={image?.originalname || ''}
                             height="200px"
                             width="250px"
                           />
@@ -81,6 +101,7 @@ export default class Home extends Component {
                 </div>
               );
             })}
+            {page > 1 ? <button onClick={() => this.gotoBack()}>back</button> : ''} <button onClick={() => this.gotoNextPage()}>next</button>
           </Col>
         </Row>
         <Footer />
@@ -88,3 +109,9 @@ export default class Home extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return { postListTest: state.PostReducer.postListTest }
+}
+
+export default connect(mapStateToProps)(Home)
