@@ -1,18 +1,23 @@
 import { combineReducers } from "redux";
+import { postAction } from "./action";
 
 const initState = {
-  postListTest: [],
+  postLists: [],
   isLoading: false,
   total: 0,
 };
 
 const PostReducer = (state = initState, action) => {
   switch (action.type) {
-    case "GET_ALL_POST":
-      console.log('sssss', action);
+    case postAction.GET_ALL_POST:
       return {
         ...state,
-        postListTest: action?.payload?.results || [],
+        isLoading: true,
+      };
+    case postAction.GET_ALL_POST_SUCCESS:
+      return {
+        ...state,
+        postLists: action?.payload?.results || [],
         total: action?.payload?.total || 0,
         isLoading: true,
       };

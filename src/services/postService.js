@@ -15,3 +15,9 @@ export const getAllPosts = async (page = 1, limit = 10) => {
     return response.data;
   } catch (error) {}
 };
+
+export const fetchAllPosts = (page, limit) =>
+  axios.get(`${API_URL}/api/post`, {
+    headers: authHeader(),
+    params: { limit, page },
+  });

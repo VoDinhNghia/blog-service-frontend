@@ -3,18 +3,16 @@ import MenuMain from "./menuMain";
 import Footer from "./footer";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { getAllPosts } from "../services/postService";
 import moment from "moment/moment";
-import { connect } from "react-redux"
+import { connect } from "react-redux";
+import { postAction } from "../store/action";
 class Home extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       page: 1,
-      limit: 1,
-      postLists: [],
-      total: 0,
+      limit: 10,
     };
   }
 
@@ -25,12 +23,7 @@ class Home extends Component {
   async fetchAllPosts() {
     const { limit, page } = this.state;
     const { dispatch } = this.props;
-    dispatch({ type: 'GET_ALL_POST' })
-    const response = await getAllPosts(page, limit);
-    this.setState({
-      postLists: response?.results || [],
-      total: response?.total || 0,
-    });
+    dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit: limit } });
   }
 
   async gotoNextPage() {
@@ -50,9 +43,8 @@ class Home extends Component {
   }
 
   render() {
-    const { postListTest } = this.props;
-    const { postLists = [], page } = this.state;
-    console.log('postListTets', postListTest);
+    const { postLists = [] } = this.props;
+    const { page } = this.state;
 
     return (
       <>
@@ -86,14 +78,12 @@ class Home extends Component {
                   <p>
                     {post?.attachments?.map((image) => {
                       return (
-                        <>
                           <img
                             src={image?.url || ''}
                             alt={image?.originalname || ''}
                             height="200px"
                             width="250px"
                           />
-                        </>
                       );
                     })}
                   </p>
@@ -111,7 +101,7 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
-  return { postListTest: state.PostReducer.postListTest }
+  return { postLists: state.PostReducer.postLists }
 }
 
 export default connect(mapStateToProps)(Home)
