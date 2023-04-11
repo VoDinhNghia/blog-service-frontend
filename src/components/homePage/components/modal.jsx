@@ -27,12 +27,14 @@ class ModalHomepage extends Component {
           <Modal.Body>
             {data?.map((lists) => {
               return (
-                <span className="ModalUserLike">
-                  <img src={lists?.user?.avatar || "/image/icon-login.png"} alt="" />
-                  <a href="#">{`${lists?.user?.lastName || ""} ${
-                  lists?.user?.middleName || ""
-                  } ${lists?.user?.firstName || ""}`}</a>
-                </span>
+                <p className="ModalUserLike">
+                  <span>
+                    <img src={lists?.user?.avatar || "/image/icon-login.png"} alt="" />
+                    <a href="#">{`${lists?.user?.lastName || ""} ${
+                    lists?.user?.middleName || ""
+                    } ${lists?.user?.firstName || ""}`}</a>
+                  </span>
+                </p>
               );
             })}
           </Modal.Body>

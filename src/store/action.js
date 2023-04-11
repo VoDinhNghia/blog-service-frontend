@@ -3,4 +3,5 @@ export const postAction = {
     GET_ALL_POST: "GET_ALL_POST",
     LIKE_POST: "LIKE_POST",
     SHARE_POST: "SHARE_POST",
+    COMMENT_POST: "COMMENT_POST",
 }

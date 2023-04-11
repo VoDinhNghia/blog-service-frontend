@@ -102,6 +102,96 @@
   color: gray;
 }
 
+.ButtonLSC:hover {
+  border: none;
+  background-color: white;
+  color: gray;
+}
+
+.commentsListHomepage {
+	margin-top: 30px;
+	position: relative;
+}
+
+.commentsListHomepage li {
+	margin-bottom: 15px;
+	display: block;
+	position: relative;
+}
+
+.commentsListHomepage .commentAvatar {
+	width: 5%;
+  display: inline-block;
+}
+
+.commentsListHomepage .commentAvatar img {
+	width: 100%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.commentMainLevelHomepage:after {
+	content: '';
+	width: 0;
+	height: 0;
+	display: block;
+	clear: both;
+}
+
+.commentsListHomepage .commentBoxHompage {
+	width: 93%;
+	float: right;
+	position: relative;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+	box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+}
+
+.commentsListHomepage .commentBoxHompage:before {
+	border-width: 11px 13px 11px 0;
+	border-color: transparent rgba(0,0,0,0.05);
+	left: -12px;
+}
+
+.commentBoxHompage .commentHead {
+	background: #FCFCFC;
+	padding: 10px 12px;
+	border-bottom: 1px solid #E5E5E5;
+	overflow: hidden;
+	-webkit-border-radius: 4px 4px 0 0;
+	-moz-border-radius: 4px 4px 0 0;
+	border-radius: 4px 4px 0 0;
+}
+
+.commentBoxHompage .commentName {
+	color: #283035;
+	font-size: 14px;
+	font-weight: 700;
+	float: left;
+	margin-right: 10px;
+}
+
+.commentBoxHompage .commentName a {
+	color: #283035;
+}
+
+.commentBoxHompage .commentHead span {
+	float: left;
+	color: #999;
+	font-size: 12px;
+}
+
+.commentBoxHompage .commentContent {
+	background: #FFF;
+	padding: 12px;
+	font-size: 15px;
+	color: #595959;
+	-webkit-border-radius: 0 0 4px 4px;
+	-moz-border-radius: 0 0 4px 4px;
+	border-radius: 0 0 4px 4px;
+}
+
 @media only screen and (min-width: 200px) and (max-width: 420px) {
   .LikeShareComment {
     margin: 0px 0px 10px 10px;
