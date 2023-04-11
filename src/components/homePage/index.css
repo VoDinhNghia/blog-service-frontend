@@ -1,0 +1,89 @@
+.PostItem {
+  background-color: rgb(251, 253, 255);
+  border-radius: 10px;
+  box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
+  transition: all 0.5s ease;
+  padding: 15px;
+  border-radius: 10px;
+  margin: 20px 10px 25px 10px;
+}
+
+.PostItem h5 {
+  color: blue;
+}
+
+.ButtonBack {
+  width: 80px;
+  border-radius: 5px;
+  border: none;
+  margin-left: 30px;
+  background-color: white;
+  color: blue;
+}
+
+.ButtonNext {
+  width: 100px;
+  border-radius: 5px;
+  border: none;
+  float: right;
+  margin-right: 30px;
+  background-color: white;
+  color: blue;
+}
+
+.PostItem h5 p {
+  color: gray;
+  font-size: 12px;
+}
+
+.PostItem .TitlePost {
+  color: blue;
+  font-size: 18px;
+}
+
+.leftMenu {
+  background-color: rgb(251, 253, 255);
+  border-radius: 10px;
+  box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
+  transition: all 0.5s ease;
+  padding: 15px;
+  border-radius: 10px;
+  margin: 20px 0px 15px 15px;
+}
+
+.PostAvatar {
+  width: 30px;
+  height: 30px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  float: left;
+  margin-right: 20px;
+}
+
+.LikeShareComment {
+  margin: 10px;
+}
+
+.BtnCommentShare {
+  float: right;
+  margin-right: 20px;
+  border: none;
+}
+
+.ButtonLike {
+  float: left;
+  border: none;
+  background-color: white;
+}
+
+.ButtonComment {
+  border: none;
+  background-color: white;
+  margin-right: 20px;
+}
+
+.ButtonShare {
+  border: none;
+  background-color: white;
+}

@@ -59,7 +59,6 @@ class Login extends Component {
       AuthService.login(this.state.username, this.state.password).then(
         (response) => {
           this.props.router.navigate(routes.HOME);
-          window.location.reload();
         },
         (error) => {
           const resMessage =

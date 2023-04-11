@@ -4,6 +4,7 @@ import AuthService from "../services/authService";
 import { BsHouseFill, BsFillArrowRightSquareFill } from "react-icons/bs";
 import EventBus from "../common/eventBus";
 import { routes } from "../common/constant";
+import "./index.css";
 
 export default class MenuMain extends Component {
   constructor(props) {
