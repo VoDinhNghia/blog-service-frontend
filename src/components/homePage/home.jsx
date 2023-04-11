@@ -7,13 +7,20 @@ import Col from "react-bootstrap/Col";
 import moment from "moment/moment";
 import { connect } from "react-redux";
 import { postAction } from "../../store/action";
-// import { BsFillHandThumbsUpFill } from "react-icons/bs";
+import {
+  BsFillHandThumbsUpFill,
+  BsFillChatLeftTextFill,
+  BsChevronDoubleLeft,
+  BsChevronDoubleRight,
+  BsFillReplyFill,
+} from "react-icons/bs";
 import "./index.css";
 import ModalHomepage from "./components/modal";
 
 class Home extends Component {
   constructor(props) {
     super(props);
+    this.fetchAllPosts = this.fetchAllPosts.bind(this);
     this.state = {
       page: 1,
       limit: 10,
@@ -24,29 +31,12 @@ class Home extends Component {
 
   componentDidMount() {
     this.fetchAllPosts();
-    this.gotoNextPage();
   }
 
   async fetchAllPosts() {
     const { limit, page } = this.state;
     const { dispatch } = this.props;
     dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
-  }
-
-  async gotoNextPage() {
-    const { page } = this.state;
-    this.setState({
-      page: page + 1,
-    });
-    await this.fetchAllPosts();
-  }
-
-  async gotoBack() {
-    const { page } = this.state;
-    this.setState({
-      page: page > 1 ? page - 1 : page,
-    });
-    await this.fetchAllPosts();
   }
 
   showModal(data) {
@@ -60,6 +50,15 @@ class Home extends Component {
     this.setState({
       isShowModal: value,
     });
+  }
+
+  actionLike(postId) {
+    const { dispatch } = this.props;
+    const { page, limit } = this.state;
+    dispatch({ type: postAction.LIKE_POST, payload: { postId }});
+    setTimeout(() => {
+      dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
+    }, 100)
   }
 
   render() {
@@ -112,25 +111,40 @@ class Home extends Component {
                       );
                     })}
                   </p>
-                  <p className="LikeShareComment">
+                  <p className="NumberLikeShareComment">
                     <a
-                      className="ButtonLike"
+                      className="NumberLike"
                       href="#"
                       onClick={() => this.showModal(post?.likes || [])}
                     >
-                      {post?.likes?.length} likes
+                      <BsFillHandThumbsUpFill /> {post?.likes?.length}
                     </a>{" "}
-                    <span className="BtnCommentShare">
-                      <a className="ButtonComment">
-                        {post?.comments?.length} comments
+                    <span className="NumberCommentShare">
+                      <a className="NumberComment">
+                        <BsFillChatLeftTextFill /> {post?.comments?.length}
                       </a>{" "}
-                      <a className="ButtonShare">
-                        {post?.shares?.length} shares
+                      <a className="NumberShare">
+                        <BsFillReplyFill />{post?.shares?.length}
                       </a>
                     </span>
                   </p>
                   <br />
                   <hr />
+                  <p className="LikeShareComment">
+                    <button
+                      className="ButtonLSC"
+                      onClick={() => this.actionLike(post?.id)}
+                    >
+                      <BsFillHandThumbsUpFill /> like
+                    </button>
+                    <button className="ButtonLSC">
+                    <BsFillChatLeftTextFill /> comment
+                    </button>{" "}
+                    <button className="ButtonLSC">
+                    <BsFillReplyFill /> share
+                    </button>
+                  </p>
+                  <br />
                 </div>
               );
             })}
@@ -140,12 +154,12 @@ class Home extends Component {
               closeModal={(value) => this.closeModal(value)}
             />
             {
-              <button className="ButtonBack" onClick={() => this.gotoBack()}>
-                Back
+              <button className="ButtonBack">
+                <BsChevronDoubleLeft />
               </button>
             }{" "}
-            <button className="ButtonNext" onClick={() => this.gotoNextPage()}>
-              Next Page
+            <button className="ButtonNext">
+              <BsChevronDoubleRight />
             </button>
             <br />
             <br />

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import axios from "axios";
 import { localStorageItem } from "../common/constant";
 import { routes } from "../common/constant";

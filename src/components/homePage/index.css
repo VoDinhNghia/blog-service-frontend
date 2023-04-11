@@ -61,29 +61,58 @@
   margin-right: 20px;
 }
 
-.LikeShareComment {
+.NumberLikeShareComment {
   margin: 10px;
 }
 
-.BtnCommentShare {
+.NumberLikeShareComment .NumberCommentShare {
   float: right;
   margin-right: 20px;
   border: none;
 }
 
-.ButtonLike {
+.NumberLikeShareComment .NumberLike {
   float: left;
   border: none;
   background-color: white;
 }
 
-.ButtonComment {
+.NumberLikeShareComment .NumberComment {
   border: none;
   background-color: white;
   margin-right: 20px;
 }
 
-.ButtonShare {
+.NumberLikeShareComment .NumberShare {
   border: none;
   background-color: white;
+}
+
+.LikeShareComment {
+  margin: 10px 40px 10px 40px;
+}
+
+.ButtonLSC {
+  margin-right: 50px;
+  border: none;
+  background-color: white;
+  color: gray;
+}
+
+@media only screen and (min-width: 200px) and (max-width: 420px) {
+  .LikeShareComment {
+    margin: 0px 0px 0px 10px;
+  }
+  .ButtonLSC {
+    margin-right: 10px;
+  }
+}
+
+@media only screen and (min-width: 421px) and (max-width: 900px) {
+  .LikeShareComment {
+    margin: 0px 0px 0px 10px;
+  }
+  .ButtonLSC {
+    margin-right: 0px;
+  }
 }
