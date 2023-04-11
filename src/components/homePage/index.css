@@ -75,21 +75,24 @@
   float: left;
   border: none;
   background-color: white;
+  color: blue;
 }
 
 .NumberLikeShareComment .NumberComment {
   border: none;
   background-color: white;
   margin-right: 20px;
+  color: blue;
 }
 
 .NumberLikeShareComment .NumberShare {
   border: none;
   background-color: white;
+  color: blue;
 }
 
 .LikeShareComment {
-  margin: 10px 40px 10px 40px;
+  margin: 10px 40px 20px 40px;
 }
 
 .ButtonLSC {
@@ -101,7 +104,7 @@
 
 @media only screen and (min-width: 200px) and (max-width: 420px) {
   .LikeShareComment {
-    margin: 0px 0px 0px 10px;
+    margin: 0px 0px 10px 10px;
   }
   .ButtonLSC {
     margin-right: 10px;
@@ -110,7 +113,7 @@
 
 @media only screen and (min-width: 421px) and (max-width: 900px) {
   .LikeShareComment {
-    margin: 0px 0px 0px 10px;
+    margin: 0px 0px 10px 10px;
   }
   .ButtonLSC {
     margin-right: 0px;

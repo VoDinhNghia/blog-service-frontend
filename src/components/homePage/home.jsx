@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
 import MenuMain from "../menuMain";
 import Footer from "../footer";
@@ -16,6 +15,10 @@ import {
 } from "react-icons/bs";
 import "./index.css";
 import ModalHomepage from "./components/modal";
+import Button from "react-bootstrap/Button";
+import Collapse from "react-bootstrap/Collapse";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 
 class Home extends Component {
   constructor(props) {
@@ -26,6 +29,8 @@ class Home extends Component {
       limit: 10,
       isShowModal: false,
       userLikes: [],
+      isShowComment: false,
+      commentPost: "",
     };
   }
 
@@ -55,15 +60,46 @@ class Home extends Component {
   actionLike(postId) {
     const { dispatch } = this.props;
     const { page, limit } = this.state;
-    dispatch({ type: postAction.LIKE_POST, payload: { postId }});
+    dispatch({ type: postAction.LIKE_POST, payload: { postId } });
     setTimeout(() => {
       dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
-    }, 100)
+    }, 100);
+  }
+
+  actionShare(postId) {
+    const { dispatch } = this.props;
+    const { page, limit } = this.state;
+    dispatch({
+      type: postAction.SHARE_POST,
+      payload: { postId, privateMode: false },
+    });
+    setTimeout(() => {
+      dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
+    }, 100);
+  }
+
+  showComment() {
+    const { isShowComment } = this.state;
+    this.setState({
+      isShowComment: !isShowComment,
+    });
+  }
+
+  onchangeValueComment(event) {
+    this.setState({
+      commentPost: event.target.value,
+    });
+  }
+
+  sendComment(event, postId) {
+    const { commentPost } = this.state;
+    event.preventDefault();
+    console.log("dkdkd", commentPost, postId);
   }
 
   render() {
     const { postLists = [] } = this.props;
-    const { isShowModal, userLikes } = this.state;
+    const { isShowModal, userLikes, isShowComment } = this.state;
     return (
       <>
         <MenuMain />
@@ -112,39 +148,69 @@ class Home extends Component {
                     })}
                   </p>
                   <p className="NumberLikeShareComment">
-                    <a
+                    <Button
                       className="NumberLike"
-                      href="#"
                       onClick={() => this.showModal(post?.likes || [])}
                     >
                       <BsFillHandThumbsUpFill /> {post?.likes?.length}
-                    </a>{" "}
+                    </Button>{" "}
                     <span className="NumberCommentShare">
-                      <a className="NumberComment">
+                      <Button
+                        className="NumberComment"
+                        aria-controls="comment-home-page-post"
+                        aria-expanded={isShowComment}
+                        onClick={() => this.showComment()}
+                      >
                         <BsFillChatLeftTextFill /> {post?.comments?.length}
-                      </a>{" "}
-                      <a className="NumberShare">
-                        <BsFillReplyFill />{post?.shares?.length}
-                      </a>
+                      </Button>{" "}
+                      <Button className="NumberShare">
+                        <BsFillReplyFill />
+                        {post?.shares?.length}
+                      </Button>
                     </span>
                   </p>
                   <br />
                   <hr />
                   <p className="LikeShareComment">
-                    <button
+                    <Button
                       className="ButtonLSC"
                       onClick={() => this.actionLike(post?.id)}
                     >
                       <BsFillHandThumbsUpFill /> like
-                    </button>
-                    <button className="ButtonLSC">
-                    <BsFillChatLeftTextFill /> comment
-                    </button>{" "}
-                    <button className="ButtonLSC">
-                    <BsFillReplyFill /> share
-                    </button>
+                    </Button>
+                    <Button
+                      className="ButtonLSC"
+                      aria-controls="comment-home-page-post"
+                      aria-expanded={isShowComment}
+                      onClick={() => this.showComment()}
+                    >
+                      <BsFillChatLeftTextFill /> comment
+                    </Button>{" "}
+                    <Button
+                      className="ButtonLSC"
+                      onClick={() => this.actionShare(post?.id)}
+                    >
+                      <BsFillReplyFill /> share
+                    </Button>
                   </p>
-                  <br />
+                  <Collapse in={isShowComment}>
+                    <div id="comment-home-page-post">
+                      <InputGroup className="mb-3">
+                        <Form.Control
+                          placeholder="write something comments..."
+                          aria-label="comment post"
+                          aria-describedby="basic-addon2"
+                          onChange={(event) => this.onchangeValueComment(event)}
+                        />
+                        <Button
+                          id="basic-addon2"
+                          onClick={(event) => this.sendComment(event, post?.id)}
+                        >
+                          send
+                        </Button>
+                      </InputGroup>
+                    </div>
+                  </Collapse>
                 </div>
               );
             })}
