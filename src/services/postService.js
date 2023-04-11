@@ -24,3 +24,12 @@ export const sharePost = (payload) =>
   axios.post(`${API_URL}/api/share/`, payload, {
     headers: authHeader(),
   });
+
+
+  export const commentPost = (payload) =>
+  axios.post(
+    `${API_URL}/api/comment/`, payload,
+    {
+      headers: authHeader(),
+    }
+  );

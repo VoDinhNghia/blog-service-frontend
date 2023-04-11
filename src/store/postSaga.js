@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { fetchAllPosts, likePost, sharePost } from "../services/postService";
+import { fetchAllPosts, likePost, sharePost, commentPost } from "../services/postService";
 import { postAction } from "./action";
 import { NotificationManager } from "react-notifications";
 
@@ -32,7 +32,14 @@ function* sharePosts({ payload }) {
   }
 }
 
+function* commentPosts({ payload }) {
+  try {
+    yield call(commentPost, payload);
+  } catch (error) {}
+}
+
 function* watchGetAllPost() {
+  yield takeLatest(postAction.COMMENT_POST, commentPosts);
   yield takeLatest(postAction.SHARE_POST, sharePosts);
   yield takeLatest(postAction.LIKE_POST, likePosts);
   yield takeLatest(postAction.GET_ALL_POST, getAllPost);

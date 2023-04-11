@@ -94,7 +94,12 @@ class Home extends Component {
   sendComment(event, postId) {
     const { commentPost } = this.state;
     event.preventDefault();
-    console.log("dkdkd", commentPost, postId);
+    const { dispatch } = this.props;
+    const { page, limit } = this.state;
+    dispatch({ type: postAction.COMMENT_POST, payload: { postId, content: commentPost } });
+    setTimeout(() => {
+      dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
+    }, 100);
   }
 
   render() {
@@ -150,6 +155,7 @@ class Home extends Component {
                   <p className="NumberLikeShareComment">
                     <Button
                       className="NumberLike"
+                      variant="outline-light"
                       onClick={() => this.showModal(post?.likes || [])}
                     >
                       <BsFillHandThumbsUpFill /> {post?.likes?.length}
@@ -157,13 +163,14 @@ class Home extends Component {
                     <span className="NumberCommentShare">
                       <Button
                         className="NumberComment"
-                        aria-controls="comment-home-page-post"
+                        variant="outline-light"
+                        aria-controls={`comment-home-page-post#${post?.id}`}
                         aria-expanded={isShowComment}
                         onClick={() => this.showComment()}
                       >
                         <BsFillChatLeftTextFill /> {post?.comments?.length}
                       </Button>{" "}
-                      <Button className="NumberShare">
+                      <Button className="NumberShare" variant="outline-light">
                         <BsFillReplyFill />
                         {post?.shares?.length}
                       </Button>
@@ -174,13 +181,15 @@ class Home extends Component {
                   <p className="LikeShareComment">
                     <Button
                       className="ButtonLSC"
+                      variant="outline-light"
                       onClick={() => this.actionLike(post?.id)}
                     >
                       <BsFillHandThumbsUpFill /> like
                     </Button>
                     <Button
                       className="ButtonLSC"
-                      aria-controls="comment-home-page-post"
+                      variant="outline-light"
+                      aria-controls={`comment-home-page-post#${post?.id}`}
                       aria-expanded={isShowComment}
                       onClick={() => this.showComment()}
                     >
@@ -188,13 +197,14 @@ class Home extends Component {
                     </Button>{" "}
                     <Button
                       className="ButtonLSC"
+                      variant="outline-light"
                       onClick={() => this.actionShare(post?.id)}
                     >
                       <BsFillReplyFill /> share
                     </Button>
                   </p>
                   <Collapse in={isShowComment}>
-                    <div id="comment-home-page-post">
+                    <div id={`comment-home-page-post#${post?.id}`}>
                       <InputGroup className="mb-3">
                         <Form.Control
                           placeholder="write something comments..."
@@ -209,6 +219,48 @@ class Home extends Component {
                           send
                         </Button>
                       </InputGroup>
+                      {post?.comments?.map((comment) => {
+                        return (
+                          <>
+                            <ul className="commentsListHomepage">
+                              <li>
+                                <div className="commentMainLevelHomepage">
+                                  <div className="commentAvatar">
+                                    <img
+                                      src={
+                                        comment?.user?.avatar ||
+                                        "/image/icon-login.png"
+                                      }
+                                      alt=""
+                                    />
+                                  </div>
+                                  <div className="commentBoxHompage">
+                                    <div className="commentHead">
+                                      <h6 className="commentName">
+                                        <a href="">{`${
+                                          comment?.user?.lastName || ""
+                                        } ${comment?.user?.middleName || ""} ${
+                                          comment?.user?.firstName || ""
+                                        }`}</a>
+                                      </h6>
+                                      <span>
+                                        {comment?.createdAt
+                                          ? moment(comment?.createdAt).format(
+                                              "YYYY-MM-DD hh:mm:ss"
+                                            )
+                                          : ""}
+                                      </span>
+                                    </div>
+                                    <div className="commentContent">
+                                      {comment?.content}
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                          </>
+                        );
+                      })}
                     </div>
                   </Collapse>
                 </div>
