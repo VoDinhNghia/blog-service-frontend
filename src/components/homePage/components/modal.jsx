@@ -14,7 +14,6 @@ class ModalHomepage extends Component {
 
   render() {
     const { isShowModal = false, data = [] } = this.props;
-    console.log("data", data);
     return (
       <div>
         <Modal

@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { fetchAllPosts } from "../services/postService";
+import { fetchAllPosts, likePost } from "../services/postService";
 import { postAction } from './action';
 
 function* getAllPost({ payload }) {
@@ -11,7 +11,16 @@ function* getAllPost({ payload }) {
     }
 }
 
+function* likePosts({ payload }) {
+    try {
+        const { postId } = payload;
+        yield call(likePost, postId);
+    } catch (error) {
+    }
+}
+
 function* watchGetAllPost() {
+    yield takeLatest(postAction.LIKE_POST, likePosts)
     yield takeLatest(postAction.GET_ALL_POST, getAllPost)
 }
 
