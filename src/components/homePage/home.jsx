@@ -102,9 +102,37 @@ class Home extends Component {
     }, 100);
   }
 
+  goToNextPage() {
+    const { total = 0, dispatch } = this.props;
+    const { limit, page } = this.state;
+    const numberPages = Math.round(Number(total / limit));
+    if (page < numberPages) {
+      this.setState({
+        page: page + 1,
+      })
+      setTimeout(() => {
+        dispatch({ type: postAction.GET_ALL_POST, payload: { page: this.state.page, limit } });
+      }, 100);
+    }
+  }
+
+  goToBackPage() {
+    const { dispatch } = this.props;
+    const { limit, page } = this.state;
+    if (page > 1) {
+      this.setState({
+        page: page - 1,
+      })
+      setTimeout(() => {
+        dispatch({ type: postAction.GET_ALL_POST, payload: { page: this.state.page, limit } });
+      }, 100);
+    }
+  }
+
   render() {
-    const { postLists = [] } = this.props;
-    const { isShowModal, userLikes, isShowComment } = this.state;
+    const { postLists = [], total = 0 } = this.props;
+    const { isShowModal, userLikes, isShowComment, limit, page } = this.state;
+    const totalPage = Math.round(Number(total / limit));
     return (
       <>
         <MenuMain />
@@ -272,12 +300,14 @@ class Home extends Component {
               closeModal={(value) => this.closeModal(value)}
             />
             {
-              <button className="ButtonBack">
-                <BsChevronDoubleLeft />
+              <button className="ButtonBack" onClick={() => this.goToBackPage()}>
+                <BsChevronDoubleLeft /> back
               </button>
             }{" "}
-            <button className="ButtonNext">
-              <BsChevronDoubleRight />
+            <button className="BtnNumberPage">current: {page}</button>
+            <button className="BtnTotalPage">total: {totalPage > 0 ? totalPage : 1 }</button>
+            <button className="ButtonNext" onClick={() => this.goToNextPage()}>
+              next <BsChevronDoubleRight />
             </button>
             <br />
             <br />
@@ -290,7 +320,7 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
-  return { postLists: state.PostReducer.postLists };
+  return { postLists: state.PostReducer.postLists, total: state.PostReducer.total };
 }
 
 export default connect(mapStateToProps)(Home);

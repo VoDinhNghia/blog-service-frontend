@@ -9,24 +9,42 @@
 }
 
 .PostItem h5 {
-  color: blue;
+  color: #283035;
 }
 
 .ButtonBack {
-  width: 80px;
+  width: 70px;
   border-radius: 5px;
   border: none;
-  margin-left: 30px;
+  margin-left: 10px;
   background-color: white;
   color: blue;
 }
 
+.BtnNumberPage {
+  background-color: white;
+  border: none;
+  text-align: center;
+  margin-left: 10px;
+  float: left;
+  color: red;
+}
+
+.BtnTotalPage {
+  float: right;
+  background-color: white;
+  border: none;
+  text-align: center;
+  margin-right: 10px;
+  color: red;
+}
+
 .ButtonNext {
-  width: 100px;
+  width: 70px;
   border-radius: 5px;
   border: none;
   float: right;
-  margin-right: 30px;
+  margin-right: 10px;
   background-color: white;
   color: blue;
 }
