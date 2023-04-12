@@ -20,8 +20,6 @@ class PostListHomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1,
-      limit: 10,
       isShowModal: false,
       userLikes: [],
       openedCommentId: null,
@@ -83,10 +81,9 @@ class PostListHomePage extends Component {
   }
 
   sendComment(event, postId) {
-    const { commentPost } = this.state;
+    const { commentPost, limit, page } = this.state;
     event.preventDefault();
     const { dispatch } = this.props;
-    const { page, limit } = this.state;
     dispatch({
       type: postAction.COMMENT_POST,
       payload: { postId, content: commentPost },
@@ -207,7 +204,7 @@ class PostListHomePage extends Component {
                       send
                     </Button>
                   </InputGroup>
-                  <ShowCommentHomePage commentList={post?.comments || []} />
+                  <ShowCommentHomePage commentList={post?.comments || []} key={`${post?.id}comment`} />
                 </div>
               </Collapse>
             </div>

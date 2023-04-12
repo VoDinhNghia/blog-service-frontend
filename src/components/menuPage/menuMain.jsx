@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import AuthService from "../../services/authService";
-import { BsHouseFill, BsFillArrowRightSquareFill, BsBell } from "react-icons/bs";
+import { BsHouseFill, BsFillArrowRightSquareFill, BsBell, BsChatQuote } from "react-icons/bs";
 import EventBus from "../../common/eventBus";
 import { routes } from "../../common/constant";
 import Form from "react-bootstrap/Form";
@@ -96,7 +96,12 @@ class MenuMain extends Component {
             </li>
             <li className="nav-item">
               <a href={'not-yet'} className="nav-link">
-                <BsBell /><span className="NotifyMenu">10</span>
+                <BsChatQuote /><span className="NumberNotifyMenu">10</span>
+              </a>
+            </li>
+            <li className="nav-item">
+              <a href={'not-yet'} className="nav-link">
+                <BsBell /><span className="NumberNotifyMenu">10</span>
               </a>
             </li>
             <li className="nav-item">
