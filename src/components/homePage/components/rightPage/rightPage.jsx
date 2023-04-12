@@ -16,7 +16,7 @@ class RightHomePage extends Component {
     this.fetchAllPosts = this.fetchAllPosts.bind(this);
     this.state = {
       page: 1,
-      limit: 10,
+      limit: 50,
       isShowNewPost: false,
     };
   }
@@ -109,7 +109,7 @@ class RightHomePage extends Component {
           isShowNewPost={isShowNewPost}
           closeNewPost={(value) => this.closeNewPost(value)}
         />
-        <PostListHomePage postLists={postLists} />
+        <PostListHomePage postLists={postLists} page={page} limit={limit} />
         {
           <button className="ButtonBack" onClick={() => this.goToBackPage()}>
             <BsChevronDoubleLeft /> back
