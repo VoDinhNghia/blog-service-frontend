@@ -24,7 +24,7 @@ class PostListHomePage extends Component {
       limit: 10,
       isShowModal: false,
       userLikes: [],
-      isShowComment: false,
+      openedCommentId: null,
       commentPost: "",
     };
   }
@@ -63,11 +63,17 @@ class PostListHomePage extends Component {
     }, 100);
   }
 
-  showComment() {
-    const { isShowComment } = this.state;
-    this.setState({
-      isShowComment: !isShowComment,
-    });
+  showComment(postId) {
+    const { openedCommentId } = this.state;
+    if (openedCommentId !== postId) {
+      this.setState({
+        openedCommentId: postId,
+      });
+    } else {
+      this.setState({
+        openedCommentId: null,
+      });
+    }
   }
 
   onchangeValueComment(event) {
@@ -92,7 +98,7 @@ class PostListHomePage extends Component {
 
   render() {
     const { postLists = [] } = this.props;
-    const { isShowModal, userLikes, isShowComment } = this.state;
+    const { isShowModal, userLikes, openedCommentId } = this.state;
     const currentUser = AuthService.getCurrentUser();
     return (
       <>
@@ -143,9 +149,8 @@ class PostListHomePage extends Component {
                   <Button
                     className="NumberComment"
                     variant="outline-light"
-                    aria-controls={`comment-home-page-post#${post?.id}`}
-                    aria-expanded={isShowComment}
-                    onClick={() => this.showComment()}
+                    aria-expanded={openedCommentId === post?.id}
+                    onClick={() => this.showComment(post?.id)}
                   >
                     <BsFillChatLeftTextFill /> {post?.comments?.length}
                   </Button>{" "}
@@ -168,9 +173,8 @@ class PostListHomePage extends Component {
                 <Button
                   className="ButtonLSC"
                   variant="outline-light"
-                  aria-controls={`comment-home-page-post#${post?.id}`}
-                  aria-expanded={isShowComment}
-                  onClick={() => this.showComment()}
+                  aria-expanded={openedCommentId === post?.id}
+                  onClick={() => this.showComment(post?.id)}
                 >
                   <BsFillChatLeftTextFill /> comment
                 </Button>{" "}
@@ -186,8 +190,8 @@ class PostListHomePage extends Component {
                   <BsFillReplyFill /> share
                 </Button>
               </p>
-              <Collapse in={isShowComment}>
-                <div id={`comment-home-page-post#${post?.id}`}>
+              <Collapse in={openedCommentId === post?.id}>
+                <div>
                   <InputGroup className="mb-3">
                     <Form.Control
                       placeholder="write something comments..."
