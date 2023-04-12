@@ -91,7 +91,7 @@ class MenuMain extends Component {
           <div className="navbar-nav ml-auto">
             <li className="nav-item">
              <Link to={routes.HOME} className="nav-link">
-                <BsHouseFill /> Home
+                <BsHouseFill /> Home Page
               </Link>
             </li>
             <li className="nav-item">
