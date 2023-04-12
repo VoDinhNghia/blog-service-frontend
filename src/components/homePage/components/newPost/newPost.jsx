@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import Modal from "react-bootstrap/Modal";
 import "./newPost.css";
-import AuthService from "../../../services/authService";
+import AuthService from "../../../../services/authService";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
-import { createPost } from "../../../services/postService";
-import { postAction } from "../../../store/action";
+import { createPost } from "../../../../services/postService";
+import { postAction } from "../../../../store/action";
 
 class NewPostModal extends Component {
   constructor(props) {
