@@ -46,14 +46,14 @@ export default class MenuMain extends Component {
           <div className="navbar-nav mr-auto">
             <li className="nav-item">
               <Link to={routes.HOME} className="nav-link">
-                <BsHouseFill /> Trang chủ
+                <BsHouseFill /> Home
               </Link>
             </li>
           </div>
           <div className="navbar-nav ml-auto">
             <li className="nav-item">
               <a href={routes.LOGIN} className="nav-link" onClick={this.logOut}>
-                Đăng xuất <BsFillArrowRightSquareFill />
+                Log out <BsFillArrowRightSquareFill />
               </a>
             </li>
           </div>

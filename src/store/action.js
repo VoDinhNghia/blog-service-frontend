@@ -4,4 +4,5 @@ export const postAction = {
     LIKE_POST: "LIKE_POST",
     SHARE_POST: "SHARE_POST",
     COMMENT_POST: "COMMENT_POST",
+    CREATE_POST: 'CREATE_POST'
 }
