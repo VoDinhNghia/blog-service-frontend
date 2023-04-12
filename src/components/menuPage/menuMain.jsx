@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import AuthService from "../services/authService";
+import AuthService from "../../services/authService";
 import { BsHouseFill, BsFillArrowRightSquareFill } from "react-icons/bs";
-import EventBus from "../common/eventBus";
-import { routes } from "../common/constant";
+import EventBus from "../../common/eventBus";
+import { routes } from "../../common/constant";
 import "./index.css";
 
 export default class MenuMain extends Component {

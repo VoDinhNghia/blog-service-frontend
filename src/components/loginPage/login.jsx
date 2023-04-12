@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import { routes } from "../common/constant";
+import { routes } from "../../common/constant";
 
-import AuthService from "../services/authService";
+import AuthService from "../../services/authService";
 
-import { withRouter } from "../common/withRouter";
+import { withRouter } from "../../common/withRouter";
 
 const required = (value) => {
   if (!value) {
