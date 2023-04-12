@@ -18,16 +18,15 @@ class ModalHomepage extends Component {
       <div>
         <Modal
           show={isShowModal}
-          closeButton={true}
           onHide={() => this.props.closeModal(false)}
         >
           <Modal.Header closeButton={true} className="HeaderModalHomePage">
             <Modal.Title>List user likes</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {data?.map((lists) => {
+            {data?.map((lists, index) => {
               return (
-                <p className="ModalUserLike">
+                <p className="ModalUserLike" key={`${lists?.id}${index}`}>
                   <span>
                     <img src={lists?.user?.avatar || "/image/icon-login.png"} alt="" />
                     <a href="#">{`${lists?.user?.lastName || ""} ${

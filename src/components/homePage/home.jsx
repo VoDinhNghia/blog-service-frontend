@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
 import MenuMain from "../menuMain";
 import Footer from "../footer";
@@ -15,6 +16,7 @@ import {
 } from "react-icons/bs";
 import "./index.css";
 import ModalHomepage from "./components/modal";
+import NewPostModal from "./components/newPost";
 import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
 import Form from "react-bootstrap/Form";
@@ -28,6 +30,7 @@ class Home extends Component {
       page: 1,
       limit: 10,
       isShowModal: false,
+      isShowNewPost: false,
       userLikes: [],
       isShowComment: false,
       commentPost: "",
@@ -54,6 +57,18 @@ class Home extends Component {
   closeModal(value) {
     this.setState({
       isShowModal: value,
+    });
+  }
+
+  showNewPost() {
+    this.setState({
+      isShowNewPost: true,
+    });
+  }
+
+  closeNewPost(value) {
+    this.setState({
+      isShowNewPost: value,
     });
   }
 
@@ -131,7 +146,7 @@ class Home extends Component {
 
   render() {
     const { postLists = [], total = 0 } = this.props;
-    const { isShowModal, userLikes, isShowComment, limit, page } = this.state;
+    const { isShowModal, userLikes, isShowComment, limit, page, isShowNewPost } = this.state;
     const totalPage = Math.round(Number(total / limit));
     return (
       <>
@@ -144,9 +159,24 @@ class Home extends Component {
             </div>
           </Col>
           <Col>
-            {postLists?.map((post) => {
+            <InputGroup className="PostHomePage">
+              <Form.Control
+                placeholder="write something new post..."
+                aria-label="new post"
+                aria-describedby="basic-addon2"
+                onClick={() => this.showNewPost()}
+              />
+              <Button
+                onClick={() => this.showNewPost()}
+                id="basic-addon2"
+              >
+                post
+              </Button>
+            </InputGroup>
+            <NewPostModal isShowNewPost={isShowNewPost} closeNewPost={(value) => this.closeNewPost(value)}/>
+            {postLists?.map((post, index) => {
               return (
-                <div className="PostItem" key={post?.id}>
+                <div className="PostItem" key={`${post?.id}${index}`}>
                   <span>
                     <img
                       src={post?.user?.avatar || "/image/icon-login.png"}
@@ -169,9 +199,10 @@ class Home extends Component {
                   <p className="TitlePost">{post?.title || ""}</p>
                   <p>{post.content}</p>
                   <p>
-                    {post?.attachments?.map((image) => {
+                    {post?.attachments?.map((image, index) => {
                       return (
                         <img
+                          key={`${image?.id}${index}`}
                           src={image?.url || ""}
                           alt={image?.originalname || ""}
                           height="200px"
@@ -247,11 +278,11 @@ class Home extends Component {
                           send
                         </Button>
                       </InputGroup>
-                      {post?.comments?.map((comment) => {
+                      {post?.comments?.map((comment, index) => {
                         return (
                           <>
                             <ul className="commentsListHomepage">
-                              <li>
+                              <li key={`${comment?.id}${index}`}>
                                 <div className="commentMainLevelHomepage">
                                   <div className="commentAvatar">
                                     <img

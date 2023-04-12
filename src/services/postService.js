@@ -25,11 +25,12 @@ export const sharePost = (payload) =>
     headers: authHeader(),
   });
 
+export const commentPost = (payload) =>
+  axios.post(`${API_URL}/api/comment/`, payload, {
+    headers: authHeader(),
+  });
 
-  export const commentPost = (payload) =>
-  axios.post(
-    `${API_URL}/api/comment/`, payload,
-    {
-      headers: authHeader(),
-    }
-  );
+export const createPost = (formData) =>
+  axios.post(`${API_URL}/api/post/`, formData, {
+    headers: {...authHeader(), "Content-Type": "multipart/form-data"},
+  });

@@ -1,0 +1,9 @@
+.ModalNewPost .TitleNewPost {
+    font-size: 16px;
+    color: #283035;
+}
+
+.ModalNewPost .InputNewPost {
+    width: 100%;
+    border: 1px solid lightgray;
+}
