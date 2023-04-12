@@ -79,7 +79,7 @@ class NewPostModal extends Component {
         >
           <Modal.Header closeButton={true} className="HeaderModalHomePage">
             <Modal.Title className="TitleNewPost">
-              Hi {currentUser?.firstName}
+              Hi {`${currentUser?.lastName} ${currentUser?.middleName} ${currentUser?.firstName}`}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -127,7 +127,7 @@ class NewPostModal extends Component {
                 <Form.Label>File upload</Form.Label>
                 <Form.Control type="file" multiple="multiple" name="imageFile" onChange={(event) => this.onChangeFile(event)} />
                 <br />
-                <Button type="submit" onSubmit={() => this.createNewPost()}>Post</Button>
+                <Button className="BtnSubmitNewPost" type="submit" onSubmit={() => this.createNewPost()}>Save</Button>
               </Form.Group>
             </Form>
           </Modal.Body>
