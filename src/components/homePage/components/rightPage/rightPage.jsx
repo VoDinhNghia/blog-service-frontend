@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { postAction } from "../../../../store/action";
-import {
-  BsChevronDoubleLeft,
-  BsChevronDoubleRight,
-} from "react-icons/bs";
+import { BsChevronDoubleLeft, BsChevronDoubleRight } from "react-icons/bs";
 import "./index.css";
 import NewPostModal from "../newPost/newPost";
 import Button from "react-bootstrap/Button";
@@ -81,11 +78,7 @@ class RightHomePage extends Component {
 
   render() {
     const { postLists = [], total = 0 } = this.props;
-    const {
-      limit,
-      page,
-      isShowNewPost,
-    } = this.state;
+    const { limit, page, isShowNewPost } = this.state;
     const totalPage = Math.round(Number(total / limit) + 0.5);
     const currentUser = AuthService.getCurrentUser();
     return (
@@ -104,9 +97,9 @@ class RightHomePage extends Component {
           </Button>
           <Form.Control
             className="InputNewPostHomePage"
-            placeholder={`Hi ${
-              currentUser?.firstName || ""
-            }! write something new post...`}
+            placeholder={`Hi ${currentUser?.lastName || ""} ${
+              currentUser?.middleName || ""
+            } ${currentUser?.firstName || ""}! write something new post...`}
             aria-label="new post"
             aria-describedby="basic-addon-post-home"
             onClick={() => this.showNewPost()}
