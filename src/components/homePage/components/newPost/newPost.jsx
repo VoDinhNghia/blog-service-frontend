@@ -15,18 +15,12 @@ class NewPostModal extends Component {
     this.state = {
       page: 1,
       limit: 10,
-      type: '',
+      type: 'default',
       title: '',
       privateMode: false,
       content: '',
       files: null
     };
-  }
-
-  onChangeType(event) {
-    this.setState({
-      type: event.target.value,
-    })
   }
 
   onChangePrivateMode(event) {
@@ -79,7 +73,7 @@ class NewPostModal extends Component {
         >
           <Modal.Header closeButton={true} className="HeaderModalHomePage">
             <Modal.Title className="TitleNewPost">
-              Hi {`${currentUser?.lastName} ${currentUser?.middleName} ${currentUser?.firstName}`}
+              Hi {`${currentUser?.lastName || ''} ${currentUser?.middleName || ''} ${currentUser?.firstName || ''}`}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -104,13 +98,6 @@ class NewPostModal extends Component {
                   aria-label="title new post"
                   name="title"
                   onChange={(event) => this.onChangeTitle(event)}
-                />
-                <Form.Label>Type</Form.Label>
-                <Form.Control
-                  placeholder="type new post..."
-                  aria-label="type new post"
-                  name="type"
-                  onChange={(event) => this.onChangeType(event)}
                 />
                 <Form.Label>Content</Form.Label>
                 <Form.Control
