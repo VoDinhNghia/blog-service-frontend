@@ -18,3 +18,9 @@
     -webkit-border-radius: 50%;
     border-radius: 50%;
 }
+
+.HeaderModalHomePage .TitleModalUserLike {
+    font-size: 20px;
+    color: gray;
+    font: optional;
+}

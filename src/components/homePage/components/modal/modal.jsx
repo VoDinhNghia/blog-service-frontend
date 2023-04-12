@@ -21,7 +21,7 @@ class ModalHomepage extends Component {
           onHide={() => this.props.closeModal(false)}
         >
           <Modal.Header closeButton={true} className="HeaderModalHomePage">
-            <Modal.Title>List user likes</Modal.Title>
+            <Modal.Title className="TitleModalUserLike">List user likes</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {data?.map((lists, index) => {

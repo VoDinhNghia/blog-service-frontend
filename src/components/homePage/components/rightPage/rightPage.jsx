@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
 import moment from "moment/moment";
 import { connect } from "react-redux";
@@ -165,15 +164,26 @@ class RightHomePage extends Component {
     return (
       <>
         <InputGroup className="PostHomePage">
+          <Button
+            onClick={() => this.showNewPost()}
+            id="basic-addon-post-home"
+            variant="light"
+          >
+            <img
+              src={currentUser?.avatar || "/image/icon-login.png"}
+              alt={currentUser?.firstName}
+              className="PostAvatar"
+            />
+          </Button>
           <Form.Control
-            placeholder="write something new post..."
+            className="InputNewPostHomePage"
+            placeholder={`Hi ${
+              currentUser?.firstName || ""
+            }! write something new post...`}
             aria-label="new post"
             aria-describedby="basic-addon-post-home"
             onClick={() => this.showNewPost()}
           />
-          <Button onClick={() => this.showNewPost()} id="basic-addon-post-home" variant="light">
-            post
-          </Button>
         </InputGroup>
         <NewPostModal
           isShowNewPost={isShowNewPost}
@@ -280,6 +290,7 @@ class RightHomePage extends Component {
                     />
                     <Button
                       id="basic-addon-comment-post"
+                      variant="light"
                       onClick={(event) => this.sendComment(event, post?.id)}
                     >
                       send
@@ -303,7 +314,7 @@ class RightHomePage extends Component {
                               <div className="commentBoxHompage">
                                 <div className="commentHead">
                                   <h6 className="commentName">
-                                    <a href="">{`${
+                                    <a href={"not-yet"}>{`${
                                       comment?.user?.lastName || ""
                                     } ${comment?.user?.middleName || ""} ${
                                       comment?.user?.firstName || ""
