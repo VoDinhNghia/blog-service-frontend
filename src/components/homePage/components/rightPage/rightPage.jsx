@@ -168,10 +168,10 @@ class RightHomePage extends Component {
           <Form.Control
             placeholder="write something new post..."
             aria-label="new post"
-            aria-describedby="basic-addon2"
+            aria-describedby="basic-addon-post-home"
             onClick={() => this.showNewPost()}
           />
-          <Button onClick={() => this.showNewPost()} id="basic-addon2">
+          <Button onClick={() => this.showNewPost()} id="basic-addon-post-home" variant="light">
             post
           </Button>
         </InputGroup>
@@ -275,11 +275,11 @@ class RightHomePage extends Component {
                     <Form.Control
                       placeholder="write something comments..."
                       aria-label="comment post"
-                      aria-describedby="basic-addon2"
+                      aria-describedby="basic-addon-comment-post"
                       onChange={(event) => this.onchangeValueComment(event)}
                     />
                     <Button
-                      id="basic-addon2"
+                      id="basic-addon-comment-post"
                       onClick={(event) => this.sendComment(event, post?.id)}
                     >
                       send
