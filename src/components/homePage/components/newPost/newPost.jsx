@@ -102,7 +102,6 @@ class NewPostModal extends Component {
                 <Form.Control
                   placeholder="title new post..."
                   aria-label="title new post"
-                  aria-describedby="basic-addon2"
                   name="title"
                   onChange={(event) => this.onChangeTitle(event)}
                 />
@@ -110,7 +109,6 @@ class NewPostModal extends Component {
                 <Form.Control
                   placeholder="type new post..."
                   aria-label="type new post"
-                  aria-describedby="basic-addon2"
                   name="type"
                   onChange={(event) => this.onChangeType(event)}
                 />
@@ -118,7 +116,6 @@ class NewPostModal extends Component {
                 <Form.Control
                   placeholder="type new post..."
                   aria-label="type new post"
-                  aria-describedby="basic-addon2"
                   as="textarea"
                   rows={5}
                   name="content"

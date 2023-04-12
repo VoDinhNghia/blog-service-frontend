@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import AuthService from "../../services/authService";
-import { BsHouseFill, BsFillArrowRightSquareFill } from "react-icons/bs";
+import { BsHouseFill, BsFillArrowRightSquareFill, BsBell } from "react-icons/bs";
 import EventBus from "../../common/eventBus";
 import { routes } from "../../common/constant";
 import "./index.css";
@@ -51,6 +51,11 @@ export default class MenuMain extends Component {
             </li>
           </div>
           <div className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <a href={'not-yet'} className="nav-link">
+                <BsBell /><span className="NotifyMenu">10</span>
+              </a>
+            </li>
             <li className="nav-item">
               <a href={routes.LOGIN} className="nav-link" onClick={this.logOut}>
                 Log out <BsFillArrowRightSquareFill />
