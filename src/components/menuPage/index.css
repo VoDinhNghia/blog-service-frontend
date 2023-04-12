@@ -16,16 +16,17 @@
 }
 
 .SearchMenuBar Button {
-  width: 35px;
-  height: 35px;
-  margin-left: 5px;
+  width: 45px;
+  height: 40px;
+  margin-right: 5px;
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
 }
 
 .SearchMenuBar .InputSearchMenuBar {
-  width: 300px;
+  top: 2px;
+  width: 360px;
   height: 35px;
   border-radius: 10px;
 }

@@ -71,6 +71,13 @@ class MenuMain extends Component {
           <div className="navbar-nav mr-auto">
             <li className="nav-item">
             <InputGroup className="SearchMenuBar">
+            <Button
+                id="basic-addon-search-home-page"
+                variant="light"
+                onClick={() => this.searchPost()}
+              >
+                <BsSearch />
+              </Button>
               <Form.Control
                 placeholder="search post by title..."
                 aria-label="search post"
@@ -78,13 +85,6 @@ class MenuMain extends Component {
                 onChange={(event) => this.onChangeSearch(event)}
                 className="InputSearchMenuBar"
               />
-              <Button
-                id="basic-addon-search-home-page"
-                variant="light"
-                onClick={() => this.searchPost()}
-              >
-                <BsSearch />
-              </Button>
             </InputGroup>
             </li>
           </div>
