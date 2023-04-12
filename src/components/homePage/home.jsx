@@ -21,6 +21,7 @@ import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
+import AuthService from "../../services/authService";
 
 class Home extends Component {
   constructor(props) {
@@ -120,7 +121,7 @@ class Home extends Component {
   goToNextPage() {
     const { total = 0, dispatch } = this.props;
     const { limit, page } = this.state;
-    const numberPages = Math.round(Number(total / limit));
+    const numberPages = Math.round(Number(total / limit) + 0.5);
     if (page < numberPages) {
       this.setState({
         page: page + 1,
@@ -147,7 +148,8 @@ class Home extends Component {
   render() {
     const { postLists = [], total = 0 } = this.props;
     const { isShowModal, userLikes, isShowComment, limit, page, isShowNewPost } = this.state;
-    const totalPage = Math.round(Number(total / limit));
+    const totalPage = Math.round(Number(total / limit) + 0.5);
+    const currentUser = AuthService.getCurrentUser();
     return (
       <>
         <MenuMain />
@@ -258,6 +260,8 @@ class Home extends Component {
                       className="ButtonLSC"
                       variant="outline-light"
                       onClick={() => this.actionShare(post?.id)}
+                      disabled={currentUser?.id === post?.user?.id ? true : false}
+                      style={currentUser?.id === post?.user?.id ? {color: 'gray' } : {}}
                     >
                       <BsFillReplyFill /> share
                     </Button>
