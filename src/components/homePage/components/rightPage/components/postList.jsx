@@ -1,0 +1,229 @@
+import React, { Component } from "react";
+import moment from "moment/moment";
+import { connect } from "react-redux";
+import { postAction } from "../../../../../store/action";
+import {
+  BsFillHandThumbsUpFill,
+  BsFillChatLeftTextFill,
+  BsFillReplyFill,
+} from "react-icons/bs";
+import "./index.css";
+import ModalHomepage from "../../modal/modal";
+import Button from "react-bootstrap/Button";
+import Collapse from "react-bootstrap/Collapse";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import AuthService from "../../../../../services/authService";
+import ShowCommentHomePage from "./components/showComment";
+
+class PostListHomePage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      page: 1,
+      limit: 10,
+      isShowModal: false,
+      userLikes: [],
+      isShowComment: false,
+      commentPost: "",
+    };
+  }
+
+  showModal(data) {
+    this.setState({
+      isShowModal: true,
+      userLikes: data,
+    });
+  }
+
+  closeModal(value) {
+    this.setState({
+      isShowModal: value,
+    });
+  }
+
+  actionLike(postId) {
+    const { dispatch } = this.props;
+    const { page, limit } = this.state;
+    dispatch({ type: postAction.LIKE_POST, payload: { postId } });
+    setTimeout(() => {
+      dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
+    }, 100);
+  }
+
+  actionShare(postId) {
+    const { dispatch } = this.props;
+    const { page, limit } = this.state;
+    dispatch({
+      type: postAction.SHARE_POST,
+      payload: { postId, privateMode: false },
+    });
+    setTimeout(() => {
+      dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
+    }, 100);
+  }
+
+  showComment() {
+    const { isShowComment } = this.state;
+    this.setState({
+      isShowComment: !isShowComment,
+    });
+  }
+
+  onchangeValueComment(event) {
+    this.setState({
+      commentPost: event.target.value,
+    });
+  }
+
+  sendComment(event, postId) {
+    const { commentPost } = this.state;
+    event.preventDefault();
+    const { dispatch } = this.props;
+    const { page, limit } = this.state;
+    dispatch({
+      type: postAction.COMMENT_POST,
+      payload: { postId, content: commentPost },
+    });
+    setTimeout(() => {
+      dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
+    }, 100);
+  }
+
+  render() {
+    const { postLists = [] } = this.props;
+    const { isShowModal, userLikes, isShowComment } = this.state;
+    const currentUser = AuthService.getCurrentUser();
+    return (
+      <>
+        {postLists?.map((post, index) => {
+          return (
+            <div className="PostItem" key={`${post?.id}${index}`}>
+              <span>
+                <img
+                  src={post?.user?.avatar || "/image/icon-login.png"}
+                  alt={post?.user?.firstName}
+                  className="PostAvatar"
+                />
+                <h5>
+                  {`${post?.user?.lastName || ""} ${
+                    post?.user?.middleName || ""
+                  } ${post?.user?.firstName || ""}`}
+                  <p>
+                    {post?.createdAt
+                      ? moment(post?.createdAt).format("YYYY-MM-DD hh:mm:ss")
+                      : ""}
+                  </p>
+                </h5>
+              </span>
+              <p className="TitlePost">{post?.title || ""}</p>
+              <p>{post.content}</p>
+              <p>
+                {post?.attachments?.map((image, index) => {
+                  return (
+                    <img
+                      key={`${image?.id}${index}`}
+                      src={image?.url || ""}
+                      alt={image?.originalname || ""}
+                      height="200px"
+                      width="250px"
+                    />
+                  );
+                })}
+              </p>
+              <p className="NumberLikeShareComment">
+                <Button
+                  className="NumberLike"
+                  variant="outline-light"
+                  onClick={() => this.showModal(post?.likes || [])}
+                >
+                  <BsFillHandThumbsUpFill /> {post?.likes?.length}
+                </Button>{" "}
+                <span className="NumberCommentShare">
+                  <Button
+                    className="NumberComment"
+                    variant="outline-light"
+                    aria-controls={`comment-home-page-post#${post?.id}`}
+                    aria-expanded={isShowComment}
+                    onClick={() => this.showComment()}
+                  >
+                    <BsFillChatLeftTextFill /> {post?.comments?.length}
+                  </Button>{" "}
+                  <Button className="NumberShare" variant="outline-light">
+                    <BsFillReplyFill />
+                    {post?.shares?.length}
+                  </Button>
+                </span>
+              </p>
+              <br />
+              <hr />
+              <p className="LikeShareComment">
+                <Button
+                  className="ButtonLSC"
+                  variant="outline-light"
+                  onClick={() => this.actionLike(post?.id)}
+                >
+                  <BsFillHandThumbsUpFill /> like
+                </Button>
+                <Button
+                  className="ButtonLSC"
+                  variant="outline-light"
+                  aria-controls={`comment-home-page-post#${post?.id}`}
+                  aria-expanded={isShowComment}
+                  onClick={() => this.showComment()}
+                >
+                  <BsFillChatLeftTextFill /> comment
+                </Button>{" "}
+                <Button
+                  className="ButtonLSC"
+                  variant="outline-light"
+                  onClick={() => this.actionShare(post?.id)}
+                  disabled={currentUser?.id === post?.user?.id ? true : false}
+                  style={
+                    currentUser?.id === post?.user?.id ? { color: "gray" } : {}
+                  }
+                >
+                  <BsFillReplyFill /> share
+                </Button>
+              </p>
+              <Collapse in={isShowComment}>
+                <div id={`comment-home-page-post#${post?.id}`}>
+                  <InputGroup className="mb-3">
+                    <Form.Control
+                      placeholder="write something comments..."
+                      aria-label="comment post"
+                      aria-describedby="basic-addon-comment-post"
+                      onChange={(event) => this.onchangeValueComment(event)}
+                    />
+                    <Button
+                      id="basic-addon-comment-post"
+                      variant="light"
+                      onClick={(event) => this.sendComment(event, post?.id)}
+                    >
+                      send
+                    </Button>
+                  </InputGroup>
+                  <ShowCommentHomePage commentList={post?.comments || []} />
+                </div>
+              </Collapse>
+            </div>
+          );
+        })}
+        <ModalHomepage
+          data={userLikes}
+          isShowModal={isShowModal}
+          closeModal={(value) => this.closeModal(value)}
+        />
+      </>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    postLists: state.PostReducer.postLists,
+    total: state.PostReducer.total,
+  };
+}
+
+export default connect(mapStateToProps)(PostListHomePage);

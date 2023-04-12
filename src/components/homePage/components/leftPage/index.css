@@ -4,17 +4,30 @@
   box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
   transition: all 0.5s ease;
   padding: 15px;
-  border-radius: 10px;
   margin: 20px 0px 15px 15px;
 }
 
 .SearchLeftHomePage {
   width: 98%;
   background-color: rgb(251, 253, 255);
-  border-radius: 10px;
+  border-radius: 0px;
   box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
   transition: all 0.5s ease;
   padding: 15px;
-  border-radius: 10px;
   margin: 20px 10px 25px 10px;
+}
+
+.SearchLeftHomePage Button {
+  width: 50px;
+  height: 50px;
+  margin-left: 5px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.SearchLeftHomePage .InputSearchHomePage {
+  top: 5px;
+  height: 40px;
+  border-radius: 10px;
 }

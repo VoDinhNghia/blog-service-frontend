@@ -42,6 +42,7 @@ class LeftHomePage extends Component {
             aria-label="search post"
             aria-describedby="basic-addon-search-home-page"
             onChange={(event) => this.onChangeSearch(event)}
+            className="InputSearchHomePage"
           />
           <Button
             id="basic-addon-search-home-page"
