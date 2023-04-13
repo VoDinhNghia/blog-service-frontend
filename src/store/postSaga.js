@@ -1,5 +1,12 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { fetchAllPosts, likePost, sharePost, commentPost, updatePost } from "../services/postService";
+import {
+  fetchAllPosts,
+  likePost,
+  sharePost,
+  commentPost,
+  updatePost,
+  deletePost,
+} from "../services/postService";
 import { postAction } from "./action";
 import { NotificationManager } from "react-notifications";
 
@@ -41,21 +48,31 @@ function* commentPosts({ payload }) {
 function* updatePosts({ id, payload }) {
   try {
     const res = yield call(updatePost, id, payload);
-    NotificationManager.success(
-      res?.data?.message,
-      "Share post",
-      4000
-    );
+    NotificationManager.success(res?.data?.message, "Update post", 4000);
   } catch (error) {
     NotificationManager.error(
       error?.response?.data?.message,
-      "Share post",
+      "Update post",
+      4000
+    );
+  }
+}
+
+function* deletePosts({ id }) {
+  try {
+    const res = yield call(deletePost, id);
+    NotificationManager.success(res?.data?.message, "Delete post", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Delete post",
       4000
     );
   }
 }
 
 function* watchGetAllPost() {
+  yield takeLatest(postAction.DELETE_POST, deletePosts);
   yield takeLatest(postAction.UPDATE_POST, updatePosts);
   yield takeLatest(postAction.COMMENT_POST, commentPosts);
   yield takeLatest(postAction.SHARE_POST, sharePosts);

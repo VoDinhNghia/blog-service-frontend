@@ -46,13 +46,6 @@ class ActionPostItem extends Component {
     });
   }
 
-  deletePost() {
-    alert("This function delete post");
-    this.setState({
-      isShowModalDelete: false,
-    });
-  }
-
   onChangePrivateMode(event) {
     this.setState({
       privateMode: event.target.value,
@@ -93,7 +86,11 @@ class ActionPostItem extends Component {
     }
     formData.append("privateMode", privateMode);
     formData.append("title", title);
-    dispatch({ type: postAction.UPDATE_POST, id: postInfo?.id, payload: formData });
+    dispatch({
+      type: postAction.UPDATE_POST,
+      id: postInfo?.id,
+      payload: formData,
+    });
     setTimeout(() => {
       dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
     }, 100);
@@ -102,6 +99,21 @@ class ActionPostItem extends Component {
       files: null,
     });
   }
+
+  deletePost() {
+    const { dispatch, postInfo, page, limit } = this.props;
+    dispatch({
+        type: postAction.DELETE_POST,
+        id: postInfo?.id,
+      });
+      setTimeout(() => {
+        dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
+      }, 100);
+    this.setState({
+      isShowModalDelete: false,
+    });
+  }
+
 
   render() {
     const { postInfo = {}, currentUser = {} } = this.props;
