@@ -5,7 +5,6 @@ import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { updatePost } from "../../../../../../services/postService";
 import { postAction } from "../../../../../../store/action";
 import "./index.css";
 
@@ -94,7 +93,7 @@ class ActionPostItem extends Component {
     }
     formData.append("privateMode", privateMode);
     formData.append("title", title);
-    await updatePost(postInfo?.id, formData);
+    dispatch({ type: postAction.UPDATE_POST, id: postInfo?.id, payload: formData });
     setTimeout(() => {
       dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
     }, 100);
