@@ -15,6 +15,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import AuthService from "../../../../../services/authService";
 import ShowCommentHomePage from "./components/showComment";
+import ActionPostItem from "./actions/action";
 
 class PostListHomePage extends Component {
   constructor(props) {
@@ -108,6 +109,11 @@ class PostListHomePage extends Component {
                   alt={post?.user?.firstName}
                   className="PostAvatar"
                 />
+                {currentUser.id === post?.user?.id ? (
+                  <ActionPostItem postInfo={post} currentUser={currentUser} />
+                ) : (
+                  ""
+                )}
                 <h5>
                   {`${post?.user?.lastName || ""} ${
                     post?.user?.middleName || ""
@@ -204,7 +210,10 @@ class PostListHomePage extends Component {
                       send
                     </Button>
                   </InputGroup>
-                  <ShowCommentHomePage commentList={post?.comments || []} key={`${post?.id}comment`} />
+                  <ShowCommentHomePage
+                    commentList={post?.comments || []}
+                    key={`${post?.id}comment`}
+                  />
                 </div>
               </Collapse>
             </div>

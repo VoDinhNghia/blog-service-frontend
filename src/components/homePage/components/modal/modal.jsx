@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
 import Modal from "react-bootstrap/Modal";
 import "./index.css";
@@ -29,7 +28,7 @@ class ModalHomepage extends Component {
                 <p className="ModalUserLike" key={`${lists?.id}${index}`}>
                   <span>
                     <img src={lists?.user?.avatar || "/image/icon-login.png"} alt="" />
-                    <a href="#">{`${lists?.user?.lastName || ""} ${
+                    <a href="#view-personel">{`${lists?.user?.lastName || ""} ${
                     lists?.user?.middleName || ""
                     } ${lists?.user?.firstName || ""}`}</a>
                   </span>

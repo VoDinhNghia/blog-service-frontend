@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import AuthService from "../../services/authService";
-import { BsHouseFill, BsFillArrowRightSquareFill, BsBell, BsChatQuote } from "react-icons/bs";
+import {
+  BsHouseFill,
+  BsFillArrowRightSquareFill,
+  BsBell,
+  BsChatQuote,
+} from "react-icons/bs";
 import EventBus from "../../common/eventBus";
 import { routes } from "../../common/constant";
 import Form from "react-bootstrap/Form";
@@ -52,7 +57,7 @@ class MenuMain extends Component {
       searchKey: key,
     });
     if (key?.length > 2) {
-        this.searchPost()
+      this.searchPost();
     }
   }
 
@@ -70,38 +75,40 @@ class MenuMain extends Component {
         <nav className="navbar navbar-expand">
           <div className="navbar-nav mr-auto">
             <li className="nav-item">
-            <InputGroup className="SearchMenuBar">
-            <Button
-                id="basic-addon-search-home-page"
-                variant="light"
-                onClick={() => this.searchPost()}
-              >
-                <BsSearch />
-              </Button>
-              <Form.Control
-                placeholder="search post by title..."
-                aria-label="search post"
-                aria-describedby="basic-addon-search-home-page"
-                onChange={(event) => this.onChangeSearch(event)}
-                className="InputSearchMenuBar"
-              />
-            </InputGroup>
+              <InputGroup className="SearchMenuBar">
+                <Button
+                  id="basic-addon-search-home-page"
+                  variant="light"
+                  onClick={() => this.searchPost()}
+                >
+                  <BsSearch />
+                </Button>
+                <Form.Control
+                  placeholder="search post by title..."
+                  aria-label="search post"
+                  aria-describedby="basic-addon-search-home-page"
+                  onChange={(event) => this.onChangeSearch(event)}
+                  className="InputSearchMenuBar"
+                />
+              </InputGroup>
             </li>
           </div>
           <div className="navbar-nav ml-auto">
             <li className="nav-item">
-             <Link to={routes.HOME} className="nav-link">
+              <Link to={routes.HOME} className="nav-link">
                 <BsHouseFill /> Home Page
               </Link>
             </li>
             <li className="nav-item">
-              <a href={'not-yet'} className="nav-link">
-                <BsChatQuote /><span className="NumberNotifyMenu">10</span>
+              <a href={"not-yet"} className="nav-link">
+                <BsChatQuote />
+                <span className="NumberNotifyMenu">10</span>
               </a>
             </li>
             <li className="nav-item">
-              <a href={'not-yet'} className="nav-link">
-                <BsBell /><span className="NumberNotifyMenu">10</span>
+              <a href={"not-yet"} className="nav-link">
+                <BsBell />
+                <span className="NumberNotifyMenu">10</span>
               </a>
             </li>
             <li className="nav-item">
@@ -116,4 +123,4 @@ class MenuMain extends Component {
   }
 }
 
-export default connect()(MenuMain)
+export default connect()(MenuMain);
