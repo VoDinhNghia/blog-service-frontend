@@ -39,3 +39,8 @@ export const updatePost = (id, formData) =>
   axios.put(`${API_URL}/api/post/${id}`, formData, {
     headers: { ...authHeader(), "Content-Type": "multipart/form-data" },
   });
+
+  export const deletePost = (id) =>
+  axios.delete(`${API_URL}/api/post/${id}`, {
+    headers: authHeader(),
+  });
