@@ -15,50 +15,62 @@ class NewPostModal extends Component {
     this.state = {
       page: 1,
       limit: 10,
-      type: 'default',
-      title: '',
+      type: "default",
+      title: "",
       privateMode: false,
-      content: '',
-      files: null
+      content: "",
+      files: null,
     };
   }
 
   onChangePrivateMode(event) {
     this.setState({
       privateMode: event.target.value,
-    })
+    });
   }
 
   onChangeTitle(event) {
     this.setState({
       title: event.target.value,
-    })
+    });
   }
 
   onChangeContent(event) {
     this.setState({
       content: event.target.value,
-    })
+    });
   }
 
   onChangeFile(event) {
-    this.setState({files: event.target.files[0]})
+    const fileList = event.target.files;
+    const arrays = [];
+    for (const img of fileList) {
+      arrays.push(img);
+    }
+    this.setState({ files: arrays });
   }
-
 
   async createNewPost() {
     const { dispatch } = this.props;
-    const { type, content, privateMode, title, limit, page, files } = this.state;
+    const { type, content, privateMode, title, limit, page, files } =
+      this.state;
     const formData = new FormData();
-    formData.append('content', content);
-    formData.append('type', type);
-    formData.append('imageFile', files);
-    formData.append('privateMode', privateMode);
-    formData.append('title', title);
+    formData.append("content", content);
+    formData.append("type", type);
+    if (files?.length > 0) {
+      for (const img of files) {
+        formData.append("imageFile", img);
+      }
+    }
+    formData.append("privateMode", privateMode);
+    formData.append("title", title);
     await createPost(formData);
     setTimeout(() => {
       dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
     }, 100);
+    this.setState({
+      files: null,
+    });
   }
 
   render() {
@@ -73,7 +85,10 @@ class NewPostModal extends Component {
         >
           <Modal.Header closeButton={true} className="HeaderModalHomePage">
             <Modal.Title className="TitleNewPost">
-              Hi {`${currentUser?.lastName || ''} ${currentUser?.middleName || ''} ${currentUser?.firstName || ''}`}
+              Hi{" "}
+              {`${currentUser?.lastName || ""} ${
+                currentUser?.middleName || ""
+              } ${currentUser?.firstName || ""}`}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -109,9 +124,20 @@ class NewPostModal extends Component {
                   onChange={(event) => this.onChangeContent(event)}
                 />
                 <Form.Label>File upload</Form.Label>
-                <Form.Control type="file" multiple="multiple" name="imageFile" onChange={(event) => this.onChangeFile(event)} />
+                <Form.Control
+                  type="file"
+                  multiple="multiple"
+                  name="imageFile"
+                  onChange={(event) => this.onChangeFile(event)}
+                />
                 <br />
-                <Button className="BtnSubmitNewPost" type="submit" onSubmit={() => this.createNewPost()}>Save</Button>
+                <Button
+                  className="BtnSubmitNewPost"
+                  type="submit"
+                  onSubmit={() => this.createNewPost()}
+                >
+                  Save
+                </Button>
               </Form.Group>
             </Form>
           </Modal.Body>

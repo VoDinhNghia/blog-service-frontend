@@ -5,13 +5,18 @@ import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { postAction } from "../../../../../../store/action";
 import "./index.css";
 
 class ActionPostItem extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
+      type: "default",
+      title: "",
+      privateMode: false,
+      content: "",
+      files: null,
       isShowModal: false,
       isShowModalDelete: false,
     };
@@ -41,17 +46,60 @@ class ActionPostItem extends Component {
     });
   }
 
-  updatePost() {
-    alert("This function update post");
-    this.setState({
-      isShowModal: false,
-    });
-  }
-
   deletePost() {
     alert("This function delete post");
     this.setState({
       isShowModalDelete: false,
+    });
+  }
+
+  onChangePrivateMode(event) {
+    this.setState({
+      privateMode: event.target.value,
+    });
+  }
+
+  onChangeTitle(event) {
+    this.setState({
+      title: event.target.value,
+    });
+  }
+
+  onChangeContent(event) {
+    this.setState({
+      content: event.target.value,
+    });
+  }
+
+  onChangeFile(event) {
+    const fileList = event.target.files;
+    const arrays = [];
+    for (const img of fileList) {
+      arrays.push(img);
+    }
+    this.setState({ files: arrays });
+  }
+
+  async updatePost() {
+    const { dispatch, limit, page, postInfo = {} } = this.props;
+    const { type, content, privateMode, title, files } = this.state;
+    const formData = new FormData();
+    formData.append("content", content);
+    formData.append("type", type);
+    if (files?.length > 0) {
+      for (const img of files) {
+        formData.append("imageFile", img);
+      }
+    }
+    formData.append("privateMode", privateMode);
+    formData.append("title", title);
+    dispatch({ type: postAction.UPDATE_POST, id: postInfo?.id, payload: formData });
+    setTimeout(() => {
+      dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
+    }, 100);
+    this.setState({
+      isShowModal: false,
+      files: null,
     });
   }
 
@@ -95,10 +143,7 @@ class ActionPostItem extends Component {
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Form
-                encType="multipart/form-data"
-                onSubmit={() => this.updatePost()}
-              >
+              <Form encType="multipart/form-data">
                 <Form.Group role="form">
                   <Form.Label>Private mode options:</Form.Label>
                   <Form.Select
@@ -143,9 +188,7 @@ class ActionPostItem extends Component {
                   >
                     Cancle
                   </Button>
-                  <Button type="submit" onSubmit={() => this.updatePost()}>
-                    Save
-                  </Button>
+                  <Button onClick={() => this.updatePost()}>Save</Button>
                 </Form.Group>
               </Form>
             </Modal.Body>

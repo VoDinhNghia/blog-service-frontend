@@ -32,5 +32,10 @@ export const commentPost = (payload) =>
 
 export const createPost = (formData) =>
   axios.post(`${API_URL}/api/post/`, formData, {
-    headers: {...authHeader(), "Content-Type": "multipart/form-data"},
+    headers: { ...authHeader(), "Content-Type": "multipart/form-data" },
+  });
+
+export const updatePost = (id, formData) =>
+  axios.put(`${API_URL}/api/post/${id}`, formData, {
+    headers: { ...authHeader(), "Content-Type": "multipart/form-data" },
   });

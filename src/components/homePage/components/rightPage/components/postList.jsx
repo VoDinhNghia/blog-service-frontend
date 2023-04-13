@@ -42,8 +42,7 @@ class PostListHomePage extends Component {
   }
 
   actionLike(postId) {
-    const { dispatch } = this.props;
-    const { page, limit } = this.state;
+    const { dispatch, page, limit } = this.props;
     dispatch({ type: postAction.LIKE_POST, payload: { postId } });
     setTimeout(() => {
       dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
@@ -95,7 +94,7 @@ class PostListHomePage extends Component {
   }
 
   render() {
-    const { postLists = [] } = this.props;
+    const { postLists = [], page, limit } = this.props;
     const { isShowModal, userLikes, openedCommentId } = this.state;
     const currentUser = AuthService.getCurrentUser();
     return (
@@ -110,7 +109,7 @@ class PostListHomePage extends Component {
                   className="PostAvatar"
                 />
                 {currentUser.id === post?.user?.id ? (
-                  <ActionPostItem postInfo={post} currentUser={currentUser} />
+                  <ActionPostItem postInfo={post} currentUser={currentUser} limit={limit} page={page}/>
                 ) : (
                   ""
                 )}
