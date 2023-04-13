@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import { BsFillTrashFill } from "react-icons/bs";
+import { postAction } from "../../../../../../store/action";
 import "./index.css";
 
 class ShowImagePost extends Component {
@@ -31,13 +32,21 @@ class ShowImagePost extends Component {
   }
 
   deleteImage(imageId) {
-    console.log(imageId);
-    this.closeModal()
+    const { dispatch, page, limit } = this.props;
+    dispatch({
+        type: postAction.DELETE_IMAGE_POST,
+        id: imageId,
+      });
+      setTimeout(() => {
+        dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
+      }, 100);
+    this.closeModal();
   }
 
   render() {
-    const { imageLists = [] } = this.props;
+    const { imageLists = [], currentUser, userPostId } = this.props;
     const { isShowModalImg, imageUrl, imageId } = this.state;
+    const isDeleted = currentUser === userPostId;
     return (
       <>
         {imageLists.length > 0
@@ -48,8 +57,7 @@ class ShowImagePost extends Component {
                     key={`${image?.id}${index}`}
                     src={image?.url || ""}
                     alt={image?.originalname || ""}
-                    height="200px"
-                    width="250px"
+                    className="ImagePostList"
                     onClick={() => this.showModal(image?.url, image?.id)}
                   />
                 </>
@@ -76,12 +84,21 @@ class ShowImagePost extends Component {
           <Modal.Footer>
             <Button
               size="sm"
-              variant="danger"
-              className="BtnDeleteImagePost"
-              onClick={() => this.deleteImage(imageId)}
+              variant="outline-danger"
+              onClick={() => this.closeModal()}
             >
-              <BsFillTrashFill />
+              close
             </Button>
+            {isDeleted ? (
+              <Button
+                size="sm"
+                variant="danger"
+                className="BtnDeleteImagePost"
+                onClick={() => this.deleteImage(imageId)}
+              >
+                <BsFillTrashFill />
+              </Button>
+            ) : null}
           </Modal.Footer>
         </Modal>
       </>

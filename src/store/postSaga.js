@@ -6,6 +6,7 @@ import {
   commentPost,
   updatePost,
   deletePost,
+  deleteImagePost,
 } from "../services/postService";
 import { postAction } from "./action";
 import { NotificationManager } from "react-notifications";
@@ -71,7 +72,21 @@ function* deletePosts({ id }) {
   }
 }
 
+function* deleteImagePosts({ id }) {
+  try {
+    const res = yield call(deleteImagePost, id);
+    NotificationManager.success(res?.data?.message, "Delete image", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Delete image",
+      4000
+    );
+  }
+}
+
 function* watchGetAllPost() {
+  yield takeLatest(postAction.DELETE_IMAGE_POST, deleteImagePosts);
   yield takeLatest(postAction.DELETE_POST, deletePosts);
   yield takeLatest(postAction.UPDATE_POST, updatePosts);
   yield takeLatest(postAction.COMMENT_POST, commentPosts);
