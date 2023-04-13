@@ -16,6 +16,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import AuthService from "../../../../../services/authService";
 import ShowCommentHomePage from "./components/showComment";
 import ActionPostItem from "./actions/action";
+import ShowImagePost from "./showImagesPost/showImages";
 
 class PostListHomePage extends Component {
   constructor(props) {
@@ -130,19 +131,7 @@ class PostListHomePage extends Component {
                   <p>&emsp;{content}</p>
                 )
               })}</p>
-              <p>
-                {post?.attachments?.map((image, index) => {
-                  return (
-                    <img
-                      key={`${image?.id}${index}`}
-                      src={image?.url || ""}
-                      alt={image?.originalname || ""}
-                      height="200px"
-                      width="250px"
-                    />
-                  );
-                })}
-              </p>
+              <ShowImagePost imageLists={post?.attachments} />
               <p className="NumberLikeShareComment">
                 <Button
                   className="NumberLike"

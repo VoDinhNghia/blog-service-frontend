@@ -9,7 +9,7 @@
     "@types/redux-saga": "^0.10.5",
     "axios": "^0.27.2",
     "bootstrap": "^4.6.2",
-    "mdb-react-ui-kit": "^5.1.0",
+    "mdb-react-ui-kit": "^6.0.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
