@@ -1,0 +1,44 @@
+.OptionsHeaderPostItem {
+  float: right;
+}
+
+.OptionsHeaderIconPostItem {
+  width: 25px;
+  height: 27px;
+  color: red;
+  border: 1px solid lightgray;
+}
+
+.OptionsHeaderMenuPostItem {
+  text-align: left;
+  width: 80px;
+}
+
+.BtnHeaderMenuPostItem {
+  color: gray;
+  margin-right: 10px;
+}
+
+.ItemOptionHeaderPost {
+  color: blue;
+}
+
+.TitlePostUpdate {
+  color: blue;
+  font-size: 15px;
+}
+
+.HeaderModalUpdatePost button {
+  border: none;
+  height: 20px;
+  background-color: white;
+  color: red;
+}
+
+.HeaderModalUpdatePost button::before {
+  content: "x";
+}
+
+.BtnCancleModalUpdatePost {
+    float: right;
+}
