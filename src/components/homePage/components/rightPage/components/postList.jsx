@@ -125,7 +125,11 @@ class PostListHomePage extends Component {
                 </h5>
               </span>
               <p className="TitlePost">{post?.title || ""}</p>
-              <p>{post.content}</p>
+              <p className="ContentPostHomePage">{post?.content?.split('\r\n')?.map((content) => {
+                return (
+                  <p>&emsp;{content}</p>
+                )
+              })}</p>
               <p>
                 {post?.attachments?.map((image, index) => {
                   return (
@@ -169,6 +173,7 @@ class PostListHomePage extends Component {
                   className="ButtonLSC"
                   variant="outline-light"
                   onClick={() => this.actionLike(post?.id)}
+                  style={post?.likes?.find((p) => p?.user?.id === currentUser?.id) ? {color: 'blue'}: {}}
                 >
                   <BsFillHandThumbsUpFill /> like
                 </Button>

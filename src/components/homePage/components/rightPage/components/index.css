@@ -46,20 +46,24 @@
   float: left;
   border: none;
   background-color: white;
-  color: blue;
+  color: gray;
 }
 
 .NumberLikeShareComment .NumberComment {
   border: none;
   background-color: white;
   margin-right: 20px;
-  color: blue;
+  color: gray;
 }
 
 .NumberLikeShareComment .NumberShare {
   border: none;
   background-color: white;
-  color: blue;
+  color: gray;
+}
+
+.ContentPostHomePage {
+  line-height: 23px;
 }
 
 .LikeShareComment {
