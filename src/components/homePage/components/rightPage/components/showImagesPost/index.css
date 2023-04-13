@@ -5,3 +5,11 @@
 .BtnDeleteImagePost {
   float: left;
 }
+
+.ImagePostList {
+  width: 250px;
+  height: 200px;
+  margin-left: 5px;
+  border: 1px solid gray;
+  border-radius: 5px;
+}

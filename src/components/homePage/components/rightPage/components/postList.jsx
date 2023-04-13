@@ -110,7 +110,12 @@ class PostListHomePage extends Component {
                   className="PostAvatar"
                 />
                 {currentUser.id === post?.user?.id ? (
-                  <ActionPostItem postInfo={post} currentUser={currentUser} limit={limit} page={page}/>
+                  <ActionPostItem
+                    postInfo={post}
+                    currentUser={currentUser}
+                    limit={limit}
+                    page={page}
+                  />
                 ) : (
                   ""
                 )}
@@ -126,12 +131,18 @@ class PostListHomePage extends Component {
                 </h5>
               </span>
               <p className="TitlePost">{post?.title || ""}</p>
-              <p className="ContentPostHomePage">{post?.content?.split('\r\n')?.map((content) => {
-                return (
-                  <p>&emsp;{content}</p>
-                )
-              })}</p>
-              <ShowImagePost imageLists={post?.attachments} />
+              <p className="ContentPostHomePage">
+                {post?.content?.split("\r\n")?.map((content) => {
+                  return <p>&emsp;{content}</p>;
+                })}
+              </p>
+              <ShowImagePost
+                imageLists={post?.attachments}
+                currentUser={currentUser?.id}
+                userPostId={post?.user?.id}
+                page={page}
+                limit={limit}
+              />
               <p className="NumberLikeShareComment">
                 <Button
                   className="NumberLike"
@@ -162,7 +173,11 @@ class PostListHomePage extends Component {
                   className="ButtonLSC"
                   variant="outline-light"
                   onClick={() => this.actionLike(post?.id)}
-                  style={post?.likes?.find((p) => p?.user?.id === currentUser?.id) ? {color: 'blue'}: {}}
+                  style={
+                    post?.likes?.find((p) => p?.user?.id === currentUser?.id)
+                      ? { color: "blue" }
+                      : {}
+                  }
                 >
                   <BsFillHandThumbsUpFill /> like
                 </Button>
