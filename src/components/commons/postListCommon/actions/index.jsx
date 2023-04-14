@@ -5,7 +5,8 @@ import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { postAction } from "../../../../../../store/action";
+import { postAction } from "../../../../store/action";
+import { typePostListPage } from "../../../../common/constant";
 import "./index.css";
 
 class ActionPostItem extends Component {
@@ -73,7 +74,7 @@ class ActionPostItem extends Component {
     this.setState({ files: arrays });
   }
 
-  async updatePost() {
+  async updatePost(isPersonel, userId) {
     const { dispatch, limit, page, postInfo = {} } = this.props;
     const { type, content, privateMode, title, files } = this.state;
     const formData = new FormData();
@@ -92,7 +93,10 @@ class ActionPostItem extends Component {
       payload: formData,
     });
     setTimeout(() => {
-      dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
+      dispatch({
+        type: postAction.GET_ALL_POST,
+        payload: { page, limit, userId: isPersonel ? userId : null },
+      });
     }, 100);
     this.setState({
       isShowModal: false,
@@ -100,24 +104,27 @@ class ActionPostItem extends Component {
     });
   }
 
-  deletePost() {
+  deletePost(isPersonel, userId) {
     const { dispatch, postInfo, page, limit } = this.props;
     dispatch({
-        type: postAction.DELETE_POST,
-        id: postInfo?.id,
+      type: postAction.DELETE_POST,
+      id: postInfo?.id,
+    });
+    setTimeout(() => {
+      dispatch({
+        type: postAction.GET_ALL_POST,
+        payload: { page, limit, userId: isPersonel ? userId : null },
       });
-      setTimeout(() => {
-        dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
-      }, 100);
+    }, 100);
     this.setState({
       isShowModalDelete: false,
     });
   }
 
-
   render() {
-    const { postInfo = {}, currentUser = {} } = this.props;
+    const { postInfo = {}, currentUser = {}, type } = this.props;
     const { isShowModal, isShowModalDelete } = this.state;
+    const isPersonel = typePostListPage.PERSONEL_PAGE === type;
     return (
       <>
         <div className="OptionsHeaderPostItem">
@@ -200,7 +207,7 @@ class ActionPostItem extends Component {
                   >
                     Cancle
                   </Button>
-                  <Button onClick={() => this.updatePost()}>Save</Button>
+                  <Button onClick={() => this.updatePost(isPersonel, currentUser?.id)}>Save</Button>
                 </Form.Group>
               </Form>
             </Modal.Body>
@@ -222,7 +229,7 @@ class ActionPostItem extends Component {
               >
                 Cancle
               </Button>
-              <Button onClick={() => this.deletePost()}>Ok</Button>
+              <Button onClick={() => this.deletePost(isPersonel, currentUser?.id)}>Ok</Button>
             </Modal.Body>
           </Modal>
         </div>

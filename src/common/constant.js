@@ -12,6 +12,12 @@ export const localStorageItem = {
 export const routes = {
   LOGIN: "/login",
   HOME: "/home",
+  PERSONEL: "/personel",
 };
+
+export const typePostListPage = {
+  HOME_PAGE: "HOME_PAGE",
+  PERSONEL_PAGE: "PERSONEL_PAGE",
+}
 
 export const API_URL = "http://localhost:3005";
