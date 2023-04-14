@@ -1,3 +1,41 @@
 .LeftMenuPersonel {
     padding-bottom: 20px;    
 }
+
+.UtilitiesPersonalPage {
+  color: white;
+  background-color: #026aa7;
+  border-radius: 10px;
+  box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
+  transition: all 0.5s ease;
+  padding: 15px;
+  margin: 20px 0px 15px 15px;
+  padding-bottom: 15px;
+}
+
+.UtilitiesPersonalPage .title {
+    font-size: 18px;
+}
+
+.UtilitiesPersonalPage .title .icon {
+  width: 40px;
+  height: 30px;
+  margin-right: 10px;
+  color: light;
+}
+
+.LinkLeftHomePage {
+    font-size: 16px;
+}
+
+.ImageListLefPersonel {
+  margin-left: 30px;
+}
+
+.ImageListLefPersonel img {
+    width: 120px;
+    height: 100px;
+    margin: 5px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}

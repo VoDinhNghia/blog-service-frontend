@@ -40,7 +40,7 @@ class InfoUserPanel extends Component {
           </span>
           <hr />
           <a href={"not-yet"} className="LinkLeftHomePage">
-            <BsPersonWorkspace className="IconLeftHomePage" /> Study space
+            <BsPersonWorkspace className="IconLeftHomePage" /> Study Space
           </a>
         </div>
         <hr />
