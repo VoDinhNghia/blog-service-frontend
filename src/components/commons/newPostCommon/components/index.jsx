@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import Modal from "react-bootstrap/Modal";
-import "./newPost.css";
+import "./index.css";
 import AuthService from "../../../../services/authService";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
 import { createPost } from "../../../../services/postService";
 import { postAction } from "../../../../store/action";
+import { typePostListPage } from "../../../../common/constant";
 
 class NewPostModal extends Component {
   constructor(props) {
@@ -50,7 +51,7 @@ class NewPostModal extends Component {
     this.setState({ files: arrays });
   }
 
-  async createNewPost() {
+  async createNewPost(isPersonel, userId) {
     const { dispatch } = this.props;
     const { type, content, privateMode, title, limit, page, files } =
       this.state;
@@ -66,7 +67,10 @@ class NewPostModal extends Component {
     formData.append("title", title);
     await createPost(formData);
     setTimeout(() => {
-      dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
+      dispatch({
+        type: postAction.GET_ALL_POST,
+        payload: { page, limit, userId: isPersonel ? userId : null },
+      });
     }, 100);
     this.setState({
       files: null,
@@ -74,8 +78,10 @@ class NewPostModal extends Component {
   }
 
   render() {
-    const { isShowNewPost = false } = this.props;
+    const { isShowNewPost = false, type } = this.props;
     const currentUser = AuthService.getCurrentUser();
+    const isPersonel = typePostListPage.PERSONEL_PAGE === type;
+
     return (
       <div>
         <Modal
@@ -94,7 +100,7 @@ class NewPostModal extends Component {
           <Modal.Body>
             <Form
               encType="multipart/form-data"
-              onSubmit={() => this.createNewPost()}
+              onSubmit={() => this.createNewPost(isPersonel, currentUser?.id)}
             >
               <Form.Group role="form">
                 <Form.Label>Private mode options:</Form.Label>
@@ -134,7 +140,7 @@ class NewPostModal extends Component {
                 <Button
                   className="BtnSubmitNewPost"
                   type="submit"
-                  onSubmit={() => this.createNewPost()}
+                  onSubmit={() => this.createNewPost(isPersonel, currentUser?.id)}
                 >
                   Save
                 </Button>

@@ -1,0 +1,28 @@
+.PostHomePage {
+  width: 97%;
+  background-color: rgb(251, 253, 255);
+  border-radius: 10px;
+  box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
+  transition: all 0.5s ease;
+  padding: 15px;
+  border-radius: 40px;
+  margin: 20px 10px 25px 10px;
+}
+
+.PostHomePage Button {
+  width: 55px;
+  height: 50px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  margin-right: 10px;
+  background-color: rgb(252, 150, 143);
+  text-align: center;
+}
+
+.PostHomePage .InputNewPostHomePage {
+  top: 5px;
+  border-radius: 20px;
+  border: 1px solid rgb(240, 238, 238);
+  height: 40px;
+}

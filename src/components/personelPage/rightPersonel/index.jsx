@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { postAction } from "../../../../store/action";
+import { postAction } from "../../../store/action";
 import { BsChevronDoubleLeft, BsChevronDoubleRight } from "react-icons/bs";
 import "./index.css";
-import PostListHomePage from "../../../commons/postListCommon";
-import NewPostCommon from "../../../commons/newPostCommon";
+import PostListHomePage from "../../commons/postListCommon";
+import NewPostCommon from "../../commons/newPostCommon";
+import AuthService from "../../../services/authService";
+import { typePostListPage } from "../../../common/constant";
 
-class RightHomePage extends Component {
+class RightPersonelPage extends Component {
   constructor(props) {
     super(props);
     this.fetchAllPosts = this.fetchAllPosts.bind(this);
@@ -24,13 +26,18 @@ class RightHomePage extends Component {
   async fetchAllPosts() {
     const { limit, page } = this.state;
     const { dispatch } = this.props;
-    dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
+    const currentUser = AuthService.getCurrentUser();
+    dispatch({
+      type: postAction.GET_ALL_POST,
+      payload: { page, limit, userId: currentUser?.id },
+    });
   }
 
   goToNextPage() {
     const { total = 0, dispatch } = this.props;
     const { limit, page } = this.state;
     const numberPages = Math.round(Number(total / limit) + 0.5);
+    const currentUser = AuthService.getCurrentUser();
     if (page < numberPages) {
       this.setState({
         page: page + 1,
@@ -38,7 +45,7 @@ class RightHomePage extends Component {
       setTimeout(() => {
         dispatch({
           type: postAction.GET_ALL_POST,
-          payload: { page: this.state.page, limit },
+          payload: { page: this.state.page, limit, userId: currentUser?.id },
         });
       }, 100);
     }
@@ -47,6 +54,7 @@ class RightHomePage extends Component {
   goToBackPage() {
     const { dispatch } = this.props;
     const { limit, page } = this.state;
+    const currentUser = AuthService.getCurrentUser();
     if (page > 1) {
       this.setState({
         page: page - 1,
@@ -54,7 +62,7 @@ class RightHomePage extends Component {
       setTimeout(() => {
         dispatch({
           type: postAction.GET_ALL_POST,
-          payload: { page: this.state.page, limit },
+          payload: { page: this.state.page, limit, userId: currentUser?.id },
         });
       }, 100);
     }
@@ -64,10 +72,16 @@ class RightHomePage extends Component {
     const { postLists = [], total = 0 } = this.props;
     const { limit, page } = this.state;
     const totalPage = Math.round(Number(total / limit) + 0.5);
+    const type = typePostListPage.PERSONEL_PAGE;
     return (
       <>
-        <NewPostCommon />
-        <PostListHomePage postLists={postLists} page={page} limit={limit} />
+        <NewPostCommon type={type} />
+        <PostListHomePage
+          postLists={postLists}
+          page={page}
+          limit={limit}
+          type={type}
+        />
         {
           <button className="ButtonBack" onClick={() => this.goToBackPage()}>
             <BsChevronDoubleLeft /> back
@@ -94,4 +108,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(RightHomePage);
+export default connect(mapStateToProps)(RightPersonelPage);

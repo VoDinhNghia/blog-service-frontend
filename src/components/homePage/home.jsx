@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import MenuMain from "../menuPage/menuMain";
+import MenuHomePage from "../menuPage/menuHomePage/index";
 import Footer from "../footerPage/footer";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -10,7 +10,7 @@ class Home extends Component {
   render() {
     return (
       <>
-        <MenuMain />
+        <MenuHomePage />
         <Row>
           <Col xs lg="4">
             <LeftHomePage />

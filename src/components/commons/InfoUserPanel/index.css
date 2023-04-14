@@ -1,0 +1,47 @@
+.InfoUserMenuHomePage {
+  color: white;
+  background-color: #026aa7;
+  border-radius: 10px;
+  box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
+  transition: all 0.5s ease;
+  padding: 15px;
+  margin: 20px 0px 15px 15px;
+  padding-bottom: 15px;
+}
+
+.InfoUserMenuHomePage .PersonelAvatarLeftHomePage {
+  width: 50px;
+  height: 50px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  float: left;
+  margin-right: 20px;
+}
+
+.LinkLeftHomePage {
+  margin-left: 10px;
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+}
+
+.LinkLeftHomePage:hover {
+  text-decoration: none;
+  color: lightgray;
+}
+
+.IconLeftHomePage {
+  width: 40px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.LinkToPersonelLeftHomePage {
+  text-decoration: none;
+  color: white;
+}
+
+.LinkToPersonelLeftHomePage:hover {
+  color: lightgray;
+}

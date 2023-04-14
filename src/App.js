@@ -9,6 +9,7 @@ import NotFoundRoute from "./components/notFoundPage/notfoundPage";
 import { routes } from "./common/constant";
 import "react-notifications/lib/notifications.css";
 import { NotificationContainer } from "react-notifications";
+import PersonelPage from "./components/personelPage/index";
 
 class App extends Component {
   constructor(props) {
@@ -23,18 +24,26 @@ class App extends Component {
     return (
       <div className="AppMain">
         <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/login" element={<Login />} />
-            <Route
-              path={routes.HOME}
-              element={
-                <PrivateRoute>
-                  <Home />
-                </PrivateRoute>
-              }
-            />
-            <Route path="*" element={<NotFoundRoute />} />
-          </Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path={routes.HOME}
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={routes.PERSONEL}
+            element={
+              <PrivateRoute>
+                <PersonelPage />
+              </PrivateRoute>
+            }
+          />
+          <Route path="*" element={<NotFoundRoute />} />
+        </Routes>
         <NotificationContainer />
       </div>
     );

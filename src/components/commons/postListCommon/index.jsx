@@ -1,22 +1,23 @@
 import React, { Component } from "react";
 import moment from "moment/moment";
 import { connect } from "react-redux";
-import { postAction } from "../../../../../store/action";
+import { postAction } from "../../../store/action";
 import {
   BsFillHandThumbsUpFill,
   BsFillChatLeftTextFill,
   BsFillReplyFill,
 } from "react-icons/bs";
 import "./index.css";
-import ModalHomepage from "../../modal/modal";
+import ModalHomepage from "../../homePage/components/modal/modal";
 import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import AuthService from "../../../../../services/authService";
-import ShowCommentHomePage from "./components/showComment";
-import ActionPostItem from "./actions/action";
-import ShowImagePost from "./showImagesPost/showImages";
+import AuthService from "../../../services/authService";
+import ShowCommentHomePage from "./components";
+import ActionPostItem from "./actions";
+import ShowImagePost from "./showImagesPost";
+import { typePostListPage } from "../../../common/constant";
 
 class PostListHomePage extends Component {
   constructor(props) {
@@ -42,11 +43,11 @@ class PostListHomePage extends Component {
     });
   }
 
-  actionLike(postId) {
+  actionLike(postId, isPersonel, userId) {
     const { dispatch, page, limit } = this.props;
     dispatch({ type: postAction.LIKE_POST, payload: { postId } });
     setTimeout(() => {
-      dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
+      dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit, userId: isPersonel ? userId : null } });
     }, 100);
   }
 
@@ -81,7 +82,7 @@ class PostListHomePage extends Component {
     });
   }
 
-  sendComment(event, postId) {
+  sendComment(event, postId, isPersonel, userId) {
     const { commentPost, limit, page } = this.state;
     event.preventDefault();
     const { dispatch } = this.props;
@@ -90,14 +91,18 @@ class PostListHomePage extends Component {
       payload: { postId, content: commentPost },
     });
     setTimeout(() => {
-      dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
+      dispatch({
+        type: postAction.GET_ALL_POST,
+        payload: { page, limit, userId: isPersonel ? userId : null },
+      });
     }, 100);
   }
 
   render() {
-    const { postLists = [], page, limit } = this.props;
+    const { postLists = [], page, limit, type } = this.props;
     const { isShowModal, userLikes, openedCommentId } = this.state;
     const currentUser = AuthService.getCurrentUser();
+    const isPersonel = typePostListPage.PERSONEL_PAGE === type;
     return (
       <>
         {postLists?.map((post, index) => {
@@ -115,6 +120,7 @@ class PostListHomePage extends Component {
                     currentUser={currentUser}
                     limit={limit}
                     page={page}
+                    type={type}
                   />
                 ) : (
                   ""
@@ -172,7 +178,7 @@ class PostListHomePage extends Component {
                 <Button
                   className="ButtonLSC"
                   variant="outline-light"
-                  onClick={() => this.actionLike(post?.id)}
+                  onClick={() => this.actionLike(post?.id, isPersonel, currentUser?.id)}
                   style={
                     post?.likes?.find((p) => p?.user?.id === currentUser?.id)
                       ? { color: "blue" }
@@ -213,7 +219,7 @@ class PostListHomePage extends Component {
                     <Button
                       id="basic-addon-comment-post"
                       variant="light"
-                      onClick={(event) => this.sendComment(event, post?.id)}
+                      onClick={(event) => this.sendComment(event, post?.id, isPersonel, currentUser?.id)}
                     >
                       send
                     </Button>

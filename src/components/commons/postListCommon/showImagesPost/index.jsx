@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import { BsFillTrashFill } from "react-icons/bs";
-import { postAction } from "../../../../../../store/action";
+import { postAction } from "../../../../store/action";
 import "./index.css";
 
 class ShowImagePost extends Component {
