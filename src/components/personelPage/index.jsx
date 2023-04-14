@@ -17,7 +17,7 @@ const PersonelPage = () => {
         <MenuPersonelPage />
         <Row>
           <Col xs lg="4">
-            <LeftPersonel />
+            <LeftPersonel userId={userId} />
           </Col>
           <Col>
             <RightPersonel userId={userId} />
