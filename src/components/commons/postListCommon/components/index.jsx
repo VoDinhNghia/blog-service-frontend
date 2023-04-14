@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import moment from "moment/moment";
 import "./index.css";
+import { Link } from "react-router-dom";
+import { routes } from "../../../../common/constant";
 
 class ShowCommentHomePage extends Component {
   render() {
-    const { commentList = [] } = this.props;
+    const { commentList = [], isPersonel } = this.props;
     return (
       <>
         {commentList.map((comment, index) => {
@@ -22,11 +24,15 @@ class ShowCommentHomePage extends Component {
                     <div className="commentBoxHompage">
                       <div className="commentHead">
                         <h6 className="commentName">
-                          <a href={"not-yet"}>{`${
-                            comment?.user?.lastName || ""
-                          } ${comment?.user?.middleName || ""} ${
-                            comment?.user?.firstName || ""
-                          }`}</a>
+                          <Link
+                            to={{
+                              pathname: routes.PERSONEL,
+                            }}
+                            state={{ userId: comment?.user?.id }}
+                            onClick={isPersonel ? () => window.location.reload() : null}
+                          >{`${comment?.user?.lastName || ""} ${
+                            comment?.user?.middleName || ""
+                          } ${comment?.user?.firstName || ""}`}</Link>
                         </h6>
                         <span>
                           {comment?.createdAt

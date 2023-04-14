@@ -78,15 +78,15 @@ class ActionPostItem extends Component {
     const { dispatch, limit, page, postInfo = {} } = this.props;
     const { type, content, privateMode, title, files } = this.state;
     const formData = new FormData();
-    formData.append("content", content);
+    formData.append("content", content || postInfo?.content);
     formData.append("type", type);
     if (files?.length > 0) {
       for (const img of files) {
         formData.append("imageFile", img);
       }
     }
-    formData.append("privateMode", privateMode);
-    formData.append("title", title);
+    formData.append("privateMode", privateMode || postInfo?.privateMode);
+    formData.append("title", title || postInfo?.title);
     dispatch({
       type: postAction.UPDATE_POST,
       id: postInfo?.id,

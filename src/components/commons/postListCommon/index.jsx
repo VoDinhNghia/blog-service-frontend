@@ -8,7 +8,7 @@ import {
   BsFillReplyFill,
 } from "react-icons/bs";
 import "./index.css";
-import ModalHomepage from "../../homePage/components/modal/modal";
+import ModalHomepage from "./modal/modal";
 import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
 import Form from "react-bootstrap/Form";
@@ -17,7 +17,8 @@ import AuthService from "../../../services/authService";
 import ShowCommentHomePage from "./components";
 import ActionPostItem from "./actions";
 import ShowImagePost from "./showImagesPost";
-import { typePostListPage } from "../../../common/constant";
+import { routes, typePostListPage } from "../../../common/constant";
+import { Link } from "react-router-dom";
 
 class PostListHomePage extends Component {
   constructor(props) {
@@ -98,11 +99,19 @@ class PostListHomePage extends Component {
     }, 100);
   }
 
+  goToUserDetailPage(user) {
+    const { dispatch } = this.props; 
+    dispatch({
+      type: postAction.GET_ALL_POST_PERSONEL,
+      payload: { limit: 10, page: 1, userId: user?.id },
+    });
+  }
+
   render() {
-    const { postLists = [], page, limit, type } = this.props;
+    const { postLists = [], page, limit, type, typePage } = this.props;
     const { isShowModal, userLikes, openedCommentId } = this.state;
     const currentUser = AuthService.getCurrentUser();
-    const isPersonel = typePostListPage.PERSONEL_PAGE === type;
+    const isPersonel = typePostListPage.PERSONEL_PAGE === typePage;
     return (
       <>
         {postLists?.map((post, index) => {
@@ -126,9 +135,17 @@ class PostListHomePage extends Component {
                   ""
                 )}
                 <h5>
-                  {`${post?.user?.lastName || ""} ${
-                    post?.user?.middleName || ""
-                  } ${post?.user?.firstName || ""}`}
+                  <Link
+                    to={{
+                      pathname: routes.PERSONEL,
+                    }}
+                    state={{userId: post?.user?.id}}
+                    onClick={isPersonel ? () => window.location.reload() : null}
+                  >
+                    {`${post?.user?.lastName || ""} ${
+                      post?.user?.middleName || ""
+                    } ${post?.user?.firstName || ""}`}
+                  </Link>
                   <p>
                     {post?.createdAt
                       ? moment(post?.createdAt).format("YYYY-MM-DD hh:mm:ss")
@@ -227,6 +244,7 @@ class PostListHomePage extends Component {
                   <ShowCommentHomePage
                     commentList={post?.comments || []}
                     key={`${post?.id}comment`}
+                    isPersonel={isPersonel}
                   />
                 </div>
               </Collapse>
@@ -237,6 +255,7 @@ class PostListHomePage extends Component {
           data={userLikes}
           isShowModal={isShowModal}
           closeModal={(value) => this.closeModal(value)}
+          isPersonel={isPersonel}
         />
       </>
     );
@@ -247,6 +266,8 @@ function mapStateToProps(state) {
   return {
     postLists: state.PostReducer.postLists,
     total: state.PostReducer.total,
+    typePage: state.PostReducer.typePage,
+    userId: state.PostReducer.userId,
   };
 }
 

@@ -5,7 +5,6 @@ import { BsChevronDoubleLeft, BsChevronDoubleRight } from "react-icons/bs";
 import "./index.css";
 import PostListHomePage from "../../commons/postListCommon";
 import NewPostCommon from "../../commons/newPostCommon";
-import AuthService from "../../../services/authService";
 import { typePostListPage } from "../../../common/constant";
 
 class RightPersonelPage extends Component {
@@ -25,44 +24,41 @@ class RightPersonelPage extends Component {
 
   async fetchAllPosts() {
     const { limit, page } = this.state;
-    const { dispatch } = this.props;
-    const currentUser = AuthService.getCurrentUser();
+    const { dispatch, userId } = this.props;
     dispatch({
-      type: postAction.GET_ALL_POST,
-      payload: { page, limit, userId: currentUser?.id },
+      type: postAction.GET_ALL_POST_PERSONEL,
+      payload: { page, limit, userId },
     });
   }
 
   goToNextPage() {
-    const { total = 0, dispatch } = this.props;
+    const { total = 0, dispatch, userId } = this.props;
     const { limit, page } = this.state;
     const numberPages = Math.round(Number(total / limit) + 0.5);
-    const currentUser = AuthService.getCurrentUser();
     if (page < numberPages) {
       this.setState({
         page: page + 1,
       });
       setTimeout(() => {
         dispatch({
-          type: postAction.GET_ALL_POST,
-          payload: { page: this.state.page, limit, userId: currentUser?.id },
+          type: postAction.GET_ALL_POST_PERSONEL,
+          payload: { page: this.state.page, limit, userId },
         });
       }, 100);
     }
   }
 
   goToBackPage() {
-    const { dispatch } = this.props;
+    const { dispatch, userId } = this.props;
     const { limit, page } = this.state;
-    const currentUser = AuthService.getCurrentUser();
     if (page > 1) {
       this.setState({
         page: page - 1,
       });
       setTimeout(() => {
         dispatch({
-          type: postAction.GET_ALL_POST,
-          payload: { page: this.state.page, limit, userId: currentUser?.id },
+          type: postAction.GET_ALL_POST_PERSONEL,
+          payload: { page: this.state.page, limit, userId },
         });
       }, 100);
     }
