@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import AuthService from "../../../services/authService";
 import { BsPersonWorkspace } from "react-icons/bs";
 import "./index.css";
 import { Link } from 'react-router-dom';
@@ -12,33 +11,32 @@ class InfoUserPanel extends Component {
   }
 
   render() {
-    const currentUser = AuthService.getCurrentUser();
+    const { data = {} } = this.props;
     return (
       <>
         <div className="InfoUserMenuHomePage">
           <span>
             <img
-              src={`${currentUser?.avatar || "/image/icon-login.png"}`}
-              alt={`${currentUser?.firstName || ""}`}
+              src={`${data?.avatar || "/image/icon-login.png"}`}
+              alt={`${data?.firstName || ""}`}
               className="PersonelAvatarLeftHomePage"
             />
             <Link
               to={{
                 pathname: routes.PERSONEL,
               }}
-              state={{userId: currentUser?.id}}
-              onClick={() => window.location.reload()}
+              state={{userId: data?.id}}
               className="LinkToPersonelLeftHomePage"
             >
               <h5 className="PersonelNameLeftHomePage">
-                {`${currentUser?.lastName || ""} ${
-                  currentUser?.middleName || ""
-                } ${currentUser?.firstName || ""} ${
-                  currentUser?.code ? `- ${currentUser?.code}` : ""
+                {`${data?.lastName || ""} ${
+                  data?.middleName || ""
+                } ${data?.firstName || ""} ${
+                  data?.code ? `- ${data?.code}` : ""
                 }`}
               </h5>
             </Link>
-            <p>role: {currentUser?.role?.toLowerCase()}</p>
+            <p>role: {data?.role?.toLowerCase()}</p>
           </span>
           <hr />
           <a href={"not-yet"} className="LinkLeftHomePage">

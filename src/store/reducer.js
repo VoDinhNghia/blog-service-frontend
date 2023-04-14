@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { postAction } from "./action";
+import { postAction, userAction } from "./action";
 
 const initState = {
   postLists: [],
@@ -8,6 +8,10 @@ const initState = {
   userId: null,
   typePage: '',
 };
+
+const userState = {
+  userInfo: {},
+}
 
 const PostReducer = (state = initState, action) => {
   switch (action.type) {
@@ -39,8 +43,26 @@ const PostReducer = (state = initState, action) => {
   }
 };
 
+const UserReducer = (state = userState, action) => {
+  switch (action.type) {
+    case userAction.GET_USER_BY_ID:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case userAction.GET_USER_BY_ID_SUCCESS:
+      return {
+        ...state,
+        userInfo: action?.payload || {},
+      };
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
-    PostReducer: PostReducer
+    PostReducer: PostReducer,
+    UserReducer: UserReducer,
 });
 
 export default rootReducer;

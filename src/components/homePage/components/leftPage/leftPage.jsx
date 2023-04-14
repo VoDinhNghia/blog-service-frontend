@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { BsChatQuote } from "react-icons/bs";
 import { Button } from "react-bootstrap";
 import InfoUserPanel from "../../../commons/InfoUserPanel/index";
+import AuthService from "../../../../services/authService";
 import "./index.css";
 
 class LeftHomePage extends Component {
@@ -12,10 +13,11 @@ class LeftHomePage extends Component {
   }
 
   render() {
+    const currentUser = AuthService.getCurrentUser();
     return (
       <>
         <div className="LeftMenuHomePage">
-          <InfoUserPanel />
+          <InfoUserPanel data={currentUser} />
           <p className="TiteListFriendHomePage">
             List friends study common major (status online)
           </p>
