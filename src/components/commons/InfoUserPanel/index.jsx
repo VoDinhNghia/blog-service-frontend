@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import AuthService from "../../../services/authService";
 import { BsPersonWorkspace } from "react-icons/bs";
 import "./index.css";
+import { Link } from 'react-router-dom';
+import { routes } from "../../../common/constant";
 
 class InfoUserPanel extends Component {
   constructor(props) {
@@ -20,7 +22,14 @@ class InfoUserPanel extends Component {
               alt={`${currentUser?.firstName || ""}`}
               className="PersonelAvatarLeftHomePage"
             />
-            <a href="/personel" className="LinkToPersonelLeftHomePage">
+            <Link
+              to={{
+                pathname: routes.PERSONEL,
+              }}
+              state={{userId: currentUser?.id}}
+              onClick={() => window.location.reload()}
+              className="LinkToPersonelLeftHomePage"
+            >
               <h5 className="PersonelNameLeftHomePage">
                 {`${currentUser?.lastName || ""} ${
                   currentUser?.middleName || ""
@@ -28,7 +37,7 @@ class InfoUserPanel extends Component {
                   currentUser?.code ? `- ${currentUser?.code}` : ""
                 }`}
               </h5>
-            </a>
+            </Link>
             <p>role: {currentUser?.role?.toLowerCase()}</p>
           </span>
           <hr />

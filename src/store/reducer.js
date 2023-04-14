@@ -5,6 +5,8 @@ const initState = {
   postLists: [],
   isLoading: false,
   total: 0,
+  userId: null,
+  typePage: '',
 };
 
 const PostReducer = (state = initState, action) => {
@@ -19,6 +21,17 @@ const PostReducer = (state = initState, action) => {
         ...state,
         postLists: action?.payload?.results || [],
         total: action?.payload?.total || 0,
+        typePage: '',
+        userId: null,
+        isLoading: true,
+      };
+    case postAction.GET_ALL_POST_PERSONEL_SUCCESS:
+      return {
+        ...state,
+        postLists: action?.payload?.results || [],
+        total: action?.payload?.total || 0,
+        typePage: action?.payload?.typePage,
+        userId: action?.payload?.userId,
         isLoading: true,
       };
     default:
