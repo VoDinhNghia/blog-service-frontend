@@ -14,9 +14,9 @@ import Collapse from "react-bootstrap/Collapse";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import AuthService from "../../../services/authService";
-import ShowCommentHomePage from "./components";
+import ShowCommentHomePage from "./comments";
 import ActionPostItem from "./actions";
-import ShowImagePost from "./showImagesPost";
+import ShowImagePost from "./showImages";
 import { routes, typePostListPage } from "../../../common/constant";
 import { Link } from "react-router-dom";
 
