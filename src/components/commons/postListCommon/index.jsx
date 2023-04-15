@@ -145,7 +145,7 @@ class PostListHomePage extends Component {
                     {`${post?.user?.lastName || ""} ${
                       post?.user?.middleName || ""
                     } ${post?.user?.firstName || ""}`}
-                  </Link>
+                  </Link> <span className="PrivateModePost">{post?.privateMode ? '(private)' : ''}</span>
                   <p>
                     {post?.createdAt
                       ? moment(post?.createdAt).format("YYYY-MM-DD hh:mm:ss")

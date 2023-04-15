@@ -12,6 +12,11 @@
   color: #283035;
 }
 
+.PrivateModePost {
+  color: gray;
+  font-size: 12px;
+}
+
 .PostItem h5 p {
   color: gray;
   font-size: 12px;

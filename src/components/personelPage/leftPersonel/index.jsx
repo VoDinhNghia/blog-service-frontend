@@ -26,7 +26,8 @@ class LeftPersonel extends Component {
 
   fetchUserInfo() {
     const { dispatch, userId } = this.props;
-    dispatch({ type: userAction.GET_USER_BY_ID, payload: { userId } });
+    const currentUser = AuthService.getCurrentUser();
+    dispatch({ type: userAction.GET_USER_BY_ID, payload: { userId: userId || currentUser?.id } });
   }
 
   render() {

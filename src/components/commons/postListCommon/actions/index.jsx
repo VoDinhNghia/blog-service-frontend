@@ -171,8 +171,8 @@ class ActionPostItem extends Component {
                     name="privateMode"
                     onChange={(event) => this.onChangePrivateMode(event)}
                   >
-                    <option value="false">false</option>
-                    <option value="true">true</option>
+                    <option value={false}>false</option>
+                    <option value={true}>true</option>
                   </Form.Select>
                   <Form.Label>Title</Form.Label>
                   <Form.Control

@@ -67,14 +67,22 @@ class NewPostModal extends Component {
     formData.append("title", title);
     await createPost(formData);
     setTimeout(() => {
-      dispatch({
-        type: postAction.GET_ALL_POST,
-        payload: { page, limit, userId: isPersonel ? userId : null },
-      });
+      if (isPersonel) {
+        dispatch({
+          type: postAction.GET_ALL_POST_PERSONEL,
+          payload: { page, limit, userId: userId },
+        });
+      } else {
+        dispatch({
+          type: postAction.GET_ALL_POST,
+          payload: { page, limit },
+        });
+      }
     }, 100);
     this.setState({
       files: null,
     });
+    this.props.closeNewPost(false);
   }
 
   render() {
@@ -98,10 +106,7 @@ class NewPostModal extends Component {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form
-              encType="multipart/form-data"
-              onSubmit={() => this.createNewPost(isPersonel, currentUser?.id)}
-            >
+            <Form encType="multipart/form-data">
               <Form.Group role="form">
                 <Form.Label>Private mode options:</Form.Label>
                 <Form.Select
@@ -110,8 +115,8 @@ class NewPostModal extends Component {
                   name="privateMode"
                   onChange={(event) => this.onChangePrivateMode(event)}
                 >
-                  <option value="false">false</option>
-                  <option value="true">true</option>
+                  <option value={false}>false</option>
+                  <option value={true}>true</option>
                 </Form.Select>
                 <Form.Label>Title</Form.Label>
                 <Form.Control
@@ -139,8 +144,7 @@ class NewPostModal extends Component {
                 <br />
                 <Button
                   className="BtnSubmitNewPost"
-                  type="submit"
-                  onSubmit={() => this.createNewPost(isPersonel, currentUser?.id)}
+                  onClick={() => this.createNewPost(isPersonel, currentUser?.id)}
                 >
                   Save
                 </Button>
