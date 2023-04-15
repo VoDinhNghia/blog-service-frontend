@@ -4,7 +4,9 @@ import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import { BsFillTrashFill } from "react-icons/bs";
 import { postAction } from "../../../../store/action";
+import Carousel from "react-bootstrap/Carousel";
 import "./index.css";
+import { FcNext, FcPrevious } from "react-icons/fc";
 
 class ShowImagePost extends Component {
   constructor(props) {
@@ -12,16 +14,16 @@ class ShowImagePost extends Component {
     this.state = {
       isShowModal: false,
       isShowModalImg: false,
-      imageUrl: "",
       imageId: "",
+      indexImage: 0,
     };
   }
 
-  showModal(url, id) {
+  showModal(id, index) {
     this.setState({
       isShowModalImg: true,
-      imageUrl: url,
       imageId: id,
+      indexImage: index,
     });
   }
 
@@ -34,19 +36,18 @@ class ShowImagePost extends Component {
   deleteImage(imageId) {
     const { dispatch, page, limit } = this.props;
     dispatch({
-        type: postAction.DELETE_IMAGE_POST,
-        id: imageId,
-      });
-      setTimeout(() => {
-        dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
-      }, 100);
+      type: postAction.DELETE_IMAGE_POST,
+      id: imageId,
+    });
+    setTimeout(() => {
+      dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
+    }, 100);
     this.closeModal();
   }
 
   render() {
-    const { imageLists = [], currentUser, userPostId } = this.props;
-    const { isShowModalImg, imageUrl, imageId } = this.state;
-    const isDeleted = currentUser === userPostId;
+    const { imageLists = [], isDeleted } = this.props;
+    const { isShowModalImg, imageId, indexImage } = this.state;
     return (
       <div>
         {imageLists.length > 0
@@ -57,29 +58,61 @@ class ShowImagePost extends Component {
                     src={image?.url || ""}
                     alt={image?.originalname || ""}
                     className="ImagePostList"
-                    onClick={() => this.showModal(image?.url, image?.id)}
+                    onClick={() => this.showModal(image?.id, index)}
                   />
                 </span>
               );
             })
           : ""}
-        <Modal show={isShowModalImg} onHide={() => this.closeModal(false)} size="lg">
-          <div
-            id="carouselExampleControls"
-            class="carousel slide"
-            data-mdb-ride="carousel"
+        <Modal
+          show={isShowModalImg}
+          onHide={() => this.closeModal(false)}
+          size="lg"
+        >
+          <Carousel
+            prevLabel={null}
+            nextLabel={null}
+            nextIcon={
+              <span
+                className="NextIconViewImage"
+                aria-hidden="true"
+                onClick={() =>
+                  this.setState({
+                    indexImage: indexImage < imageLists.length - 1 ? indexImage + 1 : indexImage,
+                  })
+                }
+              >
+                <FcNext className="NextIcon" />
+              </span>
+            }
+            prevIcon={
+              <span
+                className="NextIconViewImage"
+                aria-hidden="true"
+                onClick={() =>
+                  this.setState({
+                    indexImage: indexImage > 1 ? indexImage - 1 : 0,
+                  })
+                }
+              >
+                <FcPrevious className="NextIcon" />
+              </span>
+            }
+            activeIndex={indexImage}
+            indicators={false}
           >
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img
-                  src={imageUrl}
-                  class="d-block w-100"
-                  alt="..."
-                  height="500"
-                />
-              </div>
-            </div>
-          </div>
+            {imageLists?.map((img) => {
+              return (
+                <Carousel.Item key={img?.id}>
+                  <img
+                    className="d-block w-100"
+                    src={img?.url}
+                    alt="First slide"
+                  />
+                </Carousel.Item>
+              );
+            })}
+          </Carousel>
           <Modal.Footer>
             <Button
               size="sm"

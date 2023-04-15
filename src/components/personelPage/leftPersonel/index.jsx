@@ -13,6 +13,7 @@ import {
   BsImages,
 } from "react-icons/bs";
 import { FaShare } from "react-icons/fa";
+import ShowImagePost from "../../commons/postListCommon/showImages";
 
 class LeftPersonel extends Component {
   constructor(props) {
@@ -27,12 +28,21 @@ class LeftPersonel extends Component {
   fetchUserInfo() {
     const { dispatch, userId } = this.props;
     const currentUser = AuthService.getCurrentUser();
-    dispatch({ type: userAction.GET_USER_BY_ID, payload: { userId: userId || currentUser?.id } });
+    dispatch({
+      type: userAction.GET_USER_BY_ID,
+      payload: { userId: userId || currentUser?.id },
+    });
   }
 
   render() {
-    const { userInfo = {} } = this.props;
+    const { userInfo = {}, postLists = [] } = this.props;
     const currentUser = AuthService.getCurrentUser();
+    const images = [];
+    postLists.forEach((item) => {
+      if (item?.user?.id === currentUser?.id) {
+        images.push(...item?.attachments);
+      }
+    });
 
     return (
       <>
@@ -75,9 +85,12 @@ class LeftPersonel extends Component {
                 </h3>
               </div>
               <p className="ImageListLefPersonel">
-                <img src="https://toanthaydinh.com/wp-content/uploads/2020/04/tai-anh-thien-nhien-20-1400x788-3.jpg" alt="" />
-                <img src="/image/icon-login.png" alt="" />
-                <img src="https://toanthaydinh.com/wp-content/uploads/2020/04/tai-anh-thien-nhien-20-1400x788-3.jpg" alt="" />
+                <ShowImagePost
+                  imageLists={images}
+                  isDeleted={false}
+                  page={1}
+                  limit={10}
+                />
               </p>
             </>
           ) : (
@@ -91,6 +104,7 @@ class LeftPersonel extends Component {
 
 function mapStateToProps(state) {
   return {
+    postLists: state.PostReducer.postLists,
     userInfo: state.UserReducer.userInfo,
   };
 }
