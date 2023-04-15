@@ -48,23 +48,22 @@ class ShowImagePost extends Component {
     const { isShowModalImg, imageUrl, imageId } = this.state;
     const isDeleted = currentUser === userPostId;
     return (
-      <>
+      <div>
         {imageLists.length > 0
           ? imageLists?.map((image, index) => {
               return (
-                <>
+                <span key={image?.id}>
                   <img
-                    key={`${image?.id}${index}`}
                     src={image?.url || ""}
                     alt={image?.originalname || ""}
                     className="ImagePostList"
                     onClick={() => this.showModal(image?.url, image?.id)}
                   />
-                </>
+                </span>
               );
             })
           : ""}
-        <Modal show={isShowModalImg} onHide={() => this.closeModal(false)}>
+        <Modal show={isShowModalImg} onHide={() => this.closeModal(false)} size="lg">
           <div
             id="carouselExampleControls"
             class="carousel slide"
@@ -101,7 +100,7 @@ class ShowImagePost extends Component {
             ) : null}
           </Modal.Footer>
         </Modal>
-      </>
+      </div>
     );
   }
 }

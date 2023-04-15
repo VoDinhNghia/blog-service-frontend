@@ -11,9 +11,9 @@ class ShowCommentHomePage extends Component {
       <>
         {commentList.map((comment, index) => {
           return (
-            <>
+            <div key={`${comment?.id}${index}`}>
               <ul className="commentsListHomepage">
-                <li key={`${comment?.id}${index}`}>
+                <li>
                   <div className="commentMainLevelHomepage">
                     <div className="commentAvatar">
                       <img
@@ -47,7 +47,7 @@ class ShowCommentHomePage extends Component {
                   </div>
                 </li>
               </ul>
-            </>
+            </div>
           );
         })}
       </>

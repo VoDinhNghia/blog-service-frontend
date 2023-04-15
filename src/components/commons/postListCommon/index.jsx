@@ -113,7 +113,7 @@ class PostListHomePage extends Component {
     const currentUser = AuthService.getCurrentUser();
     const isPersonel = typePostListPage.PERSONEL_PAGE === typePage;
     return (
-      <>
+      <div>
         {postLists?.map((post, index) => {
           return (
             <div className="PostItem" key={`${post?.id}${index}`}>
@@ -154,11 +154,12 @@ class PostListHomePage extends Component {
                 </h5>
               </span>
               <p className="TitlePost">{post?.title || ""}</p>
-              <p className="ContentPostHomePage">
-                {post?.content?.split("\r\n")?.map((content) => {
-                  return <p>&emsp;{content}</p>;
+              <div className="ContentPostHomePage">
+                {post?.content?.split("\r\n")?.map((content, index) => {
+                  return <div key={`content${index}`}>&emsp;{content}</div>;
                 })}
-              </p>
+              </div>
+              <br />
               <ShowImagePost
                 imageLists={post?.attachments}
                 currentUser={currentUser?.id}
@@ -243,7 +244,6 @@ class PostListHomePage extends Component {
                   </InputGroup>
                   <ShowCommentHomePage
                     commentList={post?.comments || []}
-                    key={`${post?.id}comment`}
                     isPersonel={isPersonel}
                   />
                 </div>
@@ -257,7 +257,7 @@ class PostListHomePage extends Component {
           closeModal={(value) => this.closeModal(value)}
           isPersonel={isPersonel}
         />
-      </>
+      </div>
     );
   }
 }

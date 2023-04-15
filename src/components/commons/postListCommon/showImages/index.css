@@ -7,9 +7,10 @@
 }
 
 .ImagePostList {
-  width: 250px;
+  width: 260px;
   height: 200px;
-  margin-left: 5px;
+  margin: 5px;
   border: 1px solid gray;
   border-radius: 5px;
+  display: inline;
 }
