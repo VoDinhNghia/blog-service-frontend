@@ -162,8 +162,7 @@ class PostListHomePage extends Component {
               <br />
               <ShowImagePost
                 imageLists={post?.attachments}
-                currentUser={currentUser?.id}
-                userPostId={post?.user?.id}
+                isDeleted={currentUser?.id === post?.user?.id}
                 page={page}
                 limit={limit}
               />
