@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import moment from "moment/moment";
 import "./index.css";
 import { Link } from "react-router-dom";
-import { routes } from "../../../../common/constant";
+import { routes, formatDateTime } from "../../../../common/constant";
 
 class ShowCommentHomePage extends Component {
   render() {
@@ -29,16 +29,16 @@ class ShowCommentHomePage extends Component {
                               pathname: routes.PERSONEL,
                             }}
                             state={{ userId: comment?.user?.id }}
-                            onClick={isPersonel ? () => window.location.reload() : null}
+                            onClick={
+                              isPersonel ? () => window.location.reload() : null
+                            }
                           >{`${comment?.user?.lastName || ""} ${
                             comment?.user?.middleName || ""
                           } ${comment?.user?.firstName || ""}`}</Link>
                         </h6>
                         <span>
                           {comment?.createdAt
-                            ? moment(comment?.createdAt).format(
-                                "YYYY-MM-DD hh:mm:ss"
-                              )
+                            ? moment(comment?.createdAt).format(formatDateTime)
                             : ""}
                         </span>
                       </div>

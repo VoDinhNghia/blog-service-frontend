@@ -21,3 +21,5 @@ export const typePostListPage = {
 }
 
 export const API_URL = "http://localhost:3005";
+
+export const formatDateTime = "YYYY-MM-DD HH:mm:ss";

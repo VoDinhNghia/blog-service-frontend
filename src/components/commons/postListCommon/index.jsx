@@ -17,7 +17,7 @@ import AuthService from "../../../services/authService";
 import ShowCommentHomePage from "./comments";
 import ActionPostItem from "./actions";
 import ShowImagePost from "./showImages";
-import { routes, typePostListPage } from "../../../common/constant";
+import { routes, typePostListPage, formatDateTime } from "../../../common/constant";
 import { Link } from "react-router-dom";
 
 class PostListHomePage extends Component {
@@ -148,7 +148,7 @@ class PostListHomePage extends Component {
                   </Link> <span className="PrivateModePost">{post?.privateMode ? '(private)' : ''}</span>
                   <p>
                     {post?.createdAt
-                      ? moment(post?.createdAt).format("YYYY-MM-DD hh:mm:ss")
+                      ? moment(post?.createdAt).format(formatDateTime)
                       : ""}
                   </p>
                 </h5>
