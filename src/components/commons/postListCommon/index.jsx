@@ -97,6 +97,9 @@ class PostListHomePage extends Component {
         payload: { page, limit, userId: isPersonel ? userId : null },
       });
     }, 100);
+    this.setState({
+      commentPost: '',
+    });
   }
 
   goToUserDetailPage(user) {
@@ -109,7 +112,7 @@ class PostListHomePage extends Component {
 
   render() {
     const { postLists = [], page, limit, type, typePage } = this.props;
-    const { isShowModal, userLikes, openedCommentId } = this.state;
+    const { isShowModal, userLikes, openedCommentId, commentPost } = this.state;
     const currentUser = AuthService.getCurrentUser();
     const isPersonel = typePostListPage.PERSONEL_PAGE === typePage;
     return (
@@ -231,6 +234,7 @@ class PostListHomePage extends Component {
                       placeholder="write something comments..."
                       aria-label="comment post"
                       aria-describedby="basic-addon-comment-post"
+                      value={commentPost}
                       onChange={(event) => this.onchangeValueComment(event)}
                     />
                     <Button
@@ -244,6 +248,8 @@ class PostListHomePage extends Component {
                   <ShowCommentHomePage
                     commentList={post?.comments || []}
                     isPersonel={isPersonel}
+                    userId={currentUser?.id}
+                    userPost={post?.user?.id}
                   />
                 </div>
               </Collapse>

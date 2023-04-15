@@ -45,11 +45,11 @@ class LeftPersonel extends Component {
     });
 
     return (
-      <>
+      <div>
         <div className="LeftMenuPersonel">
           <InfoUserPanel data={userInfo} />
           {currentUser?.id === userInfo?.id ? (
-            <>
+            <div>
               <div className="UtilitiesPersonalPage">
                 <h3 className="title">
                   <BsFillBriefcaseFill className="icon" /> Utilities Link
@@ -84,20 +84,20 @@ class LeftPersonel extends Component {
                   <BsImages className="icon" /> My Pictures List
                 </h3>
               </div>
-              <p className="ImageListLefPersonel">
+              <div className="ImageListLefPersonel">
                 <ShowImagePost
                   imageLists={images}
                   isDeleted={false}
                   page={1}
                   limit={10}
                 />
-              </p>
-            </>
+              </div>
+            </div>
           ) : (
             ""
           )}
         </div>
-      </>
+      </div>
     );
   }
 }
