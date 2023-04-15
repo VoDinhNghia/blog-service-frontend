@@ -8,6 +8,7 @@ import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import { postAction } from "../../../../store/action";
 
 class ShowCommentHomePage extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class ShowCommentHomePage extends Component {
       isShowModal: false,
       content: "",
       commentId: "",
+      isShowModalDelete: false,
     };
   }
 
@@ -33,6 +35,20 @@ class ShowCommentHomePage extends Component {
     });
   }
 
+  showModalDelete(id, content) {
+    this.setState({
+      isShowModalDelete: true,
+      content,
+      commentId: id,
+    });
+  }
+
+  closeModalDelete() {
+    this.setState({
+      isShowModalDelete: false,
+    });
+  }
+
   onChangeComment(event) {
     this.setState({
       content: event.target.value,
@@ -40,16 +56,42 @@ class ShowCommentHomePage extends Component {
   }
 
   updateComment() {
-    console.log("comment");
+    const { dispatch, isPersonel, userId, page, limit } = this.props;
+    const { content, commentId } = this.state;
+    dispatch({
+      type: postAction.UPDATE_COMMENT,
+      id: commentId,
+      payload: { content },
+    });
+    setTimeout(() => {
+      dispatch({
+        type: postAction.GET_ALL_POST,
+        payload: { page, limit, userId: isPersonel ? userId : null },
+      });
+    }, 100);
+    this.setState({
+      isShowModal: false,
+    });
   }
 
-  deleteComment(id) {
-    console.log("comment", id);
+  deleteComment() {
+    const { dispatch, isPersonel, userId, page, limit } = this.props;
+    const { commentId } = this.state;
+    dispatch({ type: postAction.DELETE_COMMENT, id: commentId });
+    setTimeout(() => {
+      dispatch({
+        type: postAction.GET_ALL_POST,
+        payload: { page, limit, userId: isPersonel ? userId : null },
+      });
+    }, 100);
+    this.setState({
+      isShowModalDelete: false,
+    });
   }
 
   render() {
     const { commentList = [], isPersonel, userId, userPost } = this.props;
-    const { isShowModal, content } = this.state;
+    const { isShowModal, content, isShowModalDelete } = this.state;
 
     return (
       <>
@@ -97,7 +139,9 @@ class ShowCommentHomePage extends Component {
                               className="BtnActionComment"
                               size="sm"
                               variant="light"
-                              onClick={() => this.showModal(comment?.id, comment?.content)}
+                              onClick={() =>
+                                this.showModal(comment?.id, comment?.content)
+                              }
                             >
                               <BsFillPencilFill className="IconUpdateComment" />
                             </Button>
@@ -108,7 +152,12 @@ class ShowCommentHomePage extends Component {
                               className="BtnActionComment"
                               size="sm"
                               variant="light"
-                              onClick={() => this.deleteComment(comment?.id)}
+                              onClick={() =>
+                                this.showModalDelete(
+                                  comment?.id,
+                                  comment?.content
+                                )
+                              }
                             >
                               <BsFillTrashFill className="IconDeleteComment" />
                             </Button>
@@ -142,6 +191,26 @@ class ShowCommentHomePage extends Component {
           <Modal.Footer>
             <Button onClick={() => this.updateComment()}>Save</Button>
           </Modal.Footer>
+        </Modal>
+
+        <Modal
+          show={isShowModalDelete}
+          onHide={() => this.closeModalDelete(false)}
+          size="sm"
+        >
+          <Modal.Body>
+            <p>
+              Are you sure you want to delete this comment "<b>{content?.slice(0, 10)}...</b>"?
+            </p>
+            <Button
+              variant="danger"
+              className="BtnCancleModalUpdatePost"
+              onClick={() => this.closeModalDelete()}
+            >
+              Cancle
+            </Button>
+            <Button onClick={() => this.deleteComment()}>Ok</Button>
+          </Modal.Body>
         </Modal>
       </>
     );

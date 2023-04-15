@@ -7,6 +7,8 @@ import {
   updatePost,
   deletePost,
   deleteImagePost,
+  updateComment,
+  deleteComment,
 } from "../services/postService";
 import { postAction } from "./action";
 import { NotificationManager } from "react-notifications";
@@ -100,7 +102,35 @@ function* deleteImagePosts({ id }) {
   }
 }
 
+function* updateComments({ id, payload }) {
+  try {
+    const res = yield call(updateComment, id, payload);
+    NotificationManager.success(res?.data?.message, "Update comment", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Update comment",
+      4000
+    );
+  }
+}
+
+function* deleteComments({ id }) {
+  try {
+    const res = yield call(deleteComment, id);
+    NotificationManager.success(res?.data?.message, "Delete comment", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Delete comment",
+      4000
+    );
+  }
+}
+
 function* watchGetAllPost() {
+  yield takeLatest(postAction.DELETE_COMMENT, deleteComments);
+  yield takeLatest(postAction.UPDATE_COMMENT, updateComments);
   yield takeLatest(postAction.DELETE_IMAGE_POST, deleteImagePosts);
   yield takeLatest(postAction.DELETE_POST, deletePosts);
   yield takeLatest(postAction.UPDATE_POST, updatePosts);
