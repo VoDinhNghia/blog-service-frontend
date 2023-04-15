@@ -49,3 +49,13 @@ export const deleteImagePost = (id) =>
   axios.delete(`${API_URL}/api/post/image/${id}`, {
     headers: authHeader(),
   });
+
+export const updateComment = (id, body) =>
+  axios.put(`${API_URL}/api/comment/${id}`, body, {
+    headers: authHeader(),
+  });
+
+export const deleteComment = (id) =>
+  axios.delete(`${API_URL}/api/comment/${id}`, {
+    headers: authHeader(),
+  });

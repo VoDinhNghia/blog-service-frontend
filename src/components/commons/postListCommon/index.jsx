@@ -250,6 +250,8 @@ class PostListHomePage extends Component {
                     isPersonel={isPersonel}
                     userId={currentUser?.id}
                     userPost={post?.user?.id}
+                    page={page}
+                    limit={limit}
                   />
                 </div>
               </Collapse>

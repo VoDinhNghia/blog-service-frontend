@@ -216,6 +216,7 @@ class ActionPostItem extends Component {
           <Modal
             show={isShowModalDelete}
             onHide={() => this.closeModalDelete(false)}
+            size="sm"
           >
             <Modal.Body>
               <p>
