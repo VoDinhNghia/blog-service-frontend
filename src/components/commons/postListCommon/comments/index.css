@@ -45,13 +45,15 @@
 }
 
 .commentBoxHompage .commentHead {
-  background: #fcfcfc;
-  padding: 10px 12px;
+  background-color: rgb(243, 246, 253);
+  padding-left: 12px;
+  padding-top: 10px;
+  padding-right: 5px;
   border-bottom: 1px solid #e5e5e5;
   overflow: hidden;
   -webkit-border-radius: 4px 4px 0 0;
   -moz-border-radius: 4px 4px 0 0;
-  border-radius: 4px 4px 0 0;
+  border-radius: 6px;
 }
 
 .commentBoxHompage .commentName {
@@ -66,18 +68,42 @@
   color: #283035;
 }
 
-.commentBoxHompage .commentHead span {
-  float: left;
-  color: #999;
-  font-size: 12px;
+.commentBoxHompage .commentHead h6 span {
+  color: gray;
+  font-size: 11px;
 }
 
 .commentBoxHompage .commentContent {
-  background: #fff;
+  background: white;
   padding: 12px;
-  font-size: 15px;
-  color: #595959;
+  font-size: 14px;
+  color: black;
   -webkit-border-radius: 0 0 4px 4px;
   -moz-border-radius: 0 0 4px 4px;
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 5px 5px;
+}
+
+.ActionComment {
+  float: right;
+}
+
+.ActionComment .BtnActionComment {
+  margin-left: 5px;
+  background-color: white;
+}
+
+.IconUpdateComment {
+  width: 11px;
+  height: 11px;
+  color: blue;
+}
+
+.IconDeleteComment {
+  width: 11px;
+  height: 11px;
+  color: red;
+}
+
+.BtnActionComment:hover {
+  background-color: lightgray;
 }

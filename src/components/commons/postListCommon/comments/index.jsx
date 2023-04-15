@@ -3,10 +3,54 @@ import moment from "moment/moment";
 import "./index.css";
 import { Link } from "react-router-dom";
 import { routes, formatDateTime } from "../../../../common/constant";
+import Button from "react-bootstrap/Button";
+import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
+import { connect } from "react-redux";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 
 class ShowCommentHomePage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isShowModal: false,
+      content: "",
+      commentId: "",
+    };
+  }
+
+  showModal(id, content) {
+    this.setState({
+      isShowModal: true,
+      content,
+      commentId: id,
+    });
+  }
+
+  closeModal() {
+    this.setState({
+      isShowModal: false,
+    });
+  }
+
+  onChangeComment(event) {
+    this.setState({
+      content: event.target.value,
+    });
+  }
+
+  updateComment() {
+    console.log("comment");
+  }
+
+  deleteComment(id) {
+    console.log("comment", id);
+  }
+
   render() {
-    const { commentList = [], isPersonel } = this.props;
+    const { commentList = [], isPersonel, userId, userPost } = this.props;
+    const { isShowModal, content } = this.state;
+
     return (
       <>
         {commentList.map((comment, index) => {
@@ -35,12 +79,41 @@ class ShowCommentHomePage extends Component {
                           >{`${comment?.user?.lastName || ""} ${
                             comment?.user?.middleName || ""
                           } ${comment?.user?.firstName || ""}`}</Link>
+                          <br />
+                          <span>
+                            {comment?.createdAt
+                              ? moment(comment?.createdAt).format(
+                                  formatDateTime
+                                )
+                              : ""}
+                          </span>
                         </h6>
-                        <span>
-                          {comment?.createdAt
-                            ? moment(comment?.createdAt).format(formatDateTime)
-                            : ""}
-                        </span>
+                        <div className="ActionComment">
+                          {(comment?.user?.id === userId &&
+                            userId === userPost) ||
+                          (comment?.user?.id === userId &&
+                            userId !== userPost) ? (
+                            <Button
+                              className="BtnActionComment"
+                              size="sm"
+                              variant="light"
+                              onClick={() => this.showModal(comment?.id, comment?.content)}
+                            >
+                              <BsFillPencilFill className="IconUpdateComment" />
+                            </Button>
+                          ) : null}
+                          {userId === userPost ||
+                          comment?.user?.id === userId ? (
+                            <Button
+                              className="BtnActionComment"
+                              size="sm"
+                              variant="light"
+                              onClick={() => this.deleteComment(comment?.id)}
+                            >
+                              <BsFillTrashFill className="IconDeleteComment" />
+                            </Button>
+                          ) : null}
+                        </div>
                       </div>
                       <div className="commentContent">{comment?.content}</div>
                     </div>
@@ -50,9 +123,29 @@ class ShowCommentHomePage extends Component {
             </div>
           );
         })}
+        <Modal show={isShowModal} onHide={() => this.closeModal()}>
+          <Modal.Header closeButton={true} className="HeaderModalUpdatePost">
+            <Modal.Title className="TitlePostUpdate">
+              Update comment
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Control
+              aria-label="update comment"
+              as="textarea"
+              rows={4}
+              name="content"
+              defaultValue={content}
+              onChange={(event) => this.onChangeComment(event)}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={() => this.updateComment()}>Save</Button>
+          </Modal.Footer>
+        </Modal>
       </>
     );
   }
 }
 
-export default ShowCommentHomePage;
+export default connect()(ShowCommentHomePage);
