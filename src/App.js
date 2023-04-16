@@ -10,6 +10,7 @@ import { routes } from "./common/constant";
 import "react-notifications/lib/notifications.css";
 import { NotificationContainer } from "react-notifications";
 import PersonelPage from "./components/personelPage/index";
+import StudySpacePage from "./components/studySpace";
 
 class App extends Component {
   constructor(props) {
@@ -39,6 +40,14 @@ class App extends Component {
             element={
               <PrivateRoute>
                 <PersonelPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={routes.STUDY_SPACE}
+            element={
+              <PrivateRoute>
+                <StudySpacePage />
               </PrivateRoute>
             }
           />

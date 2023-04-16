@@ -13,6 +13,7 @@ export const routes = {
   LOGIN: "/login",
   HOME: "/home",
   PERSONEL: "/personel",
+  STUDY_SPACE: "/study-space",
 };
 
 export const typePostListPage = {

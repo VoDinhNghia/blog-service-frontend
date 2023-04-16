@@ -1,26 +1,25 @@
 import React from "react";
-import { connect } from "react-redux";
-import MenuPersonelPage from "../menuPage/menuPersonel/index";
+import MenuStudySpacePage from "../menuPage/menuStudySpace/index";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Footer from "../footerPage/footer";
-import LeftPersonel from "./leftPersonel/index";
-import RightPersonel from "./rightPersonel/index";
+import LeftStudySpace from "./leftStudySpace";
+import RightStudySpace from "./rightStudySpace";
 import { useLocation } from 'react-router-dom';
 
-const PersonelPage = () => {
+const StudySpacePage = () => {
   const location = useLocation();
   const userId = location?.state?.userId;
 
     return (
       <>
-        <MenuPersonelPage userId={userId} />
+        <MenuStudySpacePage userId={userId} />
         <Row>
           <Col xs lg="4">
-            <LeftPersonel userId={userId} />
+            <LeftStudySpace userId={userId} />
           </Col>
           <Col>
-            <RightPersonel userId={userId} />
+            <RightStudySpace userId={userId} />
           </Col>
         </Row>
         <Footer />
@@ -28,4 +27,4 @@ const PersonelPage = () => {
     );
 }
 
-export default connect()(PersonelPage);
+export default StudySpacePage;
