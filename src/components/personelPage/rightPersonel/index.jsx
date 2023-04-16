@@ -5,7 +5,6 @@ import { BsChevronDoubleLeft, BsChevronDoubleRight } from "react-icons/bs";
 import "./index.css";
 import PostListHomePage from "../../commons/postListCommon";
 import NewPostCommon from "../../commons/newPostCommon";
-import { typePostListPage } from "../../../common/constant";
 
 class RightPersonelPage extends Component {
   constructor(props) {
@@ -68,15 +67,13 @@ class RightPersonelPage extends Component {
     const { postLists = [], total = 0 } = this.props;
     const { limit, page } = this.state;
     const totalPage = Math.round(Number(total / limit) + 0.5);
-    const type = typePostListPage.PERSONEL_PAGE;
     return (
       <>
-        <NewPostCommon type={type} />
+        <NewPostCommon page={page} limit={limit} />
         <PostListHomePage
           postLists={postLists}
           page={page}
           limit={limit}
-          type={type}
         />
         {
           <button className="ButtonBack" onClick={() => this.goToBackPage()}>

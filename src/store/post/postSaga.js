@@ -9,10 +9,10 @@ import {
   deleteImagePost,
   updateComment,
   deleteComment,
-} from "../services/postService";
-import { postAction } from "./action";
+} from "../../services/postService";
+import { postAction } from "../action";
 import { NotificationManager } from "react-notifications";
-import { typePostListPage } from "../common/constant";
+import { typePostListPage } from "../../common/constant";
 
 function* getAllPost({ payload }) {
   try {

@@ -1,8 +1,9 @@
 import { all } from "redux-saga/effects";
 
-import watchGetAllPost from "./postSaga";
-import watchUserSage from "./userSaga";
+import watchGetAllPost from "./post/postSaga";
+import watchUserSage from "./user/userSaga";
+import watchStudySpaceSaga from "./studySpace/studySpaceSaga";
 
 export function* rootSagas() {
-  yield all([watchGetAllPost(), watchUserSage()]);
+  yield all([watchGetAllPost(), watchUserSage(), watchStudySpaceSaga()]);
 }
