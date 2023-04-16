@@ -14,8 +14,6 @@ class NewPostModal extends Component {
     super(props);
 
     this.state = {
-      page: 1,
-      limit: 10,
       type: "default",
       title: "",
       privateMode: false,
@@ -51,9 +49,8 @@ class NewPostModal extends Component {
     this.setState({ files: arrays });
   }
 
-  async createNewPost(isPersonel, userId) {
-    const { dispatch } = this.props;
-    const { type, content, privateMode, title, limit, page, files } =
+  async createNewPost(userId) {
+    const { type, content, privateMode, title, files } =
       this.state;
     const formData = new FormData();
     formData.append("content", content);
@@ -66,11 +63,21 @@ class NewPostModal extends Component {
     formData.append("privateMode", privateMode);
     formData.append("title", title);
     await createPost(formData);
+    this.fetchPostList(userId)
+    this.setState({
+      files: null,
+    });
+    this.props.closeNewPost(false);
+  }
+
+  fetchPostList(userId) {
+    const { dispatch, page, limit, typePage } = this.props;
+    const isPersonel = typePostListPage.PERSONEL_PAGE === typePage;
     setTimeout(() => {
       if (isPersonel) {
         dispatch({
           type: postAction.GET_ALL_POST_PERSONEL,
-          payload: { page, limit, userId: userId },
+          payload: { page, limit, userId },
         });
       } else {
         dispatch({
@@ -79,16 +86,11 @@ class NewPostModal extends Component {
         });
       }
     }, 100);
-    this.setState({
-      files: null,
-    });
-    this.props.closeNewPost(false);
   }
 
   render() {
-    const { isShowNewPost = false, type } = this.props;
+    const { isShowNewPost = false } = this.props;
     const currentUser = AuthService.getCurrentUser();
-    const isPersonel = typePostListPage.PERSONEL_PAGE === type;
 
     return (
       <div>
@@ -144,7 +146,7 @@ class NewPostModal extends Component {
                 <br />
                 <Button
                   className="BtnSubmitNewPost"
-                  onClick={() => this.createNewPost(isPersonel, currentUser?.id)}
+                  onClick={() => this.createNewPost(currentUser?.id)}
                 >
                   Save
                 </Button>
@@ -157,4 +159,10 @@ class NewPostModal extends Component {
   }
 }
 
-export default connect()(NewPostModal);
+function mapStateToProps(state) {
+  return {
+    typePage: state.PostReducer.typePage,
+    userId: state.PostReducer.userId,
+  };
+}
+export default connect(mapStateToProps)(NewPostModal);

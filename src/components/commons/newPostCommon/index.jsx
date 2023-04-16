@@ -10,8 +10,6 @@ class NewPostCommon extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1,
-      limit: 50,
       isShowNewPost: false,
     };
   }
@@ -29,7 +27,7 @@ class NewPostCommon extends Component {
   }
 
   render() {
-    const { type } = this.props;
+    const { page, limit } = this.props;
     const { isShowNewPost } = this.state;
     const currentUser = AuthService.getCurrentUser();
 
@@ -59,7 +57,8 @@ class NewPostCommon extends Component {
         </InputGroup>
         <NewPostModal
           isShowNewPost={isShowNewPost}
-          type={type}
+          page={page}
+          limit={limit}
           closeNewPost={(value) => this.closeNewPost(value)}
         />
       </>

@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { getUserById } from "../services/userService";
-import { userAction } from "./action";
+import { getUserById } from "../../services/userService";
+import { userAction } from "../action";
 import { NotificationManager } from "react-notifications";
 
 function* fetchUserById({ payload }) {

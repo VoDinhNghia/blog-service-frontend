@@ -18,3 +18,9 @@ export const userAction = {
   GET_USER_BY_ID: "GET_USER_BY_ID",
   GET_USER_BY_ID_SUCCESS: "GET_USER_BY_ID_SUCCESS",
 }
+
+export const studySpaceAction = {
+  GET_ALL_GROUP: "GET_ALL_GROUP",
+  GET_ALL_GROUP_SUCCESS: "GET_ALL_GROUP_SUCCESS",
+  CREATE_NEW_GROUP: "CREATE_NEW_GROUP",
+}

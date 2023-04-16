@@ -44,24 +44,19 @@ class PostListHomePage extends Component {
     });
   }
 
-  actionLike(postId, isPersonel, userId) {
-    const { dispatch, page, limit } = this.props;
+  actionLike(postId) {
+    const { dispatch } = this.props;
     dispatch({ type: postAction.LIKE_POST, payload: { postId } });
-    setTimeout(() => {
-      dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit, userId: isPersonel ? userId : null } });
-    }, 100);
+    this.fetchPostList()
   }
 
   actionShare(postId) {
     const { dispatch } = this.props;
-    const { page, limit } = this.state;
     dispatch({
       type: postAction.SHARE_POST,
       payload: { postId, privateMode: false },
     });
-    setTimeout(() => {
-      dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
-    }, 100);
+    this.fetchPostList()
   }
 
   showComment(postId) {
@@ -83,35 +78,40 @@ class PostListHomePage extends Component {
     });
   }
 
-  sendComment(event, postId, isPersonel, userId) {
-    const { commentPost, limit, page } = this.state;
+  sendComment(event, postId) {
+    const { commentPost } = this.state;
     event.preventDefault();
     const { dispatch } = this.props;
     dispatch({
       type: postAction.COMMENT_POST,
       payload: { postId, content: commentPost },
     });
-    setTimeout(() => {
-      dispatch({
-        type: postAction.GET_ALL_POST,
-        payload: { page, limit, userId: isPersonel ? userId : null },
-      });
-    }, 100);
+    this.fetchPostList();
     this.setState({
       commentPost: '',
     });
   }
 
-  goToUserDetailPage(user) {
-    const { dispatch } = this.props; 
-    dispatch({
-      type: postAction.GET_ALL_POST_PERSONEL,
-      payload: { limit: 10, page: 1, userId: user?.id },
-    });
+  fetchPostList() {
+    const { dispatch, userId, page, limit, typePage } = this.props;
+    const isPersonel = typePostListPage.PERSONEL_PAGE === typePage;
+    setTimeout(() => {
+      if (isPersonel) {
+        dispatch({
+          type: postAction.GET_ALL_POST_PERSONEL,
+          payload: { page, limit, userId },
+        });
+      } else {
+        dispatch({
+          type: postAction.GET_ALL_POST,
+          payload: { page, limit },
+        });
+      }
+    }, 100);
   }
 
   render() {
-    const { postLists = [], page, limit, type, typePage } = this.props;
+    const { postLists = [], typePage } = this.props;
     const { isShowModal, userLikes, openedCommentId, commentPost } = this.state;
     const currentUser = AuthService.getCurrentUser();
     const isPersonel = typePostListPage.PERSONEL_PAGE === typePage;
@@ -130,9 +130,7 @@ class PostListHomePage extends Component {
                   <ActionPostItem
                     postInfo={post}
                     currentUser={currentUser}
-                    limit={limit}
-                    page={page}
-                    type={type}
+                    fetchPostList={() => this.fetchPostList()}
                   />
                 ) : (
                   ""
@@ -166,8 +164,7 @@ class PostListHomePage extends Component {
               <ShowImagePost
                 imageLists={post?.attachments}
                 isDeleted={currentUser?.id === post?.user?.id}
-                page={page}
-                limit={limit}
+                fetchPostList={() => this.fetchPostList()}
               />
               <p className="NumberLikeShareComment">
                 <Button
@@ -198,7 +195,7 @@ class PostListHomePage extends Component {
                 <Button
                   className="ButtonLSC"
                   variant="outline-light"
-                  onClick={() => this.actionLike(post?.id, isPersonel, currentUser?.id)}
+                  onClick={() => this.actionLike(post?.id)}
                   style={
                     post?.likes?.find((p) => p?.user?.id === currentUser?.id)
                       ? { color: "blue" }
@@ -240,18 +237,16 @@ class PostListHomePage extends Component {
                     <Button
                       id="basic-addon-comment-post"
                       variant="light"
-                      onClick={(event) => this.sendComment(event, post?.id, isPersonel, currentUser?.id)}
+                      onClick={(event) => this.sendComment(event, post?.id)}
                     >
                       send
                     </Button>
                   </InputGroup>
                   <ShowCommentHomePage
                     commentList={post?.comments || []}
-                    isPersonel={isPersonel}
                     userId={currentUser?.id}
                     userPost={post?.user?.id}
-                    page={page}
-                    limit={limit}
+                    fetchPostList={() => this.fetchPostList()}
                   />
                 </div>
               </Collapse>

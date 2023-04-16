@@ -34,14 +34,12 @@ class ShowImagePost extends Component {
   }
 
   deleteImage(imageId) {
-    const { dispatch, page, limit } = this.props;
+    const { dispatch } = this.props;
     dispatch({
       type: postAction.DELETE_IMAGE_POST,
       id: imageId,
     });
-    setTimeout(() => {
-      dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
-    }, 100);
+    this.props.fetchPostList();
     this.closeModal();
   }
 

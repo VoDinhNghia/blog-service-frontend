@@ -6,7 +6,6 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { postAction } from "../../../../store/action";
-import { typePostListPage } from "../../../../common/constant";
 import "./index.css";
 
 class ActionPostItem extends Component {
@@ -74,8 +73,8 @@ class ActionPostItem extends Component {
     this.setState({ files: arrays });
   }
 
-  async updatePost(isPersonel, userId) {
-    const { dispatch, limit, page, postInfo = {} } = this.props;
+  async updatePost() {
+    const { dispatch, postInfo = {} } = this.props;
     const { type, content, privateMode, title, files } = this.state;
     const formData = new FormData();
     formData.append("content", content || postInfo?.content);
@@ -92,39 +91,28 @@ class ActionPostItem extends Component {
       id: postInfo?.id,
       payload: formData,
     });
-    setTimeout(() => {
-      dispatch({
-        type: postAction.GET_ALL_POST,
-        payload: { page, limit, userId: isPersonel ? userId : null },
-      });
-    }, 100);
+    this.props.fetchPostList();
     this.setState({
       isShowModal: false,
       files: null,
     });
   }
 
-  deletePost(isPersonel, userId) {
-    const { dispatch, postInfo, page, limit } = this.props;
+  deletePost() {
+    const { dispatch, postInfo } = this.props;
     dispatch({
       type: postAction.DELETE_POST,
       id: postInfo?.id,
     });
-    setTimeout(() => {
-      dispatch({
-        type: postAction.GET_ALL_POST,
-        payload: { page, limit, userId: isPersonel ? userId : null },
-      });
-    }, 100);
+    this.props.fetchPostList();
     this.setState({
       isShowModalDelete: false,
     });
   }
 
   render() {
-    const { postInfo = {}, currentUser = {}, type } = this.props;
+    const { postInfo = {}, currentUser = {} } = this.props;
     const { isShowModal, isShowModalDelete } = this.state;
-    const isPersonel = typePostListPage.PERSONEL_PAGE === type;
     return (
       <>
         <div className="OptionsHeaderPostItem">
@@ -207,7 +195,7 @@ class ActionPostItem extends Component {
                   >
                     Cancle
                   </Button>
-                  <Button onClick={() => this.updatePost(isPersonel, currentUser?.id)}>Save</Button>
+                  <Button onClick={() => this.updatePost()}>Save</Button>
                 </Form.Group>
               </Form>
             </Modal.Body>
@@ -230,7 +218,7 @@ class ActionPostItem extends Component {
               >
                 Cancle
               </Button>
-              <Button onClick={() => this.deletePost(isPersonel, currentUser?.id)}>Ok</Button>
+              <Button onClick={() => this.deletePost()}>Ok</Button>
             </Modal.Body>
           </Modal>
         </div>

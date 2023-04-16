@@ -56,34 +56,24 @@ class ShowCommentHomePage extends Component {
   }
 
   updateComment() {
-    const { dispatch, isPersonel, userId, page, limit } = this.props;
+    const { dispatch } = this.props;
     const { content, commentId } = this.state;
     dispatch({
       type: postAction.UPDATE_COMMENT,
       id: commentId,
       payload: { content },
     });
-    setTimeout(() => {
-      dispatch({
-        type: postAction.GET_ALL_POST,
-        payload: { page, limit, userId: isPersonel ? userId : null },
-      });
-    }, 100);
+    this.props.fetchPostList();
     this.setState({
       isShowModal: false,
     });
   }
 
   deleteComment() {
-    const { dispatch, isPersonel, userId, page, limit } = this.props;
+    const { dispatch } = this.props;
     const { commentId } = this.state;
     dispatch({ type: postAction.DELETE_COMMENT, id: commentId });
-    setTimeout(() => {
-      dispatch({
-        type: postAction.GET_ALL_POST,
-        payload: { page, limit, userId: isPersonel ? userId : null },
-      });
-    }, 100);
+    this.props.fetchPostList();
     this.setState({
       isShowModalDelete: false,
     });
