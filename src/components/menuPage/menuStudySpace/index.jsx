@@ -3,13 +3,11 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import { BsSearch } from "react-icons/bs";
-import { postAction } from "../../../store/action";
 import "./index.css";
 import { connect } from "react-redux";
 import MenuMain from "../menuMain";
-import AuthService from "../../../services/authService";
 
-class MenuPersonelPage extends Component {
+class MenuStudySpacePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,15 +26,9 @@ class MenuPersonelPage extends Component {
   }
 
   searchPost() {
-    const { dispatch, userId } = this.props;
+    const { dispatch } = this.props;
     const { searchKey } = this.state;
-    const currentUser = AuthService.getCurrentUser();
-    setTimeout(() => {
-      dispatch({
-        type: postAction.GET_ALL_POST_PERSONEL,
-        payload: { searchKey, userId: userId || currentUser?.id },
-      });
-    }, 100);
+    console.log(dispatch, searchKey);
   }
 
   render() {
@@ -54,8 +46,8 @@ class MenuPersonelPage extends Component {
                   <BsSearch />
                 </Button>
                 <Form.Control
-                  placeholder="search personel post title..."
-                  aria-label="search post"
+                  placeholder="search group in study space..."
+                  aria-label="search group"
                   aria-describedby="basic-addon-search-home-page"
                   onChange={(event) => this.onChangeSearch(event)}
                   className="InputSearchMenuBar"
@@ -70,4 +62,4 @@ class MenuPersonelPage extends Component {
   }
 }
 
-export default connect()(MenuPersonelPage);
+export default connect()(MenuStudySpacePage);

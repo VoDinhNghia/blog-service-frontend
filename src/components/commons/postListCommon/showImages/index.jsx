@@ -108,6 +108,7 @@ class ShowImagePost extends Component {
                     className="d-block w-100"
                     src={img?.url}
                     alt="First slide"
+                    height={500}
                   />
                 </Carousel.Item>
               );

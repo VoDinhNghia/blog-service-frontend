@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BsPersonWorkspace } from "react-icons/bs";
 import "./index.css";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { routes } from "../../../common/constant";
 
 class InfoUserPanel extends Component {
@@ -25,23 +25,27 @@ class InfoUserPanel extends Component {
               to={{
                 pathname: routes.PERSONEL,
               }}
-              state={{userId: data?.id}}
+              state={{ userId: data?.id }}
               className="LinkToPersonelLeftHomePage"
             >
               <h5 className="PersonelNameLeftHomePage">
-                {`${data?.lastName || ""} ${
-                  data?.middleName || ""
-                } ${data?.firstName || ""} ${
-                  data?.code ? `- ${data?.code}` : ""
-                }`}
+                {`${data?.lastName || ""} ${data?.middleName || ""} ${
+                  data?.firstName || ""
+                } ${data?.code ? `- ${data?.code}` : ""}`}
               </h5>
             </Link>
             <p>role: {data?.role?.toLowerCase()}</p>
           </span>
           <hr />
-          <a href={"not-yet"} className="LinkLeftHomePage">
+          <Link
+            to={{
+              pathname: routes.STUDY_SPACE,
+            }}
+            state={{ userId: data?.id }}
+            className="LinkLeftHomePage"
+          >
             <BsPersonWorkspace className="IconLeftHomePage" /> Study Space
-          </a>
+          </Link>
         </div>
         <hr />
       </>
