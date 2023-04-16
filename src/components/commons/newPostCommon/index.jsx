@@ -44,7 +44,7 @@ class NewPostCommon extends Component {
             <img
               src={currentUser?.avatar || "/image/icon-login.png"}
               alt={currentUser?.firstName}
-              className="PostAvatar"
+              className="PostHomePageAvatar"
             />
           </Button>
           <Form.Control

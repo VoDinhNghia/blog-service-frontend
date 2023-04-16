@@ -8,7 +8,7 @@ import {
   BsFillReplyFill,
 } from "react-icons/bs";
 import "./index.css";
-import ModalHomepage from "./modal/modal";
+import ModalLikeHomepage from "./likeModal";
 import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
 import Form from "react-bootstrap/Form";
@@ -258,7 +258,7 @@ class PostListHomePage extends Component {
             </div>
           );
         })}
-        <ModalHomepage
+        <ModalLikeHomepage
           data={userLikes}
           isShowModal={isShowModal}
           closeModal={(value) => this.closeModal(value)}

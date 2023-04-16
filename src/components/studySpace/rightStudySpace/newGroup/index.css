@@ -1,4 +1,4 @@
-.PostHomePage {
+.CreateNewGroup {
   width: 97%;
   background-color: rgb(251, 253, 255);
   border-radius: 10px;
@@ -9,7 +9,7 @@
   margin: 20px 10px 25px 10px;
 }
 
-.PostHomePage Button {
+.CreateNewGroup Button {
   width: 55px;
   height: 50px;
   -moz-border-radius: 50%;
@@ -20,7 +20,14 @@
   text-align: center;
 }
 
-.PostHomePage .PostHomePageAvatar {
+.CreateNewGroup .CreateNewGroupInput {
+  top: 5px;
+  border-radius: 20px;
+  border: 1px solid rgb(240, 238, 238);
+  height: 40px;
+}
+
+.CreateNewGroup .CreateNewGroupAvatar {
   width: 30px;
   height: 30px;
   -moz-border-radius: 50%;
@@ -28,11 +35,4 @@
   border-radius: 50%;
   float: left;
   margin-right: 20px;
-}
-
-.PostHomePage .InputNewPostHomePage {
-  top: 5px;
-  border-radius: 20px;
-  border: 1px solid rgb(240, 238, 238);
-  height: 40px;
 }

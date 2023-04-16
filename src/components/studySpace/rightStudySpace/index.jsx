@@ -1,9 +1,15 @@
 import React, { Component } from "react";
+import NewGroup from "./newGroup";
 import "./index.css";
 
 class RightStudySpace extends Component {
   render() {
-    return <div className="RightStudySpace">Display group list</div>;
+    return (
+      <>
+        <NewGroup />
+        <div className="RightStudySpace">Display group list</div>
+      </>
+    );
   }
 }
 

@@ -27,8 +27,10 @@ class LeftStudySpace extends Component {
   render() {
     const { userInfo = {} } = this.props;
     return (
-      <div className="LeftMenuPersonel">
-        <InfoUserPanel data={userInfo} />
+      <div>
+        <div className="LeftMenuPersonel">
+          <InfoUserPanel data={userInfo} />
+        </div>
       </div>
     );
   }

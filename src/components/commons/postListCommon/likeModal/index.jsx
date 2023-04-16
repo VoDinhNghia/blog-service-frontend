@@ -4,7 +4,7 @@ import "./index.css";
 import { Link } from "react-router-dom";
 import { routes } from "../../../../common/constant";
 
-class ModalHomepage extends Component {
+class ModalLikeHomepage extends Component {
   constructor(props) {
     super(props);
 
@@ -53,4 +53,4 @@ class ModalHomepage extends Component {
   }
 }
 
-export default ModalHomepage;
+export default ModalLikeHomepage;
