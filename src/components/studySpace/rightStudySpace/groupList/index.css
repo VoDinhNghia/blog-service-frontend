@@ -9,9 +9,19 @@
 }
 
 .TimeRightStudySpace {
-    font-size: 13px;
+  font-size: 13px;
 }
 
 .BtnRightStudySpace {
-    margin-right: 10px;
+  margin-right: 10px;
+}
+
+.CollapaseRightStudySpace {
+  margin-top: 10px;
+}
+
+.IconDeleteComment {
+  width: 11px;
+  height: 11px;
+  color: red;
 }
