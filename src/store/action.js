@@ -17,6 +17,8 @@ export const postAction = {
 export const userAction = {
   GET_USER_BY_ID: "GET_USER_BY_ID",
   GET_USER_BY_ID_SUCCESS: "GET_USER_BY_ID_SUCCESS",
+  GET_ALL_USER: "GET_ALL_USER",
+  GET_ALL_USER_SUCCESS: "GET_ALL_USER_SUCCESS",
 }
 
 export const studySpaceAction = {
