@@ -9,7 +9,10 @@ import GroupListPage from "./groupList";
 class RightStudySpace extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      limit: 20,
+      page: 1,
+    };
   }
 
   componentDidMount() {
@@ -32,14 +35,17 @@ class RightStudySpace extends Component {
   }
 
   render() {
-    const { groupList = [] } = this.props;
+    const { groupList = [], userId } = this.props;
+    const { limit, page } = this.state;
 
     return (
       <>
         <NewGroup fetchAllGroups={() => this.fetchAllGroups()} />
         <GroupListPage
           groupList={groupList}
-          fetchAllGroups={() => this.fetchAllGroups()}
+          limit={limit}
+          page={page}
+          userId={userId}
         />
         {
           <button className="ButtonBack" onClick={() => this.goToBackPage()}>

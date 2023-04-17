@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./index.css";
 import Card from "react-bootstrap/Card";
 import moment from "moment/moment";
-import { formatDateTime } from "../../../../common/constant";
+import { formatDateTime, routes } from "../../../../common/constant";
 import { Button } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import Table from "react-bootstrap/Table";
@@ -10,6 +10,9 @@ import { BsFillTrashFill } from "react-icons/bs";
 import ActionGroupList from "./actions";
 import MemberGroup from "./members";
 import AuthService from "../../../../services/authService";
+import { studySpaceAction } from "../../../../store/action";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 class GroupListPage extends Component {
   constructor(props) {
@@ -50,6 +53,17 @@ class GroupListPage extends Component {
     }
   }
 
+  fetchAllGroups() {
+    const { dispatch, userId } = this.props;
+    const { limit, page } = this.state;
+    setTimeout(() => {
+      dispatch({
+        type: studySpaceAction.GET_ALL_GROUP,
+        payload: { limit, page, createdById: userId },
+      });
+    }, 100);
+  }
+
   render() {
     const { groupList = [] } = this.props;
     const { isShowModalMember, openedTopicGroupId } = this.state;
@@ -68,14 +82,24 @@ class GroupListPage extends Component {
                       {currentUser?.id === group?.createdById ? (
                         <ActionGroupList
                           groupInfo={group}
-                          fetchAllGroups={() => this.props.fetchAllGroups()}
+                          fetchAllGroups={() => this.fetchAllGroups()}
                         />
                       ) : null}
                     </span>
                   </span>
                 </Card.Title>
                 <Card.Subtitle className="mb-2 text-muted TimeRightStudySpace">
-                  {moment(group?.createdAt || "").format(formatDateTime)}
+                  {`${moment(group?.createdAt || "").format(
+                    formatDateTime
+                  )} created by`}{" "}
+                  <Link
+                    to={routes.PERSONEL}
+                    state={{ userId: group?.createdById }}
+                  >
+                    {` ${group?.createdBy?.lastName || ""} ${
+                      group?.createdBy?.middleName || ""
+                    } ${group?.createdBy?.firstName || ""}`}
+                  </Link>
                 </Card.Subtitle>
                 <Card.Text>{group?.description}</Card.Text>
                 <p className="BtnRightStudySpace">
@@ -98,6 +122,7 @@ class GroupListPage extends Component {
                   isShowModalMember={isShowModalMember === group?.id}
                   closeModal={(value) => this.closeModal(value)}
                   permission={currentUser?.id === group?.createdById}
+                  currentUser={currentUser}
                 />
                 <div>
                   <Collapse in={openedTopicGroupId === group?.id}>
@@ -146,4 +171,4 @@ class GroupListPage extends Component {
   }
 }
 
-export default GroupListPage;
+export default connect()(GroupListPage);

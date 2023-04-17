@@ -1,5 +1,12 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { getAllGroup, createNewGroup } from "../../services/studySpaceService";
+import {
+  getAllGroup,
+  createNewGroup,
+  updateGroup,
+  deleteGroup,
+  addMember,
+  deleteMember,
+} from "../../services/studySpaceService";
 import { studySpaceAction } from "../action";
 import { NotificationManager } from "react-notifications";
 
@@ -26,7 +33,63 @@ function* createNewGroups({ payload }) {
   }
 }
 
+function* updateGroups({ id, payload }) {
+  try {
+    const res = yield call(updateGroup, id, payload);
+    NotificationManager.success(res?.data?.message, "Update group", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Update group",
+      4000
+    );
+  }
+}
+
+function* deleteGroups({ id }) {
+  try {
+    const res = yield call(deleteGroup, id);
+    NotificationManager.success(res?.data?.message, "Delete group", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Delete group",
+      4000
+    );
+  }
+}
+
+function* addMembers({ id, payload }) {
+  try {
+    const res = yield call(addMember, id, payload);
+    NotificationManager.success(res?.data?.message, "Add member", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Add member",
+      4000
+    );
+  }
+}
+
+function* deleteMembers({ id }) {
+  try {
+    const res = yield call(deleteMember, id);
+    NotificationManager.success(res?.data?.message, "Delete member", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Delete member",
+      4000
+    );
+  }
+}
+
 function* watchStudySpaceSaga() {
+  yield takeLatest(studySpaceAction.DELETE_MEMBER, deleteMembers);
+  yield takeLatest(studySpaceAction.ADD_NEW_MEMBER, addMembers);
+  yield takeLatest(studySpaceAction.DELETE_GROUP, deleteGroups);
+  yield takeLatest(studySpaceAction.UPDATE_GROUP, updateGroups);
   yield takeLatest(studySpaceAction.CREATE_NEW_GROUP, createNewGroups);
   yield takeLatest(studySpaceAction.GET_ALL_GROUP, fetchAllGroups);
 }
