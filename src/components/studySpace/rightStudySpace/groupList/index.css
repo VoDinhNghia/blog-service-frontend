@@ -13,15 +13,27 @@
 }
 
 .BtnRightStudySpace {
-  margin-right: 10px;
+  margin: 10px 40px 20px 0px;
+}
+
+.BtnMemberRightStudySpace {
+  margin-right: 100px;
+}
+
+.BtnTopicRightStudySpace {
+  margin-right: 20px;
 }
 
 .CollapaseRightStudySpace {
   margin-top: 10px;
 }
 
-.IconDeleteComment {
-  width: 11px;
-  height: 11px;
-  color: red;
+.ActionRightStudySpace {
+  float: right;
+}
+
+@media only screen and (min-width: 200px) and (max-width: 420px) {
+  .BtnRightStudySpace {
+    margin: 0px 0px 10px 10px;
+  }
 }

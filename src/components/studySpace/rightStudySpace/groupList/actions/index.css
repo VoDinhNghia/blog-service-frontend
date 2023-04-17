@@ -1,0 +1,49 @@
+.ActionGroupList {
+  float: right;
+}
+
+.IconToggleActionGroupList {
+  width: 25px;
+  height: 27px;
+  color: red;
+  border: 1px solid lightgray;
+}
+
+.MenuActionGroupList {
+  text-align: left;
+  width: 80px;
+}
+
+.BtnItemActionGroupList {
+  color: blue;
+  margin-right: 10px;
+}
+
+.BtnDeleteActionGroupList {
+    margin-right: 10px;
+    color: red;
+}
+
+.ItemActionGroupList {
+  color: blue;
+}
+
+.TitlePostUpdate {
+  color: blue;
+  font-size: 15px;
+}
+
+.HeaderModalMember button {
+  border: none;
+  height: 20px;
+  background-color: white;
+  color: red;
+}
+
+.HeaderModalMember button::before {
+  content: "x";
+}
+
+.BtnCancleModalAddMember {
+  float: right;
+}
