@@ -6,6 +6,7 @@ import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 import Form from "react-bootstrap/Form";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
+import { studySpaceAction } from "../../../../../store/action";
 import "./index.css";
 
 class ActionGroupList extends Component {
@@ -28,7 +29,7 @@ class ActionGroupList extends Component {
     this.setState(value);
   }
 
-  onChangeValue(event) {
+  onChangeName(event) {
     this.setState({
       groupName: event.target.value,
     });
@@ -46,13 +47,28 @@ class ActionGroupList extends Component {
     });
   }
 
-
   updateGroup() {
-    alert("this is update group func");
+    const { dispatch, groupInfo = {} } = this.props;
+    const { groupName, privateMode, description } = this.state;
+    const payload = {
+      name: groupName || groupName?.name,
+      privateMode: Boolean(privateMode || groupInfo?.privateMode),
+      description: description || groupInfo?.description,
+    };
+    dispatch({
+      type: studySpaceAction.UPDATE_GROUP,
+      id: groupInfo?.id,
+      payload,
+    });
+    this.props.fetchAllGroups();
+    this.closeModal({ isShowModal: false });
   }
 
   deleteGroup() {
-    alert("this is delete group func");
+    const { dispatch, groupInfo = {} } = this.props;
+    dispatch({ type: studySpaceAction.DELETE_GROUP, id: groupInfo?.id });
+    this.props.fetchAllGroups();
+    this.closeModal({ isShowModalDelete: false });
   }
 
   render() {
@@ -110,7 +126,6 @@ class ActionGroupList extends Component {
                 className="browser-default custom-select"
                 defaultValue={false}
                 name="privateMode"
-                value={groupInfo?.privateMode}
                 onChange={(event) => this.onChangePrivateMode(event)}
               >
                 <option value={false}>false</option>
@@ -121,7 +136,7 @@ class ActionGroupList extends Component {
                 placeholder="group name..."
                 aria-label="groupName"
                 name="groupName"
-                value={groupInfo?.name}
+                defaultValue={groupInfo?.name}
                 onChange={(event) => this.onChangeName(event)}
               />
               <Form.Label>Group description</Form.Label>
@@ -131,7 +146,7 @@ class ActionGroupList extends Component {
                 as="textarea"
                 rows={4}
                 name="description"
-                value={groupInfo?.description}
+                defaultValue={groupInfo?.description}
                 onChange={(event) => this.onChangeDescription(event)}
               />
             </Modal.Body>

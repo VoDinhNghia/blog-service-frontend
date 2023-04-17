@@ -12,3 +12,23 @@ export const getAllGroup = (payload) =>
     headers: authHeader(),
     params: payload,
   });
+
+export const updateGroup = (id, body) =>
+  axios.put(`${API_URL}/api/group/${id}`, body, {
+    headers: authHeader(),
+  });
+
+export const addMember = (groupId, body) => 
+  axios.put(`${API_URL}/api/group/member/${groupId}`, body, {
+    headers: authHeader(),
+  });
+
+export const deleteGroup = (id) =>
+  axios.delete(`${API_URL}/api/group/${id}`, {
+    headers: authHeader(),
+  });
+
+export const deleteMember = (id) =>
+  axios.delete(`${API_URL}/api/group/member/${id}`, {
+    headers: authHeader(),
+  });
