@@ -70,7 +70,7 @@ class NewGroup extends Component {
     const payload = {
       name: groupName,
       description,
-      privateMode,
+      privateMode: Boolean(privateMode),
       members,
     }
     dispatch({ type: studySpaceAction.CREATE_NEW_GROUP, payload });
