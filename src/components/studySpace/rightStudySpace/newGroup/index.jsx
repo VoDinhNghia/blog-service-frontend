@@ -7,7 +7,7 @@ import AuthService from "../../../../services/authService";
 import Modal from "react-bootstrap/Modal";
 import { Multiselect } from "multiselect-react-dropdown";
 import "./index.css";
-import { userAction } from "../../../../store/action";
+import { studySpaceAction, userAction } from "../../../../store/action";
 
 class NewGroup extends Component {
   constructor(props) {
@@ -65,7 +65,19 @@ class NewGroup extends Component {
   }
 
   createNewGroup() {
-    alert("create new group func");
+    const { dispatch } = this.props;
+    const { groupName, privateMode, description, members } = this.state;
+    const payload = {
+      name: groupName,
+      description,
+      privateMode,
+      members,
+    }
+    dispatch({ type: studySpaceAction.CREATE_NEW_GROUP, payload });
+    setTimeout(() => {
+      this.props.fetchAllGroups();
+    }, 100);
+    this.closeModal();
   }
 
   fetchAllUsers() {
