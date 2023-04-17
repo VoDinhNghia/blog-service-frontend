@@ -7,6 +7,7 @@ import AuthService from "../../../../services/authService";
 import Modal from "react-bootstrap/Modal";
 import { Multiselect } from "multiselect-react-dropdown";
 import "./index.css";
+import { userAction } from "../../../../store/action";
 
 class NewGroup extends Component {
   constructor(props) {
@@ -18,6 +19,10 @@ class NewGroup extends Component {
       description: "",
       members: [],
     };
+  }
+
+  componentDidMount() {
+    this.fetchAllUsers();
   }
 
   showModalNewGroup() {
@@ -63,14 +68,21 @@ class NewGroup extends Component {
     alert("create new group func");
   }
 
+  fetchAllUsers() {
+    const { dispatch } = this.props;
+    dispatch({ type: userAction.GET_ALL_USER, })
+  }
+
   render() {
-    const { isShowModal, members } = this.state;
-    console.log("members", members);
+    const { userList = [] } = this.props;
+    const { isShowModal } = this.state;
     const currentUser = AuthService.getCurrentUser();
-    const options = [
-      { name: "Srigar", id: "88373737-dhdhhd-888" },
-      { name: "Sam", id: "903939-dhdhhd-888" },
-    ];
+    const userOptions = userList.map((user) => {
+      return {
+        name: `${user?.lastName || ""} ${user?.middleName || ""} ${user?.firstName || ""}`,
+        id: user?.id,
+      }
+    })
 
     return (
       <div>
@@ -132,7 +144,7 @@ class NewGroup extends Component {
             />
             <Form.Label>Members</Form.Label>
             <Multiselect
-              options={options}
+              options={userOptions}
               onSelect={(value) => this.onSelectValue(value)}
               onRemove={this.onRemove}
               displayValue="name"
@@ -147,4 +159,9 @@ class NewGroup extends Component {
   }
 }
 
-export default connect()(NewGroup);
+function mapStateToProps(state) {
+  return {
+    userList: state.UserReducer.userList,
+  };
+}
+export default connect(mapStateToProps)(NewGroup);
