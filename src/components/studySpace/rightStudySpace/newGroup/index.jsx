@@ -7,7 +7,7 @@ import AuthService from "../../../../services/authService";
 import Modal from "react-bootstrap/Modal";
 import { Multiselect } from "multiselect-react-dropdown";
 import "./index.css";
-import { studySpaceAction, userAction } from "../../../../store/action";
+import { studySpaceAction } from "../../../../store/action";
 
 class NewGroup extends Component {
   constructor(props) {
@@ -19,10 +19,6 @@ class NewGroup extends Component {
       description: "",
       members: [],
     };
-  }
-
-  componentDidMount() {
-    this.fetchAllUsers();
   }
 
   showModalNewGroup() {
@@ -80,11 +76,6 @@ class NewGroup extends Component {
     this.closeModal();
   }
 
-  fetchAllUsers() {
-    const { dispatch } = this.props;
-    dispatch({ type: userAction.GET_ALL_USER, })
-  }
-
   render() {
     const { userList = [] } = this.props;
     const { isShowModal } = this.state;
@@ -138,6 +129,13 @@ class NewGroup extends Component {
               <option value={false}>false</option>
               <option value={true}>true</option>
             </Form.Select>
+            <Form.Label>Members</Form.Label>
+            <Multiselect
+              options={userOptions}
+              onSelect={(value) => this.onSelectValue(value)}
+              onRemove={this.onRemove}
+              displayValue="name"
+            />
             <Form.Label>Group name</Form.Label>
             <Form.Control
               placeholder="group name..."
@@ -153,13 +151,6 @@ class NewGroup extends Component {
               rows={4}
               name="description"
               onChange={(event) => this.onChangeDescription(event)}
-            />
-            <Form.Label>Members</Form.Label>
-            <Multiselect
-              options={userOptions}
-              onSelect={(value) => this.onSelectValue(value)}
-              onRemove={this.onRemove}
-              displayValue="name"
             />
           </Modal.Body>
           <Modal.Footer>

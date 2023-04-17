@@ -1,0 +1,20 @@
+.HeaderModalUpdateGroup button {
+  border: none;
+  height: 20px;
+  background-color: white;
+  color: red;
+}
+
+.HeaderModalUpdateGroup button::before {
+  content: "x";
+}
+
+.IconDeleteMember {
+  width: 11px;
+  height: 11px;
+  color: red;
+}
+
+.BtnAddNewMembers {
+  float: right;
+}

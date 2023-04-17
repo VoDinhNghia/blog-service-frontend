@@ -2,21 +2,19 @@ import React, { Component } from "react";
 import NewGroup from "./newGroup";
 import { connect } from "react-redux";
 import "./index.css";
-import { studySpaceAction } from "../../../store/action";
+import { studySpaceAction, userAction } from "../../../store/action";
 import { BsChevronDoubleRight, BsChevronDoubleLeft } from "react-icons/bs";
 import GroupListPage from "./groupList";
 
 class RightStudySpace extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      limit: 10,
-      page: 1,
-    };
+    this.state = {};
   }
 
   componentDidMount() {
     this.fetchAllGroups();
+    this.fetchAllUsers();
   }
 
   fetchAllGroups() {
@@ -28,22 +26,28 @@ class RightStudySpace extends Component {
     });
   }
 
+  fetchAllUsers() {
+    const { dispatch } = this.props;
+    dispatch({ type: userAction.GET_ALL_USER });
+  }
+
   render() {
     const { groupList = [] } = this.props;
-    const { page, limit } = this.state;
+
     return (
       <>
         <NewGroup fetchAllGroups={() => this.fetchAllGroups()} />
-        <GroupListPage groupList={groupList} page={page} limit={limit} />
+        <GroupListPage
+          groupList={groupList}
+          fetchAllGroups={() => this.fetchAllGroups()}
+        />
         {
           <button className="ButtonBack" onClick={() => this.goToBackPage()}>
             <BsChevronDoubleLeft /> back
           </button>
         }{" "}
         <button className="BtnNumberPage">current: {1}</button>
-        <button className="BtnTotalPage">
-          total: 1
-        </button>
+        <button className="BtnTotalPage">total: 1</button>
         <button className="ButtonNext" onClick={() => this.goToNextPage()}>
           next <BsChevronDoubleRight />
         </button>
