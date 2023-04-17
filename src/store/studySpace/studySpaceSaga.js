@@ -5,7 +5,7 @@ import { NotificationManager } from "react-notifications";
 
 function* fetchAllGroups({ payload }) {
   try {
-    const res = yield call(getAllGroup, payload?.userId);
+    const res = yield call(getAllGroup, payload);
     yield put({
       type: studySpaceAction.GET_ALL_GROUP_SUCCESS,
       payload: res?.data?.data,
