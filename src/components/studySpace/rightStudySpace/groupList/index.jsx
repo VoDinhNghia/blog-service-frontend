@@ -64,6 +64,12 @@ class GroupListPage extends Component {
     }, 100);
   }
 
+  leaveGroup(groupId) {
+    const { dispatch } = this.props;
+    dispatch({ type: studySpaceAction.LEAVE_GROUP, groupId });
+    this.fetchAllGroups();
+  }
+
   render() {
     const { groupList = [] } = this.props;
     const { isShowModalMember, openedTopicGroupId } = this.state;
@@ -85,21 +91,31 @@ class GroupListPage extends Component {
                           fetchAllGroups={() => this.fetchAllGroups()}
                         />
                       ) : null}
+                      {group?.members?.find((mem) => mem?.memberId === currentUser?.id) ? (
+                        <Button
+                          size="sm"
+                          variant="outline-danger"
+                          onClick={() => this.leaveGroup(group?.id)}
+                        >
+                          Leave
+                        </Button>
+                      ) : null}
                     </span>
                   </span>
                 </Card.Title>
                 <Card.Subtitle className="mb-2 text-muted TimeRightStudySpace">
-                  {`${moment(group?.createdAt || "").format(
-                    formatDateTime
-                  )} created by`}{" "}
-                  <Link
-                    to={routes.PERSONEL}
-                    state={{ userId: group?.createdById }}
-                  >
-                    {` ${group?.createdBy?.lastName || ""} ${
-                      group?.createdBy?.middleName || ""
-                    } ${group?.createdBy?.firstName || ""}`}
-                  </Link>
+                  {`${moment(group?.createdAt || "").format(formatDateTime)}`}{" "}
+                  {currentUser?.id === group?.createdById ? null : (
+                    <span>
+                      created by{" "}
+                      <Link
+                        to={routes.PERSONEL}
+                        state={{ userId: group?.createdById }}
+                      >{`${group?.createdBy?.lastName || ""} ${
+                        group?.createdBy?.middleName || ""
+                      } ${group?.createdBy?.firstName || ""}`}</Link>
+                    </span>
+                  )}
                 </Card.Subtitle>
                 <Card.Text>{group?.description}</Card.Text>
                 <p className="BtnRightStudySpace">
@@ -118,11 +134,12 @@ class GroupListPage extends Component {
                   </Button>
                 </p>
                 <MemberGroup
-                  memberList={group?.members}
                   isShowModalMember={isShowModalMember === group?.id}
                   closeModal={(value) => this.closeModal(value)}
                   permission={currentUser?.id === group?.createdById}
                   currentUser={currentUser}
+                  groupInfo={group}
+                  fetchAllGroups={() => this.fetchAllGroups()}
                 />
                 <div>
                   <Collapse in={openedTopicGroupId === group?.id}>

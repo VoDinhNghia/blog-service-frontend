@@ -6,6 +6,7 @@ import {
   deleteGroup,
   addMember,
   deleteMember,
+  leaveGroup
 } from "../../services/studySpaceService";
 import { studySpaceAction } from "../action";
 import { NotificationManager } from "react-notifications";
@@ -85,7 +86,21 @@ function* deleteMembers({ id }) {
   }
 }
 
+function* leaveGroups({ groupId }) {
+  try {
+    const res = yield call(leaveGroup, groupId);
+    NotificationManager.success(res?.data?.message, "Leave froup", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Leave group",
+      4000
+    );
+  }
+}
+
 function* watchStudySpaceSaga() {
+  yield takeLatest(studySpaceAction.LEAVE_GROUP, leaveGroups);
   yield takeLatest(studySpaceAction.DELETE_MEMBER, deleteMembers);
   yield takeLatest(studySpaceAction.ADD_NEW_MEMBER, addMembers);
   yield takeLatest(studySpaceAction.DELETE_GROUP, deleteGroups);
