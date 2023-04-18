@@ -6,7 +6,8 @@ import {
   deleteGroup,
   addMember,
   deleteMember,
-  leaveGroup
+  leaveGroup,
+  createNewTopic,
 } from "../../services/studySpaceService";
 import { studySpaceAction } from "../action";
 import { NotificationManager } from "react-notifications";
@@ -99,7 +100,21 @@ function* leaveGroups({ groupId }) {
   }
 }
 
+function* createNewTopics({ payload }) {
+  try {
+    const res = yield call(createNewTopic, payload);
+    NotificationManager.success(res?.data?.message, "Create new topic", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Create new topic",
+      4000
+    );
+  }
+}
+
 function* watchStudySpaceSaga() {
+  yield takeLatest(studySpaceAction.CREATE_NEW_TOPIC, createNewTopics);
   yield takeLatest(studySpaceAction.LEAVE_GROUP, leaveGroups);
   yield takeLatest(studySpaceAction.DELETE_MEMBER, deleteMembers);
   yield takeLatest(studySpaceAction.ADD_NEW_MEMBER, addMembers);
