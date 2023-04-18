@@ -37,3 +37,8 @@ export const leaveGroup = (groupId) =>
   axios.delete(`${API_URL}/api/group/leave/${groupId}`, {
     headers: authHeader(),
   });
+
+  export const createNewTopic = (body) =>
+  axios.post(`${API_URL}/api/topic`, body, {
+    headers: authHeader(),
+  });

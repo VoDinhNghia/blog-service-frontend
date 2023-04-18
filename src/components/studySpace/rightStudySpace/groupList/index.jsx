@@ -17,6 +17,7 @@ import { BsPlusCircle } from "react-icons/bs";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { MdTopic } from "react-icons/md";
 import { FcViewDetails } from "react-icons/fc";
+import CreateNewTopicModal from "./newTopic";
 
 class GroupListPage extends Component {
   constructor(props) {
@@ -24,6 +25,8 @@ class GroupListPage extends Component {
     this.state = {
       isShowModalMember: false,
       openedTopicGroupId: null,
+      isShowModalNewTopic: false,
+      groupId: null,
     };
   }
 
@@ -53,6 +56,13 @@ class GroupListPage extends Component {
     }
   }
 
+  showModalNewTopic(groupId) {
+    this.setState({
+      isShowModalNewTopic: true,
+      groupId,
+    });
+  }
+
   closeModal(value) {
     this.setState(value);
   }
@@ -76,7 +86,12 @@ class GroupListPage extends Component {
 
   render() {
     const { groupList = [] } = this.props;
-    const { isShowModalMember, openedTopicGroupId } = this.state;
+    const {
+      isShowModalMember,
+      openedTopicGroupId,
+      isShowModalNewTopic,
+      groupId,
+    } = this.state;
     const currentUser = AuthService.getCurrentUser();
 
     return (
@@ -154,25 +169,47 @@ class GroupListPage extends Component {
                     <div>
                       <hr />
                       <Row>
-                        <Col className="col-6">
-                          <Card className="flex-fill CardItemTopic" key={"##"}>
-                            <Card.Body>
-                              <Card.Title>title</Card.Title>
-                              <Card.Subtitle>
-                                createdAt, created by
-                              </Card.Subtitle>
-                              <Card.Text>description</Card.Text>
-                              <Button variant="light" className="BtnViewDetailCardItem">
-                                <Link to={routes.STUDY_SPACE_TOPIC}>
-                                 <FcViewDetails /> View
-                                </Link>
-                              </Button>
-                            </Card.Body>
-                          </Card>
-                        </Col>
+                        {group?.topics?.map((topic) => {
+                          return (
+                            <Col className="col-6" key={topic?.id}>
+                              <Card
+                                className="flex-fill CardItemTopic"
+                                key={topic?.id}
+                              >
+                                <Card.Body>
+                                  <Card.Title>{topic?.name}</Card.Title>
+                                  <Card.Text>
+                                    {topic?.description?.slice(0, 40)}...
+                                  </Card.Text>
+                                  <Button
+                                    variant="light"
+                                    className="BtnViewDetailCardItem"
+                                  >
+                                    <Link
+                                      to={routes.STUDY_SPACE_TOPIC}
+                                      state={{ topicId: topic?.id }}
+                                    >
+                                      <FcViewDetails /> View
+                                    </Link>
+                                  </Button>
+                                </Card.Body>
+                              </Card>
+                            </Col>
+                          );
+                        })}
                       </Row>
                       <hr />
-                      <Button variant="outline-primary"><BsPlusCircle /> Add new topic</Button>
+                      {currentUser?.id === group?.createdById ||
+                      group?.members?.find(
+                        (mem) => mem?.memberId === currentUser?.id
+                      ) ? (
+                        <Button
+                          variant="outline-primary"
+                          onClick={() => this.showModalNewTopic(group?.id)}
+                        >
+                          <BsPlusCircle /> Add new topic
+                        </Button>
+                      ) : null}
                     </div>
                   </Collapse>
                 </div>
@@ -180,6 +217,12 @@ class GroupListPage extends Component {
             </Card>
           );
         })}
+        <CreateNewTopicModal
+          isShowModalNewTopic={isShowModalNewTopic}
+          closeModal={(value) => this.closeModal(value)}
+          groupId={groupId}
+          fetchAllGroups={() => this.fetchAllGroups()}
+        />
       </div>
     );
   }
