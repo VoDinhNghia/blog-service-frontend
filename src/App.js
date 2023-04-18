@@ -11,6 +11,7 @@ import "react-notifications/lib/notifications.css";
 import { NotificationContainer } from "react-notifications";
 import PersonelPage from "./components/personelPage/index";
 import StudySpacePage from "./components/studySpace";
+import TopicPage from "./components/topicPage";
 
 class App extends Component {
   constructor(props) {
@@ -48,6 +49,14 @@ class App extends Component {
             element={
               <PrivateRoute>
                 <StudySpacePage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={routes.STUDY_SPACE_TOPIC}
+            element={
+              <PrivateRoute>
+                <TopicPage />
               </PrivateRoute>
             }
           />

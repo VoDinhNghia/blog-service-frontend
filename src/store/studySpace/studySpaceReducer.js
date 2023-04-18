@@ -3,7 +3,8 @@ import { studySpaceAction } from "../action";
 const initState = {
   groupList: [],
   totalGroup: 0,
-}
+  topicInfo: {},
+};
 
 const StudySpaceReducer = (state = initState, action) => {
   switch (action.type) {
@@ -17,6 +18,12 @@ const StudySpaceReducer = (state = initState, action) => {
         ...state,
         groupList: action?.payload?.results,
         totalGroup: action?.payload?.total,
+      };
+    case studySpaceAction.GET_TOPIC_BY_ID_SUCCESS:
+      return {
+        ...state,
+        topicInfo: action?.payload,
+        isLoading: false,
       };
     default:
       return state;

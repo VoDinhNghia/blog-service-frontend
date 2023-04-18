@@ -58,6 +58,8 @@ class CreateNewTopicModal extends Component {
           <Form.Control
             placeholder="topic description..."
             aria-label="description"
+            as="textarea"
+            rows={4}
             name="description"
             onChange={(event) => this.onChangeDescription(event)}
           />

@@ -177,9 +177,21 @@ class GroupListPage extends Component {
                                 key={topic?.id}
                               >
                                 <Card.Body>
-                                  <Card.Title>{topic?.name}</Card.Title>
+                                  <Card.Title>
+                                    <Link
+                                      to={routes.STUDY_SPACE_TOPIC}
+                                      state={{ topicId: topic?.id }}
+                                      style={{color: "#283035"}}
+                                    >
+                                      {topic?.name?.length > 30
+                                        ? `${topic?.name?.slice(0, 30)}...`
+                                        : topic?.name}
+                                    </Link>
+                                  </Card.Title>
                                   <Card.Text>
-                                    {topic?.description?.slice(0, 40)}...
+                                    {topic?.description?.length > 40
+                                      ? `${topic?.description?.slice(0, 40)}...`
+                                      : topic?.description}
                                   </Card.Text>
                                   <Button
                                     variant="light"
