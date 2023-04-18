@@ -6,6 +6,7 @@ import { BsSearch } from "react-icons/bs";
 import "./index.css";
 import { connect } from "react-redux";
 import MenuMain from "../menuMain";
+import { studySpaceAction } from "../../../store/action";
 
 class MenuStudySpacePage extends Component {
   constructor(props) {
@@ -26,9 +27,14 @@ class MenuStudySpacePage extends Component {
   }
 
   searchPost() {
-    const { dispatch } = this.props;
+    const { dispatch, userId } = this.props;
     const { searchKey } = this.state;
-    console.log(dispatch, searchKey);
+    setTimeout(() => {
+      dispatch({
+        type: studySpaceAction.GET_ALL_GROUP,
+        payload: { createdById: userId, searchKey },
+      });
+    }, 100);
   }
 
   render() {
