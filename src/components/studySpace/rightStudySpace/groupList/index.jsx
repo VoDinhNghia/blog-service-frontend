@@ -7,15 +7,23 @@ import { Button } from "react-bootstrap";
 import ActionGroupList from "./actions";
 import MemberGroup from "./members";
 import AuthService from "../../../../services/authService";
+import Collapse from "react-bootstrap/Collapse";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 import { studySpaceAction } from "../../../../store/action";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { BsPlusCircle } from "react-icons/bs";
+import { AiOutlineUsergroupAdd } from "react-icons/ai";
+import { MdTopic } from "react-icons/md";
+import { FcViewDetails } from "react-icons/fc";
 
 class GroupListPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isShowModalMember: false,
+      openedTopicGroupId: null,
     };
   }
 
@@ -28,6 +36,19 @@ class GroupListPage extends Component {
     } else {
       this.setState({
         isShowModalMember: null,
+      });
+    }
+  }
+
+  showTopics(groupId) {
+    const { openedTopicGroupId } = this.state;
+    if (openedTopicGroupId !== groupId) {
+      this.setState({
+        openedTopicGroupId: groupId,
+      });
+    } else {
+      this.setState({
+        openedTopicGroupId: null,
       });
     }
   }
@@ -55,7 +76,7 @@ class GroupListPage extends Component {
 
   render() {
     const { groupList = [] } = this.props;
-    const { isShowModalMember } = this.state;
+    const { isShowModalMember, openedTopicGroupId } = this.state;
     const currentUser = AuthService.getCurrentUser();
 
     return (
@@ -74,7 +95,9 @@ class GroupListPage extends Component {
                           fetchAllGroups={() => this.fetchAllGroups()}
                         />
                       ) : null}
-                      {group?.members?.find((mem) => mem?.memberId === currentUser?.id) ? (
+                      {group?.members?.find(
+                        (mem) => mem?.memberId === currentUser?.id
+                      ) ? (
                         <Button
                           size="sm"
                           variant="outline-danger"
@@ -104,14 +127,18 @@ class GroupListPage extends Component {
                 <p className="BtnRightStudySpace">
                   <Button
                     className="BtnTopicRightStudySpace"
+                    variant="outline-primary"
+                    aria-expanded={openedTopicGroupId === group?.id}
+                    onClick={() => this.showTopics(group?.id)}
                   >
-                    <Link to={routes.STUDY_SPACE_TOPIC} style={{color: "white"}}>Topics</Link>
+                    <MdTopic /> Topics
                   </Button>
                   <Button
+                    variant="outline-primary"
                     className="BtnMemberRightStudySpace"
                     onClick={() => this.showModal(group?.id)}
                   >
-                    Members
+                    <AiOutlineUsergroupAdd /> Members
                   </Button>
                 </p>
                 <MemberGroup
@@ -122,6 +149,33 @@ class GroupListPage extends Component {
                   groupInfo={group}
                   fetchAllGroups={() => this.fetchAllGroups()}
                 />
+                <div>
+                  <Collapse in={openedTopicGroupId === group?.id}>
+                    <div>
+                      <hr />
+                      <Row>
+                        <Col className="col-6">
+                          <Card className="flex-fill CardItemTopic" key={"##"}>
+                            <Card.Body>
+                              <Card.Title>title</Card.Title>
+                              <Card.Subtitle>
+                                createdAt, created by
+                              </Card.Subtitle>
+                              <Card.Text>description</Card.Text>
+                              <Button variant="light" className="BtnViewDetailCardItem">
+                                <Link to={routes.STUDY_SPACE_TOPIC}>
+                                 <FcViewDetails /> View
+                                </Link>
+                              </Button>
+                            </Card.Body>
+                          </Card>
+                        </Col>
+                      </Row>
+                      <hr />
+                      <Button variant="outline-primary"><BsPlusCircle /> Add new topic</Button>
+                    </div>
+                  </Collapse>
+                </div>
               </Card.Body>
             </Card>
           );
