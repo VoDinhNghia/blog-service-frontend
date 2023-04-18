@@ -32,3 +32,8 @@ export const deleteMember = (id) =>
   axios.delete(`${API_URL}/api/group/member/${id}`, {
     headers: authHeader(),
   });
+
+export const leaveGroup = (groupId) =>
+  axios.delete(`${API_URL}/api/group/leave/${groupId}`, {
+    headers: authHeader(),
+  });
