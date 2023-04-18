@@ -8,6 +8,7 @@ import {
   deleteMember,
   leaveGroup,
   createNewTopic,
+  getTopicById,
 } from "../../services/studySpaceService";
 import { studySpaceAction } from "../action";
 import { NotificationManager } from "react-notifications";
@@ -113,7 +114,24 @@ function* createNewTopics({ payload }) {
   }
 }
 
+function* fetchTopicById({ id }) {
+  try {
+    const res = yield call(getTopicById, id);
+    yield put({
+      type: studySpaceAction.GET_TOPIC_BY_ID_SUCCESS,
+      payload: res?.data?.data,
+    });
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Get topic by id",
+      4000
+    );
+  }
+}
+
 function* watchStudySpaceSaga() {
+  yield takeLatest(studySpaceAction.GET_TOPIC_BY_ID, fetchTopicById);
   yield takeLatest(studySpaceAction.CREATE_NEW_TOPIC, createNewTopics);
   yield takeLatest(studySpaceAction.LEAVE_GROUP, leaveGroups);
   yield takeLatest(studySpaceAction.DELETE_MEMBER, deleteMembers);

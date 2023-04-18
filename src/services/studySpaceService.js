@@ -18,7 +18,7 @@ export const updateGroup = (id, body) =>
     headers: authHeader(),
   });
 
-export const addMember = (groupId, body) => 
+export const addMember = (groupId, body) =>
   axios.put(`${API_URL}/api/group/member/${groupId}`, body, {
     headers: authHeader(),
   });
@@ -38,7 +38,12 @@ export const leaveGroup = (groupId) =>
     headers: authHeader(),
   });
 
-  export const createNewTopic = (body) =>
+export const createNewTopic = (body) =>
   axios.post(`${API_URL}/api/topic`, body, {
+    headers: authHeader(),
+  });
+
+export const getTopicById = (id) =>
+  axios.get(`${API_URL}/api/topic/${id}`, {
     headers: authHeader(),
   });
