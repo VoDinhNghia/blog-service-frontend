@@ -4,9 +4,6 @@ import Card from "react-bootstrap/Card";
 import moment from "moment/moment";
 import { formatDateTime, routes } from "../../../../common/constant";
 import { Button } from "react-bootstrap";
-import Collapse from "react-bootstrap/Collapse";
-import Table from "react-bootstrap/Table";
-import { BsFillTrashFill } from "react-icons/bs";
 import ActionGroupList from "./actions";
 import MemberGroup from "./members";
 import AuthService from "../../../../services/authService";
@@ -18,7 +15,6 @@ class GroupListPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      openedTopicGroupId: "",
       isShowModalMember: false,
     };
   }
@@ -40,19 +36,6 @@ class GroupListPage extends Component {
     this.setState(value);
   }
 
-  showTopics(groupId) {
-    const { openedTopicGroupId } = this.state;
-    if (openedTopicGroupId !== groupId) {
-      this.setState({
-        openedTopicGroupId: groupId,
-      });
-    } else {
-      this.setState({
-        openedTopicGroupId: null,
-      });
-    }
-  }
-
   fetchAllGroups() {
     const { dispatch, userId } = this.props;
     const { limit, page } = this.state;
@@ -72,7 +55,7 @@ class GroupListPage extends Component {
 
   render() {
     const { groupList = [] } = this.props;
-    const { isShowModalMember, openedTopicGroupId } = this.state;
+    const { isShowModalMember } = this.state;
     const currentUser = AuthService.getCurrentUser();
 
     return (
@@ -121,10 +104,8 @@ class GroupListPage extends Component {
                 <p className="BtnRightStudySpace">
                   <Button
                     className="BtnTopicRightStudySpace"
-                    aria-expanded={openedTopicGroupId === group?.id}
-                    onClick={() => this.showTopics(group?.id)}
                   >
-                    Topics
+                    <Link to={routes.STUDY_SPACE_TOPIC} style={{color: "white"}}>Topics</Link>
                   </Button>
                   <Button
                     className="BtnMemberRightStudySpace"
@@ -141,44 +122,6 @@ class GroupListPage extends Component {
                   groupInfo={group}
                   fetchAllGroups={() => this.fetchAllGroups()}
                 />
-                <div>
-                  <Collapse in={openedTopicGroupId === group?.id}>
-                    <Table striped className="CollapaseRightStudySpace">
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>name</th>
-                          <th>createdAt</th>
-                          {currentUser?.id === group?.createdById ? (
-                            <th>action</th>
-                          ) : null}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {group?.topics?.map((topic, index) => {
-                          return (
-                            <tr key={topic?.id}>
-                              <td>{index + 1}</td>
-                              <td>{`${topic?.name || ""}`}</td>
-                              <td>
-                                {moment(topic?.createdAt || "").format(
-                                  formatDateTime
-                                )}
-                              </td>
-                              {currentUser?.id === group?.createdById ? (
-                                <td>
-                                  <Button variant="light" size="sm">
-                                    <BsFillTrashFill className="IconDeleteComment" />
-                                  </Button>
-                                </td>
-                              ) : null}
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </Table>
-                  </Collapse>
-                </div>
               </Card.Body>
             </Card>
           );

@@ -14,6 +14,7 @@ export const routes = {
   HOME: "/home",
   PERSONEL: "/personel",
   STUDY_SPACE: "/study-space",
+  STUDY_SPACE_TOPIC: "/study-space-topic",
 };
 
 export const typePostListPage = {
