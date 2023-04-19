@@ -7,7 +7,9 @@ import { formatDateTime, routes } from "../../../common/constant";
 import { Card, Button } from "react-bootstrap";
 import ActionTopicDetail from "./actions";
 import { Link } from "react-router-dom";
-import { BsFillPlusSquareFill } from "react-icons/bs";
+import { BsFillPlusSquareFill, BsFillTrashFill } from "react-icons/bs";
+import { FcViewDetails } from "react-icons/fc";
+import AuthService from "../../../services/authService";
 
 class RightTopicPage extends Component {
   constructor(props) {
@@ -26,6 +28,8 @@ class RightTopicPage extends Component {
 
   render() {
     const { topicInfo = {} } = this.props;
+    const currentUser = AuthService.getCurrentUser();
+
     return (
       <>
         <div className="TopicDetailPage">
@@ -33,7 +37,9 @@ class RightTopicPage extends Component {
             <h4>
               {topicInfo?.name}{" "}
               <span className="ActionTopic">
-                <ActionTopicDetail />
+                {currentUser?.id === topicInfo?.createdBy?.id ? (
+                  <ActionTopicDetail topicInfo={topicInfo} />
+                ) : null}
               </span>
             </h4>
           </div>
@@ -57,17 +63,26 @@ class RightTopicPage extends Component {
               <b>Description</b>: {topicInfo?.description}
             </p>
           </div>
+        </div>
+        <hr />
+        <div className="BtnAddProblem">
           <Button variant="outline-primary">
             <BsFillPlusSquareFill /> Add new problem
           </Button>
         </div>
-        <hr />
         <div>
           {topicInfo?.studyProblems?.map((problem) => {
             return (
               <Card className="RightTopicPage" key={problem?.id}>
                 <Card.Body>
                   <Card.Title>
+                    <img
+                      src={
+                        problem?.createdBy?.avatar || "/image/icon-login.png"
+                      }
+                      alt=""
+                      className="IconUserCreateProblem"
+                    />
                     <Link
                       to={routes.PERSONEL}
                       state={{ userId: problem?.createdById }}
@@ -81,10 +96,29 @@ class RightTopicPage extends Component {
                     </p>
                   </Card.Title>
                   <Card.Text>{problem?.problem}</Card.Text>
-                  <div>
-                    <Button size="sm">View Solution</Button>
-                    <Button size="sm">Add Solution</Button>
-                    <Button size="sm">Delete Problem</Button>
+                  <hr />
+                  <div className="BtnProblemCard">
+                    <Button
+                      variant="outline-primary"
+                      size="sm"
+                      className="BtnViewSolution"
+                    >
+                      <FcViewDetails /> View Solution
+                    </Button>
+                    <Button
+                      variant="outline-primary"
+                      size="sm"
+                      className="BtnAddSolution"
+                    >
+                      <BsFillPlusSquareFill /> Add Solution
+                    </Button>
+                    <Button
+                      variant="outline-danger"
+                      size="sm"
+                      className="BtnDeleteProblem"
+                    >
+                      <BsFillTrashFill /> Delete Problem
+                    </Button>
                   </div>
                 </Card.Body>
               </Card>

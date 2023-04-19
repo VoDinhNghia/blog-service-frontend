@@ -47,3 +47,18 @@ export const getTopicById = (id) =>
   axios.get(`${API_URL}/api/topic/${id}`, {
     headers: authHeader(),
   });
+
+export const updateTopic = (topicId, body) =>
+  axios.put(`${API_URL}/api/topic/${topicId}`, body, {
+    headers: authHeader(),
+  });
+
+export const deleteTopic = (topicId) =>
+  axios.delete(`${API_URL}/api/topic/${topicId}`, {
+    headers: authHeader(),
+  });
+
+export const createNewProblem = (body) =>
+  axios.post(`${API_URL}/api/problem`, body, {
+    headers: authHeader(),
+  });
