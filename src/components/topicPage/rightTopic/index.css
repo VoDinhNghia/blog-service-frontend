@@ -20,11 +20,6 @@
 .ContentTopicInfo {
   padding-left: 20px;
   padding-top: 10px;
-  line-height: 15px;
-}
-
-.BtnAddProblem {
-  float: right;
 }
 
 .RightTopicPage {
@@ -40,4 +35,34 @@
 .ShowTimeProblem {
   font-size: 12px;
   color: gray;
+}
+
+.BtnAddProblem {
+  margin: 15px;
+}
+
+.BtnProblemCard {
+  margin: 20px 20px 10px 0px;
+}
+
+.BtnViewSolution {
+  margin-right: 10px;
+}
+
+.BtnAddSolution {
+  margin-right: 10px;
+}
+
+.BtnDeleteProblem {
+  margin-right: 100px;
+}
+
+.IconUserCreateProblem {
+  width: 30px;
+  height: 30px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  float: left;
+  margin-right: 20px;
 }

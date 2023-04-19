@@ -9,6 +9,9 @@ import {
   leaveGroup,
   createNewTopic,
   getTopicById,
+  updateTopic,
+  deleteTopic,
+  createNewProblem,
 } from "../../services/studySpaceService";
 import { studySpaceAction } from "../action";
 import { NotificationManager } from "react-notifications";
@@ -130,7 +133,49 @@ function* fetchTopicById({ id }) {
   }
 }
 
+function* updateTopics({ id, payload }) {
+  try {
+    const res = yield call(updateTopic, id, payload);
+    NotificationManager.success(res?.data?.message, "Update topic", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Update topic",
+      4000
+    );
+  }
+}
+
+function* deleteTopics({ id }) {
+  try {
+    const res = yield call(deleteTopic, id);
+    NotificationManager.success(res?.data?.message, "Delete topic", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Delete topic",
+      4000
+    );
+  }
+}
+
+function* createNewProblems({ payload }) {
+  try {
+    const res = yield call(createNewProblem, payload);
+    NotificationManager.success(res?.data?.message, "Create new problem", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Create new problem",
+      4000
+    );
+  }
+}
+
 function* watchStudySpaceSaga() {
+  yield takeLatest(studySpaceAction.CREATE_NEW_PROBLEM, createNewProblems);
+  yield takeLatest(studySpaceAction.DELETE_TOPIC, deleteTopics);
+  yield takeLatest(studySpaceAction.UPDATE_TOPIC, updateTopics);
   yield takeLatest(studySpaceAction.GET_TOPIC_BY_ID, fetchTopicById);
   yield takeLatest(studySpaceAction.CREATE_NEW_TOPIC, createNewTopics);
   yield takeLatest(studySpaceAction.LEAVE_GROUP, leaveGroups);
