@@ -1,19 +1,15 @@
 import React, { Component } from "react";
 import "./index.css";
-import Card from "react-bootstrap/Card";
 import moment from "moment/moment";
 import { formatDateTime, routes } from "../../../../common/constant";
-import { Button } from "react-bootstrap";
 import ActionGroupList from "./actions";
 import MemberGroup from "./members";
 import AuthService from "../../../../services/authService";
-import Collapse from "react-bootstrap/Collapse";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
+import { Collapse, Modal, Col, Row, Button, Card } from "react-bootstrap";
 import { studySpaceAction } from "../../../../store/action";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { BsPlusCircle } from "react-icons/bs";
+import { BsPlusCircle, BsFillTrashFill } from "react-icons/bs";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { MdTopic } from "react-icons/md";
 import { FcViewDetails } from "react-icons/fc";
@@ -27,6 +23,7 @@ class GroupListPage extends Component {
       openedTopicGroupId: null,
       isShowModalNewTopic: false,
       groupId: null,
+      isShowModalDeleteTopic: false,
     };
   }
 
@@ -63,6 +60,12 @@ class GroupListPage extends Component {
     });
   }
 
+  showModalDeleteTopic() {
+    this.setState({
+      isShowModalDeleteTopic: true,
+    })
+  }
+
   closeModal(value) {
     this.setState(value);
   }
@@ -84,6 +87,15 @@ class GroupListPage extends Component {
     this.fetchAllGroups();
   }
 
+  deleteTopic(topicId) {
+    const { dispatch } = this.props;
+    dispatch({ type: studySpaceAction.DELETE_TOPIC, id: topicId });
+    this.fetchAllGroups();
+    this.closeModal({
+      isShowModalDeleteTopic: false,
+    });
+  }
+
   render() {
     const { groupList = [] } = this.props;
     const {
@@ -91,6 +103,7 @@ class GroupListPage extends Component {
       openedTopicGroupId,
       isShowModalNewTopic,
       groupId,
+      isShowModalDeleteTopic,
     } = this.state;
     const currentUser = AuthService.getCurrentUser();
 
@@ -181,7 +194,7 @@ class GroupListPage extends Component {
                                     <Link
                                       to={routes.STUDY_SPACE_TOPIC}
                                       state={{ topicId: topic?.id }}
-                                      style={{color: "#283035"}}
+                                      style={{ color: "#283035" }}
                                     >
                                       {topic?.name?.length > 30
                                         ? `${topic?.name?.slice(0, 30)}...`
@@ -195,7 +208,16 @@ class GroupListPage extends Component {
                                   </Card.Text>
                                   <Button
                                     variant="light"
+                                    className="BtnDeleteCardItemTopic"
+                                    size="sm"
+                                    onClick={() => this.showModalDeleteTopic()}
+                                  >
+                                    <BsFillTrashFill /> Delete
+                                  </Button>
+                                  <Button
+                                    variant="light"
                                     className="BtnViewDetailCardItem"
+                                    size="sm"
                                   >
                                     <Link
                                       to={routes.STUDY_SPACE_TOPIC}
@@ -204,6 +226,30 @@ class GroupListPage extends Component {
                                       <FcViewDetails /> View
                                     </Link>
                                   </Button>
+                                  <Modal
+                                    show={isShowModalDeleteTopic}
+                                    onHide={() => this.closeModal({ isShowModalDeleteTopic: false })}
+                                    size="sm"
+                                  >
+                                    <Modal.Body>
+                                      <p>
+                                        Are you sure you want to delete this
+                                        topic "<b>{topic?.name?.slice(0, 10)}...</b>"?
+                                      </p>
+                                      <Button
+                                        variant="danger"
+                                        className="BtnCancleModalAddMember"
+                                        onClick={() => this.closeModal({ isShowModalDeleteTopic: false })}
+                                      >
+                                        Cancle
+                                      </Button>
+                                      <Button
+                                        onClick={() => this.deleteTopic(topic?.id)}
+                                      >
+                                        Ok
+                                      </Button>
+                                    </Modal.Body>
+                                  </Modal>
                                 </Card.Body>
                               </Card>
                             </Col>

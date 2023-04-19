@@ -10,11 +10,14 @@ import { Link } from "react-router-dom";
 import { BsFillPlusSquareFill, BsFillTrashFill } from "react-icons/bs";
 import { FcViewDetails } from "react-icons/fc";
 import AuthService from "../../../services/authService";
+import AddNewProblemModal from "./newProblem";
 
 class RightTopicPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isShowModalAddProblem: false,
+    };
   }
 
   componentDidMount() {
@@ -26,8 +29,21 @@ class RightTopicPage extends Component {
     dispatch({ type: studySpaceAction.GET_TOPIC_BY_ID, id: topicId });
   }
 
+  showModalAddProblem() {
+    this.setState({
+      isShowModalAddProblem: true,
+    });
+  }
+
+  closeModalAddProblem() {
+    this.setState({
+      isShowModalAddProblem: false,
+    });
+  }
+
   render() {
     const { topicInfo = {} } = this.props;
+    const { isShowModalAddProblem } = this.state;
     const currentUser = AuthService.getCurrentUser();
 
     return (
@@ -66,9 +82,17 @@ class RightTopicPage extends Component {
         </div>
         <hr />
         <div className="BtnAddProblem">
-          <Button variant="outline-primary">
+          <Button
+            variant="outline-primary"
+            onClick={() => this.showModalAddProblem()}
+          >
             <BsFillPlusSquareFill /> Add new problem
           </Button>
+          <AddNewProblemModal
+            isShowModalAddProblem={isShowModalAddProblem}
+            closeModalAddProblem={() => this.closeModalAddProblem()}
+            topicId={topicInfo?.id}
+          />
         </div>
         <div>
           {topicInfo?.studyProblems?.map((problem) => {

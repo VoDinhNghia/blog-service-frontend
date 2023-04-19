@@ -39,10 +39,16 @@
 
 .BtnViewDetailCardItem {
   float: right;
+  margin-right: 5px;
 }
 
 .BtnViewDetailCardItem Link:hover {
   color: white;
+}
+
+.BtnDeleteCardItemTopic {
+  float: right;
+  color: red;
 }
 
 @media only screen and (min-width: 200px) and (max-width: 350px) {
