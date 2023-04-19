@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./index.css";
 import { connect } from "react-redux";
 import { Dropdown, Modal, Form, Button } from "react-bootstrap";
-import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
+import { BsFillPencilFill } from "react-icons/bs";
 import { studySpaceAction } from "../../../../store/action";
 
 class ActionTopicDetail extends Component {
@@ -10,7 +10,6 @@ class ActionTopicDetail extends Component {
     super(props);
     this.state = {
       isShowModal: false,
-      isShowModalDelete: false,
       name: "",
       description: "",
     }
@@ -70,26 +69,11 @@ class ActionTopicDetail extends Component {
 
             <Dropdown.Menu className="MenuActionGroupList">
               <Dropdown.Item
-                onClick={() =>
-                  this.showModal({
-                    isShowModal: true,
-                  })
-                }
+                onClick={() => this.showModal()}
                 className="ItemActionGroupList"
               >
                 <BsFillPencilFill className="BtnItemActionGroupList" />
                 Update topic
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() =>
-                  this.showModal({
-                    isShowModalDelete: true,
-                  })
-                }
-                className="ItemActionGroupList"
-              >
-                <BsFillTrashFill className="BtnDeleteActionGroupList" /> Delete
-                topic
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
