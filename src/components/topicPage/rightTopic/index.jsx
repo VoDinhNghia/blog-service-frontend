@@ -3,7 +3,11 @@ import { connect } from "react-redux";
 import "./index.css";
 import { studySpaceAction } from "../../../store/action";
 import moment from "moment/moment";
-import { formatDateTime } from "../../../common/constant";
+import { formatDateTime, routes } from "../../../common/constant";
+import { Card, Button } from "react-bootstrap";
+import ActionTopicDetail from "./actions";
+import { Link } from "react-router-dom";
+import { BsFillPlusSquareFill } from "react-icons/bs";
 
 class RightTopicPage extends Component {
   constructor(props) {
@@ -25,26 +29,67 @@ class RightTopicPage extends Component {
     return (
       <>
         <div className="TopicDetailPage">
-          <span><h4>Topic Infomation <p className="ActionTopic">action (update, delete, add new problem)</p></h4></span>
-          <p>
-            <b>Name</b>: {topicInfo?.name}
-          </p>
-          <p>
-            <b>Created by</b>:{" "}
-            {`${topicInfo?.createdBy?.lastName || ""} ${
-              topicInfo?.createdBy?.middleName || ""
-            } ${topicInfo?.createdBy?.firstName || ""}`}
-          </p>
-          <p>
-            <b>CreateAt</b>:{" "}
-            {moment(topicInfo?.createdAt).format(formatDateTime)}
-          </p>
-          <p>
-            <b>Description</b>: {topicInfo?.description}
-          </p>
+          <div className="TitleTopicInfo">
+            <h4>
+              {topicInfo?.name}{" "}
+              <span className="ActionTopic">
+                <ActionTopicDetail />
+              </span>
+            </h4>
+          </div>
+          <div className="ContentTopicInfo">
+            <p>
+              <b>Created by</b>:{" "}
+              <Link
+                to={routes.PERSONEL}
+                state={{ userId: topicInfo?.createdBy?.id }}
+              >
+                {`${topicInfo?.createdBy?.lastName || ""} ${
+                  topicInfo?.createdBy?.middleName || ""
+                } ${topicInfo?.createdBy?.firstName || ""}`}
+              </Link>
+            </p>
+            <p>
+              <b>CreateAt</b>:{" "}
+              {moment(topicInfo?.createdAt).format(formatDateTime)}
+            </p>
+            <p>
+              <b>Description</b>: {topicInfo?.description}
+            </p>
+          </div>
+          <Button variant="outline-primary">
+            <BsFillPlusSquareFill /> Add new problem
+          </Button>
         </div>
+        <hr />
         <div>
-            List problems
+          {topicInfo?.studyProblems?.map((problem) => {
+            return (
+              <Card className="RightTopicPage" key={problem?.id}>
+                <Card.Body>
+                  <Card.Title>
+                    <Link
+                      to={routes.PERSONEL}
+                      state={{ userId: problem?.createdById }}
+                    >{`${problem?.createdBy?.lastName || ""} ${
+                      problem?.createdBy?.middleName || ""
+                    } ${problem?.createdBy?.firstName || ""}`}</Link>
+                    <p className="ShowTimeProblem">
+                      {`${moment(problem?.createdAt || "").format(
+                        formatDateTime
+                      )}`}
+                    </p>
+                  </Card.Title>
+                  <Card.Text>{problem?.problem}</Card.Text>
+                  <div>
+                    <Button size="sm">View Solution</Button>
+                    <Button size="sm">Add Solution</Button>
+                    <Button size="sm">Delete Problem</Button>
+                  </div>
+                </Card.Body>
+              </Card>
+            );
+          })}
         </div>
       </>
     );
