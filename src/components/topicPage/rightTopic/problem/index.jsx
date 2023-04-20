@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import AuthService from "../../../../services/authService";
 import ActionProblem from "./actionProblem";
 import SolutionList from "./solution";
+import { studySpaceAction } from "../../../../store/action";
 
 class ProblemList extends Component {
   constructor(props) {
@@ -28,6 +29,13 @@ class ProblemList extends Component {
         openedProblemId: null,
       });
     }
+  }
+
+  fetchTopicInfo() {
+    const { dispatch, topicId } = this.props;
+    setTimeout(() => {
+      dispatch({ type: studySpaceAction.GET_TOPIC_BY_ID, id: topicId });
+    }, 100);
   }
 
   render() {
@@ -56,7 +64,7 @@ class ProblemList extends Component {
                   </Link>
                   <span className="ActionProblem">
                     {currentUser?.id === problem?.createdById ? (
-                      <ActionProblem />
+                      <ActionProblem problemInfo={problem} fetchTopicInfo={() => this.fetchTopicInfo()} />
                     ) : null}
                   </span>
                   <p className="ShowTimeProblem">
