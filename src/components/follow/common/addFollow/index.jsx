@@ -57,6 +57,7 @@ class AddFollow extends Component {
       <InputGroup className="AddFollow">
         <Select
           options={options}
+          placeholder="search user..."
           onChange={(value) => this.onSelectValue(value)}
           className="SelectUserAddFollow"
         />{" "}

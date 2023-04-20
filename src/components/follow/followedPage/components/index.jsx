@@ -27,6 +27,14 @@ class RightFollowPage extends Component {
     });
   }
 
+  followUser(id) {
+    const { dispatch } = this.props;
+    dispatch({ type: followAction.ADD_FOLLOW, payload: { userFollowedId: id } });
+    setTimeout(() => {
+      this.fetchListFollow();
+    }, 100);
+  }
+
   render() {
     const { followList = [] } = this.props;
 
@@ -59,6 +67,7 @@ class RightFollowPage extends Component {
                       className="BtnFollow"
                       size="sm"
                       variant="outline-primary"
+                      onClick={() => this.followUser(follow?.userFollow?.id)}
                     >
                       <SlUserFollow /> Follow
                     </Button>

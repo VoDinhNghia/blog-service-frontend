@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { getListFollowOfMe, addFollow } from "../../services/followService";
+import { getListFollowOfMe, addFollow, removeFollow } from "../../services/followService";
 import { followAction } from "../action";
 import { NotificationManager } from "react-notifications";
 
@@ -26,7 +26,21 @@ function* addFollows({ payload }) {
   }
 }
 
+function* removeFollows({ id }) {
+  try {
+    const res = yield call(removeFollow, id);
+    NotificationManager.success(res?.data?.message, "Remove follow", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Remove follow",
+      4000
+    );
+  }
+}
+
 function* watchFollowSaga() {
+  yield takeLatest(followAction.REMOVE_FOLLOW, removeFollows);
   yield takeLatest(followAction.ADD_FOLLOW, addFollows);
   yield takeLatest(followAction.GET_LIST_FOLLOW, fetchAllFollows);
 }
