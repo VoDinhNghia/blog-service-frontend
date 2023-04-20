@@ -35,6 +35,12 @@ class LeftPersonel extends Component {
     });
   }
 
+  reloadPage() {
+    if (window.location.pathname === routes.FOLLOW) {
+      window.location.reload();
+    }
+  }
+
   render() {
     const { userInfo = {}, postLists = [] } = this.props;
     const currentUser = AuthService.getCurrentUser();
@@ -64,6 +70,7 @@ class LeftPersonel extends Component {
                       type: typeFollowPage.FOLLOWED,
                     }}
                     className="LinkLeftHomePage"
+                    onClick={() => this.reloadPage()}
                   >
                     <BsFillPersonCheckFill className="IconLeftHomePage" />
                     List Your Followers
@@ -77,6 +84,7 @@ class LeftPersonel extends Component {
                       type: typeFollowPage.FOLLOWING,
                     }}
                     className="LinkLeftHomePage"
+                    onClick={() => this.reloadPage()}
                   >
                     <BsFillPersonPlusFill className="IconLeftHomePage" />
                     List of Your Followeds
