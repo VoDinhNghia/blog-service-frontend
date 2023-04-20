@@ -12,6 +12,11 @@ import {
   updateTopic,
   deleteTopic,
   createNewProblem,
+  updateProblem,
+  deleteProblem,
+  createNewSolution,
+  updateSolution,
+  deleteSolution,
 } from "../../services/studySpaceService";
 import { studySpaceAction } from "../action";
 import { NotificationManager } from "react-notifications";
@@ -172,7 +177,77 @@ function* createNewProblems({ payload }) {
   }
 }
 
+function* updateProblems({ id, payload }) {
+  try {
+    const res = yield call(updateProblem, id, payload);
+    NotificationManager.success(res?.data?.message, "Update problem", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Update problem",
+      4000
+    );
+  }
+}
+
+function* deleteProblems({ id }) {
+  try {
+    const res = yield call(deleteProblem, id);
+    NotificationManager.success(res?.data?.message, "Delete problem", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Delete problem",
+      4000
+    );
+  }
+}
+
+function* createNewSolutions({ payload }) {
+  try {
+    const res = yield call(createNewSolution, payload);
+    NotificationManager.success(res?.data?.message, "Create new solution", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Create new solution",
+      4000
+    );
+  }
+}
+
+function* updateSolutions({ id, payload }) {
+  try {
+    const res = yield call(updateSolution, id, payload);
+    NotificationManager.success(res?.data?.message, "Update solution", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Update solution",
+      4000
+    );
+  }
+}
+
+function* deleteSolutions({ id }) {
+  try {
+    const res = yield call(deleteSolution, id);
+    NotificationManager.success(res?.data?.message, "Delete solution", 4000);
+  } catch (error) {
+    NotificationManager.error(
+      error?.response?.data?.message,
+      "Delete solution",
+      4000
+    );
+  }
+}
+
 function* watchStudySpaceSaga() {
+  yield takeLatest(studySpaceAction.DELETE_SOLUTION, deleteSolutions);
+  yield takeLatest(studySpaceAction.UPDATE_SOLUTION, updateSolutions);
+  yield takeLatest(studySpaceAction.CREATE_NEW_SOLUTION, createNewSolutions);
+  yield takeLatest(studySpaceAction.DELETE_PROBLEM, deleteProblems);
+  yield takeLatest(studySpaceAction.UPDATE_PROBLEM, updateProblems);
   yield takeLatest(studySpaceAction.CREATE_NEW_PROBLEM, createNewProblems);
   yield takeLatest(studySpaceAction.DELETE_TOPIC, deleteTopics);
   yield takeLatest(studySpaceAction.UPDATE_TOPIC, updateTopics);
