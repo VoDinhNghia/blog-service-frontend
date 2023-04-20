@@ -35,7 +35,7 @@ class AddFollow extends Component {
       return {
         label: `${user?.lastName || ""} ${user?.middleName || ""} ${
           user?.firstName || ""
-        }`,
+        } - ${user?.code}`,
         value: user?.id,
       };
     });
