@@ -74,6 +74,7 @@ class ProblemList extends Component {
                     openedProblemId={openedProblemId}
                     currentUser={currentUser}
                     showCollapse={() => this.showCollapse(problem?.id)}
+                    topicId={problem?.topicId}
                   />
                 </div>
               </Card.Body>
