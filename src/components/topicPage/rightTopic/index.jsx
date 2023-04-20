@@ -95,7 +95,7 @@ class RightTopicPage extends Component {
           />
         </div>
         <div>
-          <ProblemList problemList={topicInfo?.studyProblems} />
+          <ProblemList problemList={topicInfo?.studyProblems} topicId={topicInfo?.id} />
         </div>
       </>
     );

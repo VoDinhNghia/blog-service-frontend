@@ -123,7 +123,7 @@ class ActionSolution extends Component {
             >
               Cancle
             </Button>
-            <Button onClick={() => this.deleteSolution(solutionInfo?.id)}>
+            <Button onClick={() => this.deleteSolution()}>
               Ok
             </Button>
           </Modal.Body>
