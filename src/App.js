@@ -12,6 +12,7 @@ import { NotificationContainer } from "react-notifications";
 import PersonelPage from "./components/personelPage/index";
 import StudySpacePage from "./components/studySpace";
 import TopicPage from "./components/topicPage";
+import FollowPage from "./components/follow";
 
 class App extends Component {
   constructor(props) {
@@ -57,6 +58,14 @@ class App extends Component {
             element={
               <PrivateRoute>
                 <TopicPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={routes.FOLLOW}
+            element={
+              <PrivateRoute>
+                <FollowPage />
               </PrivateRoute>
             }
           />

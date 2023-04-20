@@ -14,6 +14,7 @@ import {
 } from "react-icons/bs";
 import { FaShare } from "react-icons/fa";
 import ShowImagePost from "../../commons/postListCommon/showImages";
+import { routes, typeFollowPage } from "../../../common/constant";
 
 class LeftPersonel extends Component {
   constructor(props) {
@@ -56,13 +57,27 @@ class LeftPersonel extends Component {
                 </h3>
                 <hr />
                 <p>
-                  <Link to={"/"} className="LinkLeftHomePage">
+                  <Link
+                    to={routes.FOLLOW}
+                    state={{
+                      userId: userInfo?.id,
+                      type: typeFollowPage.FOLLOWED,
+                    }}
+                    className="LinkLeftHomePage"
+                  >
                     <BsFillPersonCheckFill className="IconLeftHomePage" />
                     List Your Followers
                   </Link>
                 </p>
                 <p>
-                  <Link to={"/"} className="LinkLeftHomePage">
+                  <Link
+                    to={routes.FOLLOW}
+                    state={{
+                      userId: userInfo?.id,
+                      type: typeFollowPage.FOLLOWING,
+                    }}
+                    className="LinkLeftHomePage"
+                  >
                     <BsFillPersonPlusFill className="IconLeftHomePage" />
                     List of Your Followeds
                   </Link>

@@ -15,6 +15,7 @@ export const routes = {
   PERSONEL: "/personel",
   STUDY_SPACE: "/study-space",
   STUDY_SPACE_TOPIC: "/study-space-topic",
+  FOLLOW: "/follow",
 };
 
 export const typePostListPage = {
@@ -25,3 +26,8 @@ export const typePostListPage = {
 export const API_URL = "http://localhost:3005";
 
 export const formatDateTime = "YYYY-MM-DD HH:mm:ss";
+
+export const typeFollowPage = {
+  FOLLOWING: "FOLLOWING",
+  FOLLOWED: "FOLLOWED",
+}
