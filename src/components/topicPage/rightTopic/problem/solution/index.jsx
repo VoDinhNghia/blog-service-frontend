@@ -3,16 +3,50 @@ import { connect } from "react-redux";
 import "./index.css";
 import moment from "moment/moment";
 import { formatDateTime, routes } from "../../../../../common/constant";
-import { Button, Collapse } from "react-bootstrap";
+import { Button, Collapse, InputGroup, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import {
-  BsFillPlusSquareFill,
-  BsFillPencilFill,
-  BsFillTrashFill,
-} from "react-icons/bs";
+import { BsFillPlusSquareFill } from "react-icons/bs";
 import { FcViewDetails } from "react-icons/fc";
+import { studySpaceAction } from "../../../../../store/action";
+import ActionSolution from "./action";
 
 class SolutionList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      solutionText: "",
+    };
+  }
+
+  onChangeSolution(event) {
+    this.setState({
+      solutionText: event.target.value,
+    });
+  }
+
+  addSolution() {
+    const { dispatch, problemId } = this.props;
+    const { solutionText } = this.state;
+    dispatch({
+      type: studySpaceAction.CREATE_NEW_SOLUTION,
+      payload: {
+        problemId,
+        solution: solutionText,
+      },
+    });
+    this.fetchTopicInfo();
+    this.setState({
+      solutionText: "",
+    });
+  }
+
+  fetchTopicInfo() {
+    const { dispatch, topicId } = this.props;
+    setTimeout(() => {
+      dispatch({ type: studySpaceAction.GET_TOPIC_BY_ID, id: topicId });
+    }, 100);
+  }
+
   render() {
     const {
       solutions = [],
@@ -20,6 +54,8 @@ class SolutionList extends Component {
       openedProblemId,
       currentUser,
     } = this.props;
+    const { solutionText } = this.state;
+
     return (
       <>
         <Button
@@ -71,22 +107,10 @@ class SolutionList extends Component {
                             </h6>
                             <div className="SolutionAction">
                               {currentUser?.id === solution?.createdById ? (
-                                <>
-                                  <Button
-                                    className="BtnSolutionAction"
-                                    size="sm"
-                                    variant="light"
-                                  >
-                                    <BsFillPencilFill className="IconUpdateSolution" />
-                                  </Button>
-                                  <Button
-                                    className="BtnSolutionAction"
-                                    size="sm"
-                                    variant="light"
-                                  >
-                                    <BsFillTrashFill className="IconDeleteSolution" />
-                                  </Button>
-                                </>
+                                <ActionSolution
+                                  solutionInfo={solution}
+                                  fetchTopicInfo={() => this.fetchTopicInfo()}
+                                />
                               ) : null}
                             </div>
                           </div>
@@ -101,13 +125,24 @@ class SolutionList extends Component {
               );
             })}
             <hr />
-            <Button
-              variant="outline-primary"
-              size="sm"
-              className="BtnAddSolution"
-            >
-              <BsFillPlusSquareFill /> Add Solution
-            </Button>
+            <InputGroup>
+              <Form.Control
+                className="InputNewPostHomePage"
+                placeholder="Write your solution at here!"
+                aria-label="new post"
+                aria-describedby="basic-addon-post-home"
+                value={solutionText}
+                onChange={(event) => this.onChangeSolution(event)}
+              />
+              <Button
+                variant="outline-primary"
+                size="sm"
+                className="BtnAddSolution"
+                onClick={() => this.addSolution()}
+              >
+                <BsFillPlusSquareFill /> Send
+              </Button>
+            </InputGroup>
           </div>
         </Collapse>
       </>
