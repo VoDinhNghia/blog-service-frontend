@@ -12,7 +12,8 @@ import { NotificationContainer } from "react-notifications";
 import PersonelPage from "./components/personelPage/index";
 import StudySpacePage from "./components/studySpace";
 import TopicPage from "./components/topicPage";
-import FollowPage from "./components/follow";
+import FollowedPage from "./components/follow/followedPage";
+import FollowingPage from "./components/follow/followingPage";
 
 class App extends Component {
   constructor(props) {
@@ -62,10 +63,18 @@ class App extends Component {
             }
           />
           <Route
-            path={routes.FOLLOW}
+            path={routes.FOLLOWED}
             element={
               <PrivateRoute>
-                <FollowPage />
+                <FollowedPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={routes.FOLLOWING}
+            element={
+              <PrivateRoute>
+                <FollowingPage />
               </PrivateRoute>
             }
           />
