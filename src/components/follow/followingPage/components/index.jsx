@@ -28,6 +28,14 @@ class RightFollowingPage extends Component {
     });
   }
 
+  removeFollow(id) {
+    const { dispatch } = this.props;
+    dispatch({ type: followAction.REMOVE_FOLLOW, id });
+    setTimeout(() => {
+      this.fetchListFollow();
+    }, 100);
+  }
+
   render() {
     const { followList = [] } = this.props;
 
@@ -57,7 +65,7 @@ class RightFollowingPage extends Component {
                       {moment(follow?.createdAt).format(formatDateTime)}
                     </Card.Subtitle>
                     <hr />
-                    <Button size="sm" variant="outline-danger">
+                    <Button size="sm" variant="outline-danger" onClick={() => this.removeFollow(follow?.id)}>
                       <SlUserUnfollow /> Cancle follow
                     </Button>
                   </Card.Body>

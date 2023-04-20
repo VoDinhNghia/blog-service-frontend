@@ -14,3 +14,7 @@ export const addFollow = (body) =>
     headers: authHeader(),
   });
 
+export const removeFollow = (id) =>
+  axios.delete(`${API_URL}/api/follow/${id}`, {
+    headers: authHeader(),
+  });
