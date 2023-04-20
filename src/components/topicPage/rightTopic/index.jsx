@@ -159,10 +159,10 @@ class RightTopicPage extends Component {
                         {problem?.solutions?.map((solution) => {
                           return (
                             <div key={`${solution?.id}`}>
-                              <ul className="commentsListHomepage">
+                              <ul className="SolutionViewCard">
                                 <li>
-                                  <div className="commentMainLevelHomepage">
-                                    <div className="commentAvatar">
+                                  <div className="SolutionMainLevel">
+                                    <div className="SolutionAvatar">
                                       <img
                                         src={
                                           solution?.createdBy?.avatar ||
@@ -171,9 +171,9 @@ class RightTopicPage extends Component {
                                         alt=""
                                       />
                                     </div>
-                                    <div className="commentBoxHompage">
-                                      <div className="commentHead">
-                                        <h6 className="commentName">
+                                    <div className="SolutionBox">
+                                      <div className="SolutionBoxHead">
+                                        <h6 className="SolutionBoxName">
                                           <Link
                                             to={{
                                               pathname: routes.PERSONEL,
@@ -198,29 +198,29 @@ class RightTopicPage extends Component {
                                               : ""}
                                           </span>
                                         </h6>
-                                        <div className="ActionComment">
+                                        <div className="SolutionAction">
                                           {currentUser?.id ===
                                           solution?.createdById ? (
                                             <>
                                               <Button
-                                                className="BtnActionComment"
+                                                className="BtnSolutionAction"
                                                 size="sm"
                                                 variant="light"
                                               >
-                                                <BsFillPencilFill className="IconUpdateComment" />
+                                                <BsFillPencilFill className="IconUpdateSolution" />
                                               </Button>
                                               <Button
-                                                className="BtnActionComment"
+                                                className="BtnSolutionAction"
                                                 size="sm"
                                                 variant="light"
                                               >
-                                                <BsFillTrashFill className="IconDeleteComment" />
+                                                <BsFillTrashFill className="IconDeleteSolution" />
                                               </Button>
                                             </>
                                           ) : null}
                                         </div>
                                       </div>
-                                      <div className="commentContent">
+                                      <div className="SolutionContent">
                                         {solution?.solution}
                                       </div>
                                     </div>
