@@ -1,0 +1,111 @@
+/* solution */
+.SolutionViewCard {
+  margin-top: 30px;
+  position: relative;
+}
+
+.SolutionViewCard li {
+  margin-bottom: 15px;
+  display: block;
+  position: relative;
+}
+
+.SolutionViewCard .SolutionAvatar {
+  width: 5%;
+  display: inline-block;
+}
+
+.SolutionViewCard .SolutionAvatar img {
+  width: 100%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.SolutionMainLevel:after {
+  content: "";
+  width: 0;
+  height: 0;
+  display: block;
+  clear: both;
+}
+
+.SolutionViewCard .SolutionBox {
+  width: 93%;
+  float: right;
+  position: relative;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.SolutionViewCard .SolutionBox:before {
+  border-width: 11px 13px 11px 0;
+  border-color: transparent rgba(0, 0, 0, 0.05);
+  left: -12px;
+}
+
+.SolutionBox .SolutionBoxHead {
+  background-color: rgb(243, 246, 253);
+  padding-left: 12px;
+  padding-top: 10px;
+  padding-right: 5px;
+  border-bottom: 1px solid #e5e5e5;
+  overflow: hidden;
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  border-radius: 6px;
+}
+
+.SolutionBox .SolutionBoxName {
+  color: #283035;
+  font-size: 14px;
+  font-weight: 700;
+  float: left;
+  margin-right: 10px;
+}
+
+.SolutionBox .SolutionBoxName a {
+  color: #283035;
+}
+
+.SolutionBox .SolutionBoxHead h6 span {
+  color: gray;
+  font-size: 11px;
+}
+
+.SolutionBox .SolutionContent {
+  background: white;
+  padding: 12px;
+  font-size: 14px;
+  color: black;
+  -webkit-border-radius: 0 0 4px 4px;
+  -moz-border-radius: 0 0 4px 4px;
+  border-radius: 0 0 5px 5px;
+}
+
+.SolutionAction {
+  float: right;
+}
+
+.SolutionAction .BtnSolutionAction {
+  margin-left: 5px;
+  background-color: white;
+}
+
+.IconUpdateSolution {
+  width: 11px;
+  height: 11px;
+  color: blue;
+}
+
+.IconDeleteSolution {
+  width: 11px;
+  height: 11px;
+  color: red;
+}
+
+.BtnSolutionAction:hover {
+  background-color: lightgray;
+}
+/*--------------*/
