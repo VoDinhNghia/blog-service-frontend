@@ -62,3 +62,28 @@ export const createNewProblem = (body) =>
   axios.post(`${API_URL}/api/problem`, body, {
     headers: authHeader(),
   });
+
+export const updateProblem = (id, body) =>
+  axios.put(`${API_URL}/api/problem/${id}`, body, {
+    headers: authHeader(),
+  });
+
+export const deleteProblem = (id) =>
+  axios.delete(`${API_URL}/api/problem/${id}`, {
+    headers: authHeader(),
+  });
+
+export const createNewSolution = (body) =>
+  axios.post(`${API_URL}/api/solution`, body, {
+    headers: authHeader(),
+  });
+
+export const updateSolution = (id, body) =>
+  axios.put(`${API_URL}/api/solution/${id}`, body, {
+    headers: authHeader(),
+  });
+
+export const deleteSolution = (id) =>
+  axios.delete(`${API_URL}/api/solution/${id}`, {
+    headers: authHeader(),
+  });
