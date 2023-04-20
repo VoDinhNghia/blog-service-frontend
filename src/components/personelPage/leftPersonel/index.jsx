@@ -35,12 +35,6 @@ class LeftPersonel extends Component {
     });
   }
 
-  reloadPage() {
-    if (window.location.pathname === routes.FOLLOW) {
-      window.location.reload();
-    }
-  }
-
   render() {
     const { userInfo = {}, postLists = [] } = this.props;
     const currentUser = AuthService.getCurrentUser();
@@ -64,13 +58,12 @@ class LeftPersonel extends Component {
                 <hr />
                 <p>
                   <Link
-                    to={routes.FOLLOW}
+                    to={routes.FOLLOWED}
                     state={{
                       userId: userInfo?.id,
                       type: typeFollowPage.FOLLOWED,
                     }}
                     className="LinkLeftHomePage"
-                    onClick={() => this.reloadPage()}
                   >
                     <BsFillPersonCheckFill className="IconLeftHomePage" />
                     List Your Followers
@@ -78,13 +71,12 @@ class LeftPersonel extends Component {
                 </p>
                 <p>
                   <Link
-                    to={routes.FOLLOW}
+                    to={routes.FOLLOWING}
                     state={{
                       userId: userInfo?.id,
                       type: typeFollowPage.FOLLOWING,
                     }}
                     className="LinkLeftHomePage"
-                    onClick={() => this.reloadPage()}
                   >
                     <BsFillPersonPlusFill className="IconLeftHomePage" />
                     List of Your Followeds

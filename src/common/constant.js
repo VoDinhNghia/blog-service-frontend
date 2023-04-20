@@ -15,7 +15,8 @@ export const routes = {
   PERSONEL: "/personel",
   STUDY_SPACE: "/study-space",
   STUDY_SPACE_TOPIC: "/study-space-topic",
-  FOLLOW: "/follow",
+  FOLLOWED: "/followed",
+  FOLLOWING: "/following",
 };
 
 export const typePostListPage = {
