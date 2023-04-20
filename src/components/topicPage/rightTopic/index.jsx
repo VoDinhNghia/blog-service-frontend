@@ -4,19 +4,25 @@ import "./index.css";
 import { studySpaceAction } from "../../../store/action";
 import moment from "moment/moment";
 import { formatDateTime, routes } from "../../../common/constant";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Collapse } from "react-bootstrap";
 import ActionTopicDetail from "./actions";
 import { Link } from "react-router-dom";
-import { BsFillPlusSquareFill, BsFillTrashFill } from "react-icons/bs";
+import {
+  BsFillPlusSquareFill,
+  BsFillPencilFill,
+  BsFillTrashFill,
+} from "react-icons/bs";
 import { FcViewDetails } from "react-icons/fc";
 import AuthService from "../../../services/authService";
 import AddNewProblemModal from "./newProblem";
+import ActionProblem from "./actionProblem";
 
 class RightTopicPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isShowModalAddProblem: false,
+      openedProblemId: null,
     };
   }
 
@@ -41,9 +47,22 @@ class RightTopicPage extends Component {
     });
   }
 
+  showCollapse(problemId) {
+    const { openedProblemId } = this.state;
+    if (openedProblemId !== problemId) {
+      this.setState({
+        openedProblemId: problemId,
+      });
+    } else {
+      this.setState({
+        openedProblemId: null,
+      });
+    }
+  }
+
   render() {
     const { topicInfo = {} } = this.props;
-    const { isShowModalAddProblem } = this.state;
+    const { isShowModalAddProblem, openedProblemId } = this.state;
     const currentUser = AuthService.getCurrentUser();
 
     return (
@@ -110,9 +129,14 @@ class RightTopicPage extends Component {
                     <Link
                       to={routes.PERSONEL}
                       state={{ userId: problem?.createdById }}
-                    >{`${problem?.createdBy?.lastName || ""} ${
-                      problem?.createdBy?.middleName || ""
-                    } ${problem?.createdBy?.firstName || ""}`}</Link>
+                    >
+                      {`${problem?.createdBy?.lastName || ""} ${
+                        problem?.createdBy?.middleName || ""
+                      } ${problem?.createdBy?.firstName || ""}`}
+                    </Link>
+                    <span className="ActionProblem">
+                      {currentUser?.id === problem?.createdById ? <ActionProblem /> : null}
+                    </span>
                     <p className="ShowTimeProblem">
                       {`${moment(problem?.createdAt || "").format(
                         formatDateTime
@@ -126,23 +150,96 @@ class RightTopicPage extends Component {
                       variant="outline-primary"
                       size="sm"
                       className="BtnViewSolution"
+                      onClick={() => this.showCollapse(problem?.id)}
                     >
                       <FcViewDetails /> View Solution
                     </Button>
-                    <Button
-                      variant="outline-primary"
-                      size="sm"
-                      className="BtnAddSolution"
-                    >
-                      <BsFillPlusSquareFill /> Add Solution
-                    </Button>
-                    <Button
-                      variant="outline-danger"
-                      size="sm"
-                      className="BtnDeleteProblem"
-                    >
-                      <BsFillTrashFill /> Delete Problem
-                    </Button>
+                    <Collapse in={openedProblemId === problem?.id}>
+                      <div>
+                        {problem?.solutions?.map((solution) => {
+                          return (
+                            <div key={`${solution?.id}`}>
+                              <ul className="commentsListHomepage">
+                                <li>
+                                  <div className="commentMainLevelHomepage">
+                                    <div className="commentAvatar">
+                                      <img
+                                        src={
+                                          solution?.createdBy?.avatar ||
+                                          "/image/icon-login.png"
+                                        }
+                                        alt=""
+                                      />
+                                    </div>
+                                    <div className="commentBoxHompage">
+                                      <div className="commentHead">
+                                        <h6 className="commentName">
+                                          <Link
+                                            to={{
+                                              pathname: routes.PERSONEL,
+                                            }}
+                                            state={{
+                                              userId: solution?.createdById,
+                                            }}
+                                          >{`${
+                                            solution?.createdBy?.lastName || ""
+                                          } ${
+                                            solution?.createdBy?.middleName ||
+                                            ""
+                                          } ${
+                                            solution?.createdBy?.firstName || ""
+                                          }`}</Link>
+                                          <br />
+                                          <span>
+                                            {solution?.createdAt
+                                              ? moment(
+                                                  solution?.createdAt
+                                                ).format(formatDateTime)
+                                              : ""}
+                                          </span>
+                                        </h6>
+                                        <div className="ActionComment">
+                                          {currentUser?.id ===
+                                          solution?.createdById ? (
+                                            <>
+                                              <Button
+                                                className="BtnActionComment"
+                                                size="sm"
+                                                variant="light"
+                                              >
+                                                <BsFillPencilFill className="IconUpdateComment" />
+                                              </Button>
+                                              <Button
+                                                className="BtnActionComment"
+                                                size="sm"
+                                                variant="light"
+                                              >
+                                                <BsFillTrashFill className="IconDeleteComment" />
+                                              </Button>
+                                            </>
+                                          ) : null}
+                                        </div>
+                                      </div>
+                                      <div className="commentContent">
+                                        {solution?.solution}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          );
+                        })}
+                        <hr />
+                        <Button
+                          variant="outline-primary"
+                          size="sm"
+                          className="BtnAddSolution"
+                        >
+                          <BsFillPlusSquareFill /> Add Solution
+                        </Button>
+                      </div>
+                    </Collapse>
                   </div>
                 </Card.Body>
               </Card>
