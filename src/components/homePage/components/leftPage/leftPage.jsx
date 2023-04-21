@@ -8,12 +8,15 @@ import "./index.css";
 import { userAction } from "../../../../store/action";
 import { Link } from "react-router-dom";
 import { routes } from "../../../../common/constant";
+import MessageModal from "../messageModal";
 
 class LeftHomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       searchKey: "",
+      isShowModalMessage: false,
+      userInfo: {},
     };
   }
 
@@ -34,8 +37,22 @@ class LeftHomePage extends Component {
     dispatch({ type: userAction.GET_ALL_USER, payload: { searchKey } });
   }
 
+  showModalMessage(userInfo) {
+    this.setState({
+      isShowModalMessage: true,
+      userInfo,
+    });
+  }
+
+  closeModalMessage(value) {
+    this.setState({
+      isShowModalMessage: value,
+    });
+  }
+
   render() {
     const { userList = [] } = this.props;
+    const { isShowModalMessage, userInfo = {} } = this.state;
     const currentUser = AuthService.getCurrentUser();
     return (
       <>
@@ -85,7 +102,11 @@ class LeftHomePage extends Component {
                     } ${user?.middleName || ""} ${
                       user?.firstName || ""
                     }`}</Link>{" "}
-                    <Button className="BtnMessageLeftMenuHome" variant="ligth">
+                    <Button
+                      className="BtnMessageLeftMenuHome"
+                      variant="light"
+                      onClick={() => this.showModalMessage(user)}
+                    >
                       <BsChatQuote />
                     </Button>
                   </span>
@@ -93,6 +114,11 @@ class LeftHomePage extends Component {
               );
             })}
           </div>
+          <MessageModal
+            isShowModalMessage={isShowModalMessage}
+            closeModalMessage={(value) => this.closeModalMessage(value)}
+            userInfo={userInfo}
+          />
         </div>
       </>
     );
