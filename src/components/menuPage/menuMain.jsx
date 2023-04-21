@@ -38,8 +38,9 @@ class MenuMain extends Component {
     EventBus.remove("logout");
   }
 
-  logOut() {
-    AuthService.logout();
+  async logOut() {
+    await AuthService.logout();
+    AuthService.removeSessionFrontend();
     this.setState({
       currentUser: undefined,
     });
@@ -66,7 +67,7 @@ class MenuMain extends Component {
           </a>
         </li>
         <li className="nav-item">
-          <a href={routes.LOGIN} className="nav-link" onClick={this.logOut}>
+          <a href={routes.LOGIN} className="nav-link" onClick={() => this.logOut()}>
             Log out <BsFillArrowRightSquareFill />
           </a>
         </li>

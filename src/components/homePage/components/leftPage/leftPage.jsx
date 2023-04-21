@@ -65,7 +65,7 @@ class LeftHomePage extends Component {
                       alt=""
                       className="FriendMajorAvatar"
                     />
-                    <span class="badge">
+                    <span className="badge">
                       {user?.statusLogin ? (
                         <img
                           src="/image/green-status.jpg"
