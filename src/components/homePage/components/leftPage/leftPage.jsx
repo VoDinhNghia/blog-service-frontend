@@ -22,19 +22,21 @@ class LeftHomePage extends Component {
       searchKey: event.target.value,
     });
     const { dispatch } = this.props;
-      dispatch({ type: userAction.GET_ALL_USER, payload: { searchKey: event.target.value } });
+    dispatch({
+      type: userAction.GET_ALL_USER,
+      payload: { searchKey: event.target.value },
+    });
   }
 
   onSearch() {
-      const { dispatch } = this.props;
-      const { searchKey } = this.state
-      dispatch({ type: userAction.GET_ALL_USER, payload: { searchKey } });
+    const { dispatch } = this.props;
+    const { searchKey } = this.state;
+    dispatch({ type: userAction.GET_ALL_USER, payload: { searchKey } });
   }
 
   render() {
     const { userList = [] } = this.props;
     const currentUser = AuthService.getCurrentUser();
-    const listUserDisplay = userList?.slice(0, 5);
     return (
       <>
         <div className="LeftMenuHomePage">
@@ -54,18 +56,35 @@ class LeftHomePage extends Component {
             </Button>
           </InputGroup>
           <div className="ListFriendMajorLeftHomePage">
-            {listUserDisplay?.map((user) => {
+            {userList?.map((user) => {
               return (
-                <p>
+                <p key={user?.id}>
                   <span>
                     <img
                       src={user?.avatar || "/image/icon-login.png"}
                       alt=""
                       className="FriendMajorAvatar"
                     />
+                    <span class="badge">
+                      {user?.statusLogin ? (
+                        <img
+                          src="/image/green-status.jpg"
+                          alt=""
+                          className="StatusLoginIcon"
+                        />
+                      ) : (
+                        <img
+                          src="/image/red-status.png"
+                          alt=""
+                          className="StatusLoginIcon"
+                        />
+                      )}
+                    </span>
                     <Link to={routes.PERSONEL} state={{ userId: user?.id }}>{`${
                       user?.lastName || ""
-                    } ${user?.middleName || ""} ${user?.firstName || ""}`}</Link>{" "}
+                    } ${user?.middleName || ""} ${
+                      user?.firstName || ""
+                    }`}</Link>{" "}
                     <Button className="BtnMessageLeftMenuHome" variant="ligth">
                       <BsChatQuote />
                     </Button>
@@ -79,6 +98,5 @@ class LeftHomePage extends Component {
     );
   }
 }
-
 
 export default connect()(LeftHomePage);

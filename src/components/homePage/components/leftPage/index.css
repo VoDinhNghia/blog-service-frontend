@@ -30,8 +30,6 @@
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 
 .BtnMessageLeftMenuHome {
@@ -39,4 +37,18 @@
   color: green;
   width: 40px;
   margin-right: 10px;
+}
+
+.StatusLoginIcon {
+  width: 10px;
+  height: 10px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  margin-right: 5px;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
 }
