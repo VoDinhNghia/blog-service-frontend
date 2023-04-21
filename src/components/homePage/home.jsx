@@ -14,6 +14,8 @@ class Home extends Component {
     this.state = {
       listUserDisplay: [],
       userIdSearch: "",
+      limit: 15,
+      page: 1,
     };
   }
 
@@ -23,7 +25,8 @@ class Home extends Component {
 
   fetchAllUsers() {
     const { dispatch } = this.props;
-    dispatch({ type: userAction.GET_ALL_USER });
+    const { limit, page } = this.state;
+    dispatch({ type: userAction.GET_ALL_USER, payload: { limit, page } });
   }
 
   render() {
