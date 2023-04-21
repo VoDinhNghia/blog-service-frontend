@@ -1,71 +1,84 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { BsChatQuote } from "react-icons/bs";
-import { Button } from "react-bootstrap";
+import { BsChatQuote, BsSearch } from "react-icons/bs";
+import { Button, Form, InputGroup } from "react-bootstrap";
 import InfoUserPanel from "../../../commons/InfoUserPanel/index";
 import AuthService from "../../../../services/authService";
 import "./index.css";
+import { userAction } from "../../../../store/action";
+import { Link } from "react-router-dom";
+import { routes } from "../../../../common/constant";
 
 class LeftHomePage extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      searchKey: "",
+    };
+  }
+
+  onChangeValue(event) {
+    this.setState({
+      searchKey: event.target.value,
+    });
+    const { dispatch } = this.props;
+      dispatch({ type: userAction.GET_ALL_USER, payload: { searchKey: event.target.value } });
+  }
+
+  onSearch() {
+      const { dispatch } = this.props;
+      const { searchKey } = this.state
+      dispatch({ type: userAction.GET_ALL_USER, payload: { searchKey } });
   }
 
   render() {
+    const { userList = [] } = this.props;
     const currentUser = AuthService.getCurrentUser();
+    const listUserDisplay = userList?.slice(0, 5);
     return (
       <>
         <div className="LeftMenuHomePage">
           <InfoUserPanel data={currentUser} />
-          <p className="TiteListFriendHomePage">
-            List friends study common major (status online)
-          </p>
+          <InputGroup className="AddFollow">
+            <Form.Control
+              placeholder="search user..."
+              onChange={(event) => this.onChangeValue(event)}
+              className="SelectUserAddFollow"
+            />{" "}
+            <Button
+              variant="outline-primary"
+              className="BtnAddFollow"
+              onClick={() => this.onSearch()}
+            >
+              <BsSearch />
+            </Button>
+          </InputGroup>
           <div className="ListFriendMajorLeftHomePage">
-            <p>
-              <span>
-                <img
-                  src="/image/icon-login.png"
-                  alt=""
-                  className="FriendMajorAvatar"
-                />
-                <a href="not-yet">Vo Dinh A </a>{" "}
-                <Button className="BtnMessageLeftMenuHome" variant="ligth">
-                  <BsChatQuote />
-                </Button>
-              </span>
-            </p>
-            <p>
-              <span>
-                <img
-                  src="/image/icon-login.png"
-                  alt=""
-                  className="FriendMajorAvatar"
-                />
-                <a href="not-yet">Vu Dinh Nguyen Nghia </a>{" "}
-                <Button className="BtnMessageLeftMenuHome" variant="ligth">
-                  <BsChatQuote />
-                </Button>
-              </span>
-            </p>
-            <p>
-              <span>
-                <img
-                  src="/image/icon-login.png"
-                  alt=""
-                  className="FriendMajorAvatar"
-                />
-                <a href="not-yet">Nguyen Van A </a>{" "}
-                <Button className="BtnMessageLeftMenuHome" variant="ligth">
-                  <BsChatQuote />
-                </Button>
-              </span>
-            </p>
+            {listUserDisplay?.map((user) => {
+              return (
+                <p>
+                  <span>
+                    <img
+                      src={user?.avatar || "/image/icon-login.png"}
+                      alt=""
+                      className="FriendMajorAvatar"
+                    />
+                    <Link to={routes.PERSONEL} state={{ userId: user?.id }}>{`${
+                      user?.lastName || ""
+                    } ${user?.middleName || ""} ${user?.firstName || ""}`}</Link>{" "}
+                    <Button className="BtnMessageLeftMenuHome" variant="ligth">
+                      <BsChatQuote />
+                    </Button>
+                  </span>
+                </p>
+              );
+            })}
           </div>
         </div>
       </>
     );
   }
 }
+
 
 export default connect()(LeftHomePage);
