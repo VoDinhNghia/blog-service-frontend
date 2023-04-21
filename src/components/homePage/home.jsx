@@ -5,15 +5,36 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import RightHomePage from "./components/rightPage/rightPage";
 import LeftHomePage from "./components/leftPage/leftPage";
+import { connect } from "react-redux";
+import { userAction } from "../../store/action";
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      listUserDisplay: [],
+      userIdSearch: "",
+    };
+  }
+
+  componentDidMount() {
+    this.fetchAllUsers();
+  }
+
+  fetchAllUsers() {
+    const { dispatch } = this.props;
+    dispatch({ type: userAction.GET_ALL_USER });
+  }
+
   render() {
+    const { userList = [] } = this.props;
+  
     return (
       <>
         <MenuHomePage />
         <Row>
           <Col xs lg="4">
-            <LeftHomePage />
+            <LeftHomePage userList={userList} />
           </Col>
           <Col>
             <RightHomePage />
@@ -25,4 +46,9 @@ class Home extends Component {
   }
 }
 
-export default Home;
+function mapStateToProps(state) {
+  return {
+    userList: state.UserReducer.userList,
+  };
+}
+export default connect(mapStateToProps)(Home);
