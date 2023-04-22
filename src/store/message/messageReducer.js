@@ -2,7 +2,8 @@ import { messageAction } from "../action";
 
 const initState = {
   conversationInfo: {},
-}
+  messageConverList: [],
+};
 
 const MessageReducer = (state = initState, action) => {
   switch (action.type) {
@@ -15,6 +16,18 @@ const MessageReducer = (state = initState, action) => {
       return {
         ...state,
         conversationInfo: action?.payload || {},
+        isLoading: false,
+      }
+    case messageAction.CLOSE_MODAL_MESS:
+      return {
+        ...state,
+        conversationInfo: {},
+        isLoading: false,
+      };
+    case messageAction.GET_MESSAGE_BY_CONVERSATION_SUCCESS:
+      return {
+        ...state,
+        messageConverList: action?.payload || [],
         isLoading: false,
       };
     default:
