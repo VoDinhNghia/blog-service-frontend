@@ -7,3 +7,14 @@ export const sendMessage = (payload) =>
     headers: authHeader(),
   });
 
+export const createConversation = async (payload) => {
+  const response = await axios.post(`${API_URL}/api/conversation/`, payload, {
+    headers: authHeader(),
+  });
+  return response?.data?.data;
+};
+
+export const getOneConversation = (chatWithId) =>
+  axios.get(`${API_URL}/api/conversation/one/${chatWithId}`, {
+    headers: authHeader(),
+  });

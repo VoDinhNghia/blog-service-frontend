@@ -27,6 +27,7 @@ export const typePostListPage = {
 export const API_URL = "http://localhost:3005";
 
 export const formatDateTime = "YYYY-MM-DD HH:mm:ss";
+export const formatTimeMessage = "YYYY MM DD, h:mm a";
 
 export const typeFollowPage = {
   FOLLOWING: "FOLLOWING",

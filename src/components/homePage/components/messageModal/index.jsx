@@ -11,134 +11,221 @@ import {
   MDBInputGroup,
 } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
-import { routes } from "../../../../common/constant";
+import { formatTimeMessage, routes } from "../../../../common/constant";
 import { connect } from "react-redux";
 import { socket } from "../../../../services/socket";
 import { messageAction } from "../../../../store/action";
+import { createConversation } from "../../../../services/messageService";
+import AuthService from "../../../../services/authService";
+import moment from "moment/moment";
 
 class MessageModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      content: "",
+      newMessage: null,
+    };
   }
 
   componentDidMount() {
     socket.connect();
-    let datas = {};
-    socket.on('message_new', (data) => { 
-      datas = data;
+    socket.on("message_new", (data) => {
+      console.log("hshsh", data);
+      this.setState({
+        newMessage: data?.data,
+      });
     });
-    console.log('data', datas);
-  };
+  }
 
-  sendMessage() {
-    const { dispatch } = this.props;
-    dispatch({ type: messageAction.SEND_MESSAGE, payload: {} });
+  onChangeContent(event) {
+    this.setState({
+      content: event.target.value,
+    });
+  }
+
+  async sendMessage() {
+    const { dispatch, conversationInfo = {}, userInfo = {} } = this.props;
+    const { content } = this.state;
+    const payloadMessage = {
+      content,
+      userReviceId: userInfo?.id,
+    };
+    if (!conversationInfo.id) {
+      const payload = {
+        name: `${userInfo?.lastName || ""} ${userInfo?.middleName || ""} ${
+          userInfo?.firstName || ""
+        }`,
+        chatWithId: userInfo?.id,
+      };
+      const respone = await createConversation(payload);
+      dispatch({
+        type: messageAction.SEND_MESSAGE,
+        payload: { ...payloadMessage, conversationId: respone?.id },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: messageAction.GET_ONE_CONVERSATION,
+          payload: { id: userInfo?.id },
+        });
+      }, 100);
+    } else {
+      dispatch({
+        type: messageAction.SEND_MESSAGE,
+        payload: { ...payloadMessage, conversationId: conversationInfo?.id },
+      });
+    }
   }
 
   render() {
-    const { isShowModalMessage, userInfo = {} } = this.props;
+    const {
+      isShowModalMessage,
+      userInfo = {},
+      conversationInfo = {},
+    } = this.props;
+    const { newMessage } = this.state;
+    const { messages = [] } = conversationInfo;
+    const currentUser = AuthService.getCurrentUser();
+    const listMessage =
+      newMessage?.conversationId === conversationInfo?.id
+        ? [...messages, newMessage]
+        : [...messages];
 
     return (
-      <Modal
-        show={isShowModalMessage}
-        onHide={() => this.props.closeModalMessage(false)}
-        centered
-        className="ModalMessage"
-      >
-        <MDBRow className="d-flex justify-content-center">
-          <MDBCol>
-            <MDBCard>
-              <MDBCardHeader className="d-flex justify-content-between align-items-center">
-                <h5 className="mb-0">
-                  <Link to={routes.PERSONEL} state={{ userId: userInfo?.id }}>
-                    {`${userInfo?.lastName || ""} ${
-                      userInfo?.middleName || ""
-                    } ${userInfo?.firstName || ""}`}
-                  </Link>
-                </h5>
-                <div className="d-flex flex-row align-items-center">
-                  <Button
-                    size="sm"
-                    variant="outline-light"
-                    onClick={() => this.props.closeModalMessage(false)}
-                    className="BtnCloseModal"
-                  >
-                    x
-                  </Button>
-                </div>
-              </MDBCardHeader>
-              <MDBCardBody>
-                <div className="d-flex justify-content-between">
-                  <p className="small mb-1">
-                    <Link to={routes.PERSONEL} state={{ userId: userInfo?.id }}>
-                      {`${userInfo?.lastName || ""} ${
-                        userInfo?.middleName || ""
-                      } ${userInfo?.firstName || ""}`}
-                    </Link>{" "}
-                    <span className="small mb-1 text-muted">
-                      {" "}
-                      - 21 April 4:05 pm
-                    </span>
-                  </p>
-                </div>
-                <div className="d-flex flex-row justify-content-start">
-                  <img
-                    src="/image/icon-login.png"
-                    alt="avatar 1"
-                    className="IconAvatarMessage"
-                  />
-                  <div>
-                    <p className="MessageContent">
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry. Lorem Ipsum has been
-                    </p>
-                  </div>
-                </div>
-
-                <div className="d-flex justify-content-between">
-                  <span className="small mb-1 text-muted"></span>
-                  <p className="small mb-1">
-                    <span className="small mb-1 text-muted">
-                      21 April 4:05 pm -{" "}
-                    </span>
+      <>
+        <Modal
+          show={isShowModalMessage}
+          onHide={() => this.props.closeModalMessage(false)}
+          centered
+          className="ModalMessage"
+        >
+          <MDBRow className="d-flex justify-content-center">
+            <MDBCol>
+              <MDBCard>
+                <MDBCardHeader className="d-flex justify-content-between align-items-center">
+                  <h5 className="mb-0">
                     <Link to={routes.PERSONEL} state={{ userId: userInfo?.id }}>
                       {`${userInfo?.lastName || ""} ${
                         userInfo?.middleName || ""
                       } ${userInfo?.firstName || ""}`}
                     </Link>
-                  </p>
-                </div>
-                <div className="d-flex flex-row justify-content-end mb-4 pt-1">
-                  <div>
-                    <p className="MessageContentOfMe">
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry
-                    </p>
+                  </h5>
+                  <div className="d-flex flex-row align-items-center">
+                    <Button
+                      size="sm"
+                      variant="outline-light"
+                      onClick={() => this.props.closeModalMessage(false)}
+                      className="BtnCloseModal"
+                    >
+                      x
+                    </Button>
                   </div>
-                  <img
-                    src="/image/icon-login.png"
-                    alt="avatar 1"
-                    className="IconAvatarMessage"
-                  />
-                </div>
-              </MDBCardBody>
-              <MDBCardFooter className="text-muted d-flex justify-content-start align-items-center p-3">
-                <MDBInputGroup className="mb-0">
-                  <input
-                    className="form-control"
-                    placeholder="Type message"
-                    type="text"
-                  />
-                  <Button variant="outline-primary" onClick={() => this.sendMessage()}>send</Button>
-                </MDBInputGroup>
-              </MDBCardFooter>
-            </MDBCard>
-          </MDBCol>
-        </MDBRow>
-      </Modal>
+                </MDBCardHeader>
+                <MDBCardBody>
+                  {listMessage?.map((message) => {
+                    return (
+                      <div key={message?.id}>
+                        {message?.userSendId !== currentUser?.id ? (
+                          <>
+                            <div className="d-flex justify-content-between">
+                              <p className="small mb-1">
+                                <Link
+                                  to={routes.PERSONEL}
+                                  state={{ userId: userInfo?.id }}
+                                >
+                                  {`${userInfo?.lastName || ""} ${
+                                    userInfo?.middleName || ""
+                                  } ${userInfo?.firstName || ""}`}
+                                </Link>{" "}
+                                <span className="small mb-1 text-muted">
+                                  {" "}
+                                  -{" "}
+                                  {moment(message?.createdAt).format(
+                                    formatTimeMessage
+                                  )}
+                                </span>
+                              </p>
+                            </div>
+                            <div className="d-flex flex-row justify-content-start">
+                              <img
+                                src="/image/icon-login.png"
+                                alt="avatar 1"
+                                className="IconAvatarMessage"
+                              />
+                              <div>
+                                <p className="MessageContent">
+                                  {message?.content}
+                                </p>
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="d-flex justify-content-between">
+                              <span className="small mb-1 text-muted"></span>
+                              <p className="small mb-1">
+                                <span className="small mb-1 text-muted">
+                                  {moment(message?.createdAt).format(
+                                    formatTimeMessage
+                                  )}{" "}
+                                  -{" "}
+                                </span>
+                                <Link
+                                  to={routes.PERSONEL}
+                                  state={{ userId: currentUser?.id }}
+                                >
+                                  {`${currentUser?.lastName || ""} ${
+                                    currentUser?.middleName || ""
+                                  } ${currentUser?.firstName || ""}`}
+                                </Link>
+                              </p>
+                            </div>
+                            <div className="d-flex flex-row justify-content-end mb-4 pt-1">
+                              <div>
+                                <p className="MessageContentOfMe">
+                                  {message?.content}
+                                </p>
+                              </div>
+                              <img
+                                src="/image/icon-login.png"
+                                alt="avatar 1"
+                                className="IconAvatarMessage"
+                              />
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    );
+                  })}
+                </MDBCardBody>
+                <MDBCardFooter className="text-muted d-flex justify-content-start align-items-center p-3">
+                  <MDBInputGroup className="mb-0">
+                    <input
+                      className="form-control"
+                      placeholder="Type message"
+                      type="text"
+                      onChange={(event) => this.onChangeContent(event)}
+                    />
+                    <Button
+                      variant="outline-primary"
+                      onClick={() => this.sendMessage()}
+                    >
+                      send
+                    </Button>
+                  </MDBInputGroup>
+                </MDBCardFooter>
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
+        </Modal>
+      </>
     );
   }
 }
 
-export default connect()(MessageModal);
+function mapStateToProps(state) {
+  return {
+    conversationInfo: state.MessageReducer.conversationInfo,
+  };
+}
+export default connect(mapStateToProps)(MessageModal);
