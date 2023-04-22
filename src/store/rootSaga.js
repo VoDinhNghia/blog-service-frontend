@@ -4,6 +4,7 @@ import watchGetAllPost from "./post/postSaga";
 import watchUserSage from "./user/userSaga";
 import watchStudySpaceSaga from "./studySpace/studySpaceSaga";
 import watchFollowSaga from "./follow/followSaga";
+import watchMessageSage from "./message/messageSaga";
 
 export function* rootSagas() {
   yield all([
@@ -11,5 +12,6 @@ export function* rootSagas() {
     watchUserSage(),
     watchStudySpaceSaga(),
     watchFollowSaga(),
+    watchMessageSage(),
   ]);
 }
