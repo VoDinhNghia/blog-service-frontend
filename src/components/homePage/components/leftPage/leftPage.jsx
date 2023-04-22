@@ -5,7 +5,7 @@ import { Button, Form, InputGroup } from "react-bootstrap";
 import InfoUserPanel from "../../../commons/InfoUserPanel/index";
 import AuthService from "../../../../services/authService";
 import "./index.css";
-import { userAction } from "../../../../store/action";
+import { messageAction, userAction } from "../../../../store/action";
 import { Link } from "react-router-dom";
 import { routes } from "../../../../common/constant";
 import MessageModal from "../messageModal";
@@ -38,6 +38,8 @@ class LeftHomePage extends Component {
   }
 
   showModalMessage(userInfo) {
+    const { dispatch } = this.props;
+    dispatch({ type: messageAction.GET_ONE_CONVERSATION, payload: { id: userInfo?.id }});
     this.setState({
       isShowModalMessage: true,
       userInfo,
