@@ -18,3 +18,24 @@ export const getOneConversation = (chatWithId) =>
   axios.get(`${API_URL}/api/conversation/one/${chatWithId}`, {
     headers: authHeader(),
   });
+
+export const getAllMessage = (payload) =>
+  axios.get(`${API_URL}/api/message`, {
+    headers: authHeader(),
+    params: payload,
+  });
+
+export const getAllMessageByConver = (payload) =>
+  axios.get(`${API_URL}/api/message/conversation`, {
+    headers: authHeader(),
+    params: payload,
+  });
+
+export const getAllMessByOneConver = async (payload) => {
+  const response = await axios.get(`${API_URL}/api/message/conversation`, {
+    headers: authHeader(),
+    params: payload,
+  });
+  return response?.data?.data;
+}
+

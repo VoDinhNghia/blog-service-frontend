@@ -9,6 +9,7 @@ import { messageAction, userAction } from "../../../../store/action";
 import { Link } from "react-router-dom";
 import { routes } from "../../../../common/constant";
 import MessageModal from "../messageModal";
+import { getAllMessByOneConver } from "../../../../services/messageService";
 
 class LeftHomePage extends Component {
   constructor(props) {
@@ -17,6 +18,9 @@ class LeftHomePage extends Component {
       searchKey: "",
       isShowModalMessage: false,
       userInfo: {},
+      limit: 10, 
+      page: 1,
+      messages: [],
     };
   }
 
@@ -37,24 +41,40 @@ class LeftHomePage extends Component {
     dispatch({ type: userAction.GET_ALL_USER, payload: { searchKey } });
   }
 
-  showModalMessage(userInfo) {
-    const { dispatch } = this.props;
-    dispatch({ type: messageAction.GET_ONE_CONVERSATION, payload: { id: userInfo?.id }});
+  async showModalMessage(userInfo) {
     this.setState({
       isShowModalMessage: true,
       userInfo,
     });
+    setTimeout(() => {
+      this.fetchMessAndConversation(userInfo);
+    }, 50);
   }
 
   closeModalMessage(value) {
     this.setState({
       isShowModalMessage: value,
+      messages: [],
+    });
+  }
+
+  async fetchMessAndConversation(userInfo) {
+    const { dispatch } = this.props;
+    const { limit, page } = this.state;
+    const messages = await getAllMessByOneConver({
+      chatWithId: userInfo?.id,
+      limit,
+      page,
+    });
+    dispatch({ type: messageAction.GET_ONE_CONVERSATION, chatWithId: userInfo?.id || 's' });
+    this.setState({
+      messages,
     });
   }
 
   render() {
     const { userList = [] } = this.props;
-    const { isShowModalMessage, userInfo = {} } = this.state;
+    const { isShowModalMessage, userInfo = {}, messages = [] } = this.state;
     const currentUser = AuthService.getCurrentUser();
     return (
       <>
@@ -120,6 +140,7 @@ class LeftHomePage extends Component {
             isShowModalMessage={isShowModalMessage}
             closeModalMessage={(value) => this.closeModalMessage(value)}
             userInfo={userInfo}
+            messages={messages}
           />
         </div>
       </>

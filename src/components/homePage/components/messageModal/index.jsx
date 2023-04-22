@@ -15,7 +15,6 @@ import { formatTimeMessage, routes } from "../../../../common/constant";
 import { connect } from "react-redux";
 import { socket } from "../../../../services/socket";
 import { messageAction } from "../../../../store/action";
-import { createConversation } from "../../../../services/messageService";
 import AuthService from "../../../../services/authService";
 import moment from "moment/moment";
 
@@ -25,13 +24,14 @@ class MessageModal extends Component {
     this.state = {
       content: "",
       newMessage: null,
+      limit: 10,
+      page: 1,
     };
   }
 
   componentDidMount() {
     socket.connect();
     socket.on("message_new", (data) => {
-      console.log("hshsh", data);
       this.setState({
         newMessage: data?.data,
       });
@@ -45,52 +45,39 @@ class MessageModal extends Component {
   }
 
   async sendMessage() {
-    const { dispatch, conversationInfo = {}, userInfo = {} } = this.props;
+    const { dispatch, userInfo = {}, conversationInfo = {} } = this.props;
+    if (!conversationInfo.id) {
+      setTimeout(() => {
+        dispatch({ type: messageAction.GET_ONE_CONVERSATION, chatWithId: userInfo?.id || 's' });
+      }, 70);
+    }
     const { content } = this.state;
     const payloadMessage = {
       content,
       userReviceId: userInfo?.id,
     };
-    if (!conversationInfo.id) {
-      const payload = {
-        name: `${userInfo?.lastName || ""} ${userInfo?.middleName || ""} ${
-          userInfo?.firstName || ""
-        }`,
-        chatWithId: userInfo?.id,
-      };
-      const respone = await createConversation(payload);
-      dispatch({
-        type: messageAction.SEND_MESSAGE,
-        payload: { ...payloadMessage, conversationId: respone?.id },
-      });
-      setTimeout(() => {
-        dispatch({
-          type: messageAction.GET_ONE_CONVERSATION,
-          payload: { id: userInfo?.id },
-        });
-      }, 100);
-    } else {
-      dispatch({
-        type: messageAction.SEND_MESSAGE,
-        payload: { ...payloadMessage, conversationId: conversationInfo?.id },
-      });
-    }
+    dispatch({
+      type: messageAction.SEND_MESSAGE,
+      payload: { ...payloadMessage },
+    });
+    this.setState({
+      content: "",
+    });
   }
 
   render() {
     const {
       isShowModalMessage,
       userInfo = {},
+      messages = [],
       conversationInfo = {},
     } = this.props;
-    const { newMessage } = this.state;
-    const { messages = [] } = conversationInfo;
+    const { newMessage, content } = this.state;
     const currentUser = AuthService.getCurrentUser();
     const listMessage =
       newMessage?.conversationId === conversationInfo?.id
         ? [...messages, newMessage]
         : [...messages];
-
     return (
       <>
         <Modal
@@ -204,6 +191,7 @@ class MessageModal extends Component {
                       className="form-control"
                       placeholder="Type message"
                       type="text"
+                      value={content}
                       onChange={(event) => this.onChangeContent(event)}
                     />
                     <Button
@@ -226,6 +214,7 @@ class MessageModal extends Component {
 function mapStateToProps(state) {
   return {
     conversationInfo: state.MessageReducer.conversationInfo,
+    messageConverList: state.MessageReducer.messageConverList,
   };
 }
 export default connect(mapStateToProps)(MessageModal);
