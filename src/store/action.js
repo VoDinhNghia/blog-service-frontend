@@ -49,3 +49,7 @@ export const followAction = {
   GET_LIST_FOLLOW_SUCCESS: "ADD_FOLLOW_SUCCESS",
   REMOVE_FOLLOW: "REMOVE_FOLLOW",
 }
+
+export const messageAction = {
+  SEND_MESSAGE: "SEND_MESSAGE",
+}

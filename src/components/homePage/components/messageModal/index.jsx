@@ -12,8 +12,30 @@ import {
 } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
 import { routes } from "../../../../common/constant";
+import { connect } from "react-redux";
+import { socket } from "../../../../services/socket";
+import { messageAction } from "../../../../store/action";
 
 class MessageModal extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  componentDidMount() {
+    socket.connect();
+    let datas = {};
+    socket.on('message_new', (data) => { 
+      datas = data;
+    });
+    console.log('data', datas);
+  };
+
+  sendMessage() {
+    const { dispatch } = this.props;
+    dispatch({ type: messageAction.SEND_MESSAGE, payload: {} });
+  }
+
   render() {
     const { isShowModalMessage, userInfo = {} } = this.props;
 
@@ -108,7 +130,7 @@ class MessageModal extends Component {
                     placeholder="Type message"
                     type="text"
                   />
-                  <Button variant="outline-primary">send</Button>
+                  <Button variant="outline-primary" onClick={() => this.sendMessage()}>send</Button>
                 </MDBInputGroup>
               </MDBCardFooter>
             </MDBCard>
@@ -119,4 +141,4 @@ class MessageModal extends Component {
   }
 }
 
-export default MessageModal;
+export default connect()(MessageModal);
