@@ -66,7 +66,7 @@ class LeftHomePage extends Component {
       limit,
       page,
     });
-    dispatch({ type: messageAction.GET_ONE_CONVERSATION, chatWithId: userInfo?.id || 's' });
+    dispatch({ type: messageAction.GET_ONE_CONVERSATION, chatWithId: userInfo?.id });
     this.setState({
       messages,
     });
