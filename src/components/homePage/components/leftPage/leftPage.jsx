@@ -60,13 +60,14 @@ class LeftHomePage extends Component {
 
   async fetchMessAndConversation(userInfo) {
     const { dispatch } = this.props;
-    const { limit, page } = this.state;
+    dispatch({ type: messageAction.GET_ONE_CONVERSATION, chatWithId: userInfo?.id });
+    this.fetchMessage(userInfo);
+  }
+
+  async fetchMessage(userInfo) {
     const messages = await getAllMessByOneConver({
       chatWithId: userInfo?.id,
-      limit,
-      page,
     });
-    dispatch({ type: messageAction.GET_ONE_CONVERSATION, chatWithId: userInfo?.id });
     this.setState({
       messages,
     });

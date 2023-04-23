@@ -17,6 +17,7 @@ import { socket } from "../../../../services/socket";
 import { messageAction } from "../../../../store/action";
 import AuthService from "../../../../services/authService";
 import moment from "moment/moment";
+import _ from "lodash";
 
 class MessageModal extends Component {
   constructor(props) {
@@ -42,6 +43,13 @@ class MessageModal extends Component {
     this.setState({
       content: event.target.value,
     });
+  }
+
+  closeModal() {
+    this.setState({
+      newMessage: null,
+    });
+    this.props.closeModalMessage(false);
   }
 
   async sendMessage() {
@@ -77,16 +85,17 @@ class MessageModal extends Component {
     } = this.props;
     const { newMessage, content } = this.state;
     const currentUser = AuthService.getCurrentUser();
-    const listMessage =
+    const pushNewMessage =
       newMessage && newMessage?.conversationId === conversationInfo?.id
         ? [...messages, newMessage]
         : [...messages];
+    const listMessage = _.uniqBy(pushNewMessage, "id");
 
     return (
       <>
         <Modal
           show={isShowModalMessage}
-          onHide={() => this.props.closeModalMessage(false)}
+          onHide={() => this.closeModal()}
           centered
           className="ModalMessage"
         >
