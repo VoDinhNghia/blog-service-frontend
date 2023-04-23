@@ -108,7 +108,7 @@ class MessageModal extends Component {
                     </Button>
                   </div>
                 </MDBCardHeader>
-                <MDBCardBody>
+                <MDBCardBody className="ScrollBodyModal">
                   {listMessage?.map((message) => {
                     return (
                       <div key={message?.id}>
