@@ -1,7 +1,5 @@
-
-
 .ScrollBodyModal {
-  max-height: 450px;
+  max-height: 420px;
   overflow-y: auto;
 }
 
