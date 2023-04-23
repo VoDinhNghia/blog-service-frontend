@@ -48,7 +48,10 @@ class MessageModal extends Component {
     const { dispatch, userInfo = {}, conversationInfo = {} } = this.props;
     if (!conversationInfo.id) {
       setTimeout(() => {
-        dispatch({ type: messageAction.GET_ONE_CONVERSATION, chatWithId: userInfo?.id || 's' });
+        dispatch({
+          type: messageAction.GET_ONE_CONVERSATION,
+          chatWithId: userInfo?.id,
+        });
       }, 70);
     }
     const { content } = this.state;
@@ -75,9 +78,10 @@ class MessageModal extends Component {
     const { newMessage, content } = this.state;
     const currentUser = AuthService.getCurrentUser();
     const listMessage =
-      newMessage?.conversationId === conversationInfo?.id
+      newMessage && newMessage?.conversationId === conversationInfo?.id
         ? [...messages, newMessage]
         : [...messages];
+
     return (
       <>
         <Modal
