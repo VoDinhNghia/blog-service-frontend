@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import AuthService from "../../services/authService";
 import {
   BsHouseFill,
@@ -10,6 +9,7 @@ import {
 import EventBus from "../../common/eventBus";
 import { routes } from "../../common/constant";
 import "./index.css";
+import { Nav, Navbar } from "react-bootstrap";
 
 class MenuMain extends Component {
   constructor(props) {
@@ -48,30 +48,28 @@ class MenuMain extends Component {
 
   render() {
     return (
-      <div className="navbar-nav ml-auto MenuMain">
-        <li className="nav-item">
-          <Link to={routes.HOME} className="nav-link">
-            <BsHouseFill /> Home Page
-          </Link>
-        </li>
-        <li className="nav-item">
-          <a href={"not-yet"} className="nav-link">
+      <Navbar.Collapse id="navbarScroll" className="MenuRight">
+        <Nav className="me-auto">
+          <Nav.Link href={routes.HOME} className="NavLinkMenu">
+            <BsHouseFill /> Trang chủ
+          </Nav.Link>
+          <Nav.Link href="/" className="NavLinkMenu">
             <BsChatQuote />
             <span className="NumberNotifyMenu">10</span>
-          </a>
-        </li>
-        <li className="nav-item">
-          <a href={"not-yet"} className="nav-link">
+          </Nav.Link>
+          <Nav.Link href="/" className="NavLinkMenu">
             <BsBell />
             <span className="NumberNotifyMenu">10</span>
-          </a>
-        </li>
-        <li className="nav-item">
-          <a href={routes.LOGIN} className="nav-link" onClick={() => this.logOut()}>
-            Log out <BsFillArrowRightSquareFill />
-          </a>
-        </li>
-      </div>
+          </Nav.Link>
+          <Nav.Link
+            className="NavLinkMenu"
+            href={routes.LOGIN}
+            onClick={() => this.logOut()}
+          >
+            <BsFillArrowRightSquareFill /> Đăng xuất
+          </Nav.Link>
+        </Nav>
+      </Navbar.Collapse>
     );
   }
 }
