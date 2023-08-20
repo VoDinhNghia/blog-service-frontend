@@ -3,7 +3,7 @@ import NewGroup from "./newGroup";
 import { connect } from "react-redux";
 import "./index.css";
 import { studySpaceAction, userAction } from "../../../store/action";
-import { BsChevronDoubleRight, BsChevronDoubleLeft } from "react-icons/bs";
+import PaginationPage from "../../commons/paginationPage";
 import GroupListPage from "./groupList";
 
 class RightStudySpace extends Component {
@@ -34,9 +34,44 @@ class RightStudySpace extends Component {
     dispatch({ type: userAction.GET_ALL_USER });
   }
 
+  goToBackPage() {
+    const { dispatch, userId } = this.props;
+    const { page, limit } = this.state;
+    const currentPage = page > 1 ? page - 1 : 1;
+    this.setState({
+      page: currentPage,
+    });
+    dispatch({
+      type: studySpaceAction.GET_ALL_GROUP,
+      payload: {
+        limit,
+        page: currentPage,
+        createdById: userId,
+      },
+    });
+  }
+
+  goToNextPage(totalPage) {
+    const { dispatch, userId } = this.props;
+    const { page, limit } = this.state;
+    const currentPage = page < totalPage ? page + 1 : totalPage;
+    this.setState({
+      page: currentPage,
+    });
+    dispatch({
+      type: studySpaceAction.GET_ALL_GROUP,
+      payload: {
+        limit,
+        page: currentPage,
+        createdById: userId,
+      },
+    });
+  }
+
   render() {
-    const { groupList = [], userId } = this.props;
+    const { groupList = [], userId, totalGroup = 0 } = this.props;
     const { limit, page } = this.state;
+    const totalPage = Math.round(totalGroup / limit + 0.45);
 
     return (
       <>
@@ -47,18 +82,12 @@ class RightStudySpace extends Component {
           page={page}
           userId={userId}
         />
-        {
-          <button className="ButtonBack" onClick={() => this.goToBackPage()}>
-            <BsChevronDoubleLeft /> back
-          </button>
-        }{" "}
-        <button className="BtnNumberPage">current: {1}</button>
-        <button className="BtnTotalPage">total: 1</button>
-        <button className="ButtonNext" onClick={() => this.goToNextPage()}>
-          next <BsChevronDoubleRight />
-        </button>
-        <br />
-        <br />
+        <PaginationPage
+          page={page}
+          totalPage={totalPage}
+          goToBackPage={() => this.goToBackPage()}
+          goToNextPage={() => this.goToNextPage(totalPage)}
+        />
       </>
     );
   }
