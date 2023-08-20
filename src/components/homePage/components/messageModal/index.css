@@ -21,17 +21,17 @@
 }
 
 .MessageContent {
-    background-color: rgb(228, 238, 255);
-    border-radius: 13px;
-    color: black;
-    padding: 10px;
-    font-size: 13px;
+  background-color: rgb(228, 238, 255);
+  border-radius: 13px;
+  color: black;
+  padding: 10px;
+  font-size: 13px;
 }
 
 .MessageContentOfMe {
-    background-color: rgb(81, 117, 250);
-    border-radius: 13px;
-    color: white;
-    padding: 10px;
-    font-size: 13px;
+  background-color: rgb(81, 117, 250);
+  border-radius: 13px;
+  color: white;
+  padding: 10px;
+  font-size: 13px;
 }

@@ -90,12 +90,12 @@ class Login extends Component {
 
   render() {
     return (
-      <MDBContainer className="my-5">
-        <MDBCard>
+      <MDBContainer className="my-5 LoginPage">
+        <MDBCard className="border-0">
           <MDBRow className="g-0">
             <MDBCol md="6">
               <MDBCardImage
-                src="/image/login-left-page.png"
+                src="/image/login-page.png"
                 alt="login form"
                 className="rounded-start w-100"
               />
@@ -104,17 +104,16 @@ class Login extends Component {
               <MDBCardBody className="d-flex flex-column">
                 <div className="d-flex flex-row mt-2">
                   <img
-                    src="/image/icon-login.png"
+                    src="/image/icon-login.jpg"
                     alt="logo-img"
                     className="ImageCardLogoLogin"
                   />
-                  {/* <span className="h1 fw-bold mb-0">Logo</span> */}
                 </div>
                 <h5
-                  className="fw-normal my-4 pb-3"
+                  className="fw-normal my-4 pb-3 text-center"
                   style={{ letterSpacing: "1px" }}
                 >
-                  Sign into your account
+                  Đăng nhập vào hệ thống
                 </h5>
 
                 <Form
@@ -124,7 +123,7 @@ class Login extends Component {
                   }}
                 >
                   <div className="form-group">
-                    <label htmlFor="username">username</label>
+                    <label htmlFor="username">Tên đăng nhập</label>
                     <Input
                       type="text"
                       className="form-control"
@@ -136,7 +135,7 @@ class Login extends Component {
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="password">password</label>
+                    <label htmlFor="password">Mật khẩu</label>
                     <Input
                       type="password"
                       className="form-control"
@@ -155,7 +154,7 @@ class Login extends Component {
                       {this.state.loading && (
                         <span className="spinner-border spinner-border-sm"></span>
                       )}
-                      <span>Login</span>
+                      <span>Đăng nhập</span>
                     </button>
                   </div>
 
@@ -173,8 +172,8 @@ class Login extends Component {
                     }}
                   />
                 </Form>
-                <a className="small text-muted" href="#!">
-                  Forgot password?
+                <a className="small text-muted fs-6" href="#!">
+                  Quên mật khẩu?
                 </a>
               </MDBCardBody>
             </MDBCol>
