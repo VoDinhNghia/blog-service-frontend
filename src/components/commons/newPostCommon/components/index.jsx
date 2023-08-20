@@ -8,23 +8,28 @@ import { connect } from "react-redux";
 import { createPost } from "../../../../services/postService";
 import { postAction } from "../../../../store/action";
 import { typePostListPage } from "../../../../common/constant";
+import Select from "react-select";
+import ImageUploading from "react-images-uploading";
+import { BsCamera2, BsPencilSquare, BsTrash } from "react-icons/bs";
+import { Col, Row } from "react-bootstrap";
 
 class NewPostModal extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       type: "default",
       title: "",
       privateMode: false,
       content: "",
       files: null,
+      isUploadImages: false,
+      images: [],
     };
   }
 
   onChangePrivateMode(event) {
     this.setState({
-      privateMode: event.target.value,
+      privateMode: event.value,
     });
   }
 
@@ -50,8 +55,7 @@ class NewPostModal extends Component {
   }
 
   async createNewPost(userId) {
-    const { type, content, privateMode, title, files } =
-      this.state;
+    const { type, content, privateMode, title, files } = this.state;
     const formData = new FormData();
     formData.append("content", content);
     formData.append("type", type);
@@ -63,9 +67,10 @@ class NewPostModal extends Component {
     formData.append("privateMode", privateMode);
     formData.append("title", title);
     await createPost(formData);
-    this.fetchPostList(userId)
+    this.fetchPostList(userId);
     this.setState({
       files: null,
+      isUploadImages: false,
     });
     this.props.closeNewPost(false);
   }
@@ -88,68 +93,172 @@ class NewPostModal extends Component {
     }, 100);
   }
 
+  UploadImageAndSubmit() {
+    this.setState({
+      isUploadImages: true,
+    });
+  }
+
+  onCloseModal() {
+    this.setState({
+      files: null,
+      isUploadImages: false,
+    });
+    this.props.closeNewPost(false);
+  }
+
+  onChangeUpload(imageList) {
+    this.setState({
+      files: imageList?.map((image) => {
+        return image?.file;
+      }),
+      images: imageList,
+    });
+  }
+
   render() {
     const { isShowNewPost = false } = this.props;
     const currentUser = AuthService.getCurrentUser();
+    const { isUploadImages, images } = this.state;
+    const options = [
+      {
+        value: true,
+        label: "Riêng tư",
+      },
+      {
+        value: true,
+        label: "Mọi người",
+      },
+    ];
 
     return (
       <div>
         <Modal
           className="ModalNewPost"
           show={isShowNewPost}
-          onHide={() => this.props.closeNewPost(false)}
+          onHide={() => this.onCloseModal()}
         >
           <Modal.Header closeButton={true} className="HeaderModalHomePage">
             <Modal.Title className="TitleNewPost">
-              Hi{" "}
-              {`${currentUser?.lastName || ""} ${
-                currentUser?.middleName || ""
-              } ${currentUser?.firstName || ""}`}
+              Đăng bài viết mới
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form encType="multipart/form-data">
               <Form.Group role="form">
-                <Form.Label>Private mode options:</Form.Label>
-                <Form.Select
-                  className="browser-default custom-select"
-                  defaultValue={false}
-                  name="privateMode"
-                  onChange={(event) => this.onChangePrivateMode(event)}
-                >
-                  <option value={false}>false</option>
-                  <option value={true}>true</option>
-                </Form.Select>
-                <Form.Label>Title</Form.Label>
-                <Form.Control
-                  placeholder="title new post..."
-                  aria-label="title new post"
-                  name="title"
-                  onChange={(event) => this.onChangeTitle(event)}
-                />
-                <Form.Label>Content</Form.Label>
-                <Form.Control
-                  placeholder="type new post..."
-                  aria-label="type new post"
-                  as="textarea"
-                  rows={5}
-                  name="content"
-                  onChange={(event) => this.onChangeContent(event)}
-                />
-                <Form.Label>File upload</Form.Label>
-                <Form.Control
-                  type="file"
-                  multiple="multiple"
-                  name="imageFile"
-                  onChange={(event) => this.onChangeFile(event)}
-                />
+                {!isUploadImages ? (
+                  <>
+                    <Form.Label>Lựa chọn chế độ xem:</Form.Label>
+                    <Select
+                      options={options}
+                      onChange={(e) => this.onChangePrivateMode(e)}
+                    />
+                    <Form.Label>Tiêu đề</Form.Label>
+                    <Form.Control
+                      placeholder="Nhập tiêu đề bài đăng..."
+                      aria-label="title new post"
+                      name="title"
+                      onChange={(event) => this.onChangeTitle(event)}
+                    />
+                    <Form.Label>Nội dung</Form.Label>
+                    <Form.Control
+                      placeholder="Nhập nội dung bài đăng..."
+                      aria-label="type new post"
+                      as="textarea"
+                      rows={5}
+                      name="content"
+                      onChange={(event) => this.onChangeContent(event)}
+                    />{" "}
+                  </>
+                ) : null}
+                {isUploadImages ? (
+                  <>
+                    <ImageUploading
+                      multiple
+                      value={images}
+                      onChange={(imageList) => this.onChangeUpload(imageList)}
+                      maxNumber={69}
+                      dataURLKey="data_url"
+                    >
+                      {({
+                        imageList,
+                        onImageUpload,
+                        onImageRemoveAll,
+                        onImageUpdate,
+                        onImageRemove,
+                        isDragging,
+                        dragProps,
+                      }) => (
+                        <div className="upload__image-wrapper">
+                          <Button
+                            style={isDragging ? { color: "red" } : undefined}
+                            onClick={onImageUpload}
+                            {...dragProps}
+                            variant="outline-primary"
+                            size="sm"
+                          >
+                            <BsCamera2 /> Chọn ảnh
+                          </Button>
+                          &nbsp;
+                          <Button
+                            onClick={onImageRemoveAll}
+                            variant="outline-danger"
+                            size="sm"
+                          >
+                            <BsTrash /> Xóa tất cả ảnh
+                          </Button>
+                          <Row>
+                            {imageList.map((image, index) => (
+                              <Col xl={4} className="mt-2 mb-2">
+                                <div key={index} className="image-item border">
+                                  <img
+                                    src={image["data_url"]}
+                                    alt=""
+                                    width="100%"
+                                    height="120px"
+                                  />
+                                  <div className="image-item__btn-wrapper mt-1 mb-1 text-center">
+                                    <Button
+                                      onClick={() => onImageUpdate(index)}
+                                      variant="outline-primary"
+                                      size="sm"
+                                    >
+                                      <BsPencilSquare />
+                                    </Button>{" "}
+                                    <Button
+                                      onClick={() => onImageRemove(index)}
+                                      variant="outline-danger"
+                                      size="sm"
+                                    >
+                                      <BsTrash />
+                                    </Button>
+                                  </div>
+                                </div>
+                              </Col>
+                            ))}
+                          </Row>
+                        </div>
+                      )}
+                    </ImageUploading>
+                  </>
+                ) : null}
                 <br />
-                <Button
-                  className="BtnSubmitNewPost"
-                  onClick={() => this.createNewPost(currentUser?.id)}
-                >
-                  Save
-                </Button>
+                {isUploadImages ? (
+                  <Button
+                    className="BtnSubmitNewPost"
+                    onClick={() => this.createNewPost(currentUser?.id)}
+                  >
+                    Đăng bài
+                  </Button>
+                ) : (
+                  <Button
+                    className="BtnSubmitNewPost"
+                    variant="outline-primary"
+                    onClick={() => this.UploadImageAndSubmit()}
+                  >
+                    Chọn ảnh và Đăng bài
+                  </Button>
+                )}
               </Form.Group>
             </Form>
           </Modal.Body>
