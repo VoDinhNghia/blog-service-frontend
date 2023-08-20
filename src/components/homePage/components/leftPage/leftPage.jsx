@@ -18,7 +18,7 @@ class LeftHomePage extends Component {
       searchKey: "",
       isShowModalMessage: false,
       userInfo: {},
-      limit: 10, 
+      limit: 10,
       page: 1,
       messages: [],
     };
@@ -60,7 +60,10 @@ class LeftHomePage extends Component {
 
   async fetchMessAndConversation(userInfo) {
     const { dispatch } = this.props;
-    dispatch({ type: messageAction.GET_ONE_CONVERSATION, chatWithId: userInfo?.id });
+    dispatch({
+      type: messageAction.GET_ONE_CONVERSATION,
+      chatWithId: userInfo?.id,
+    });
     this.fetchMessage(userInfo);
   }
 
@@ -75,8 +78,14 @@ class LeftHomePage extends Component {
 
   render() {
     const { userList = [] } = this.props;
-    const { isShowModalMessage, userInfo = {}, messages = [] } = this.state;
+    const {
+      isShowModalMessage,
+      userInfo = {},
+      messages = [],
+      searchKey,
+    } = this.state;
     const currentUser = AuthService.getCurrentUser();
+
     return (
       <>
         <div className="LeftMenuHomePage">
@@ -96,46 +105,53 @@ class LeftHomePage extends Component {
             </Button>
           </InputGroup>
           <div className="ListFriendMajorLeftHomePage">
-            {userList?.map((user) => {
-              return (
-                <p key={user?.id}>
-                  <span>
-                    <img
-                      src={user?.avatar || "/image/icon-login.png"}
-                      alt=""
-                      className="FriendMajorAvatar"
-                    />
-                    <span className="badge">
-                      {user?.statusLogin ? (
-                        <img
-                          src="/image/green-status.jpg"
-                          alt=""
-                          className="StatusLoginIcon"
-                        />
-                      ) : (
-                        <img
-                          src="/image/red-status.png"
-                          alt=""
-                          className="StatusLoginIcon"
-                        />
-                      )}
+            {userList
+              ?.filter((user) =>
+                searchKey
+                  ? user?.statusLogin || !user?.statusLogin
+                  : user?.statusLogin
+              )
+              .map((user) => {
+                return (
+                  <p key={user?.id}>
+                    <span>
+                      <img
+                        src={user?.avatar || "/image/icon-login.png"}
+                        alt=""
+                        className="FriendMajorAvatar"
+                      />
+                      <span className="badge">
+                        {user?.statusLogin ? (
+                          <img
+                            src="/image/green-status.jpg"
+                            alt=""
+                            className="StatusLoginIcon"
+                          />
+                        ) : (
+                          <img
+                            src="/image/red-status.png"
+                            alt=""
+                            className="StatusLoginIcon"
+                          />
+                        )}
+                      </span>
+                      <Link
+                        to={routes.PERSONEL}
+                        state={{ userId: user?.id }}
+                      >{`${user?.lastName || ""} ${user?.middleName || ""} ${
+                        user?.firstName || ""
+                      }`}</Link>{" "}
+                      <Button
+                        className="BtnMessageLeftMenuHome"
+                        variant="light"
+                        onClick={() => this.showModalMessage(user)}
+                      >
+                        <BsChatQuote />
+                      </Button>
                     </span>
-                    <Link to={routes.PERSONEL} state={{ userId: user?.id }}>{`${
-                      user?.lastName || ""
-                    } ${user?.middleName || ""} ${
-                      user?.firstName || ""
-                    }`}</Link>{" "}
-                    <Button
-                      className="BtnMessageLeftMenuHome"
-                      variant="light"
-                      onClick={() => this.showModalMessage(user)}
-                    >
-                      <BsChatQuote />
-                    </Button>
-                  </span>
-                </p>
-              );
-            })}
+                  </p>
+                );
+              })}
           </div>
           <MessageModal
             isShowModalMessage={isShowModalMessage}
