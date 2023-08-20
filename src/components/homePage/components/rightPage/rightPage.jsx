@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { postAction } from "../../../../store/action";
-import { BsChevronDoubleLeft, BsChevronDoubleRight } from "react-icons/bs";
 import "./index.css";
 import PostListHomePage from "../../../commons/postListCommon";
 import NewPostCommon from "../../../commons/newPostCommon";
+import PaginationPage from "../../../commons/paginationPage";
 
 class RightHomePage extends Component {
   constructor(props) {
@@ -27,61 +27,54 @@ class RightHomePage extends Component {
     dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
   }
 
-  goToNextPage() {
-    const { total = 0, dispatch } = this.props;
+  goToNextPage(totalPage) {
+    const { dispatch } = this.props;
     const { limit, page } = this.state;
-    const numberPages = Math.round(Number(total / limit) + 0.5);
-    if (page < numberPages) {
-      this.setState({
-        page: page + 1,
+    const currentPage = page < totalPage ? page + 1 : totalPage;
+    this.setState({
+      page: currentPage,
+    });
+    setTimeout(() => {
+      dispatch({
+        type: postAction.GET_ALL_POST,
+        payload: {
+          page: currentPage,
+          limit,
+        },
       });
-      setTimeout(() => {
-        dispatch({
-          type: postAction.GET_ALL_POST,
-          payload: { page: this.state.page, limit },
-        });
-      }, 100);
-    }
+    }, 100);
   }
 
   goToBackPage() {
     const { dispatch } = this.props;
     const { limit, page } = this.state;
-    if (page > 1) {
-      this.setState({
-        page: page - 1,
+    const currentPage = page > 1 ? page - 1 : 1;
+    this.setState({
+      page: currentPage,
+    });
+    setTimeout(() => {
+      dispatch({
+        type: postAction.GET_ALL_POST,
+        payload: { page: currentPage, limit },
       });
-      setTimeout(() => {
-        dispatch({
-          type: postAction.GET_ALL_POST,
-          payload: { page: this.state.page, limit },
-        });
-      }, 100);
-    }
+    }, 100);
   }
 
   render() {
     const { postLists = [], total = 0 } = this.props;
     const { limit, page } = this.state;
-    const totalPage = Math.round(Number(total / limit) + 0.5);
+    const totalPage = Math.round(Number(total / limit) + 0.45);
+
     return (
       <>
         <NewPostCommon />
         <PostListHomePage postLists={postLists} page={page} limit={limit} />
-        {
-          <button className="ButtonBack" onClick={() => this.goToBackPage()}>
-            <BsChevronDoubleLeft /> back
-          </button>
-        }{" "}
-        <button className="BtnNumberPage">current: {page}</button>
-        <button className="BtnTotalPage">
-          total: {totalPage > 0 ? totalPage : 1}
-        </button>
-        <button className="ButtonNext" onClick={() => this.goToNextPage()}>
-          next <BsChevronDoubleRight />
-        </button>
-        <br />
-        <br />
+        <PaginationPage 
+          page={page}
+          totalPage={totalPage}
+          goToBackPage={() => this.goToBackPage()}
+          goToNextPage={() => this.goToNextPage(totalPage)}
+        />
       </>
     );
   }
