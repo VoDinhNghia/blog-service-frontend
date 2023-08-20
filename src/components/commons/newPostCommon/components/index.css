@@ -11,3 +11,9 @@
 .BtnSubmitNewPost {
     float: right;
 }
+
+.ImageUploadCamera {
+    width: 600px;
+    height: 200px;
+    background-color: green !important;
+}
