@@ -3,7 +3,6 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import { BsSearch } from "react-icons/bs";
-import "./index.css";
 import { connect } from "react-redux";
 import MenuMain from "../menuMain";
 import { studySpaceAction } from "../../../store/action";

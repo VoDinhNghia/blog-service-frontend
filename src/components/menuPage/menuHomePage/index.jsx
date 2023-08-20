@@ -4,7 +4,6 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import { BsSearch } from "react-icons/bs";
 import { postAction } from "../../../store/action";
-import "./index.css";
 import { connect } from "react-redux";
 import MenuMain from "../menuMain";
 

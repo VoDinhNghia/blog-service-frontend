@@ -1,3 +1,11 @@
+.LoginPage {
+  box-shadow: 4px 7px 8px 0px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 4px 7px 8px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 4px 7px 8px 0px rgba(0,0,0,0.75);
+  border: 1px solid gray;
+  border-radius: 10px;
+}
+
 .ImageCardLogoLogin {
   width: 96px;
   height: 96px;
@@ -6,4 +14,5 @@
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
+  border: 1px solid lightgray;
 }
