@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import Button from "react-bootstrap/Button";
-import { BsSearch } from "react-icons/bs";
 import { connect } from "react-redux";
 import MenuMain from "../menuMain";
 import { studySpaceAction } from "../../../store/action";
+import SearchMenuPageCommon from "../../commons/searchMenuPage";
+import { Navbar } from "react-bootstrap";
 
 class MenuStudySpacePage extends Component {
   constructor(props) {
@@ -20,12 +18,10 @@ class MenuStudySpacePage extends Component {
     this.setState({
       searchKey: key,
     });
-    if (key?.length > 2) {
-      this.searchPost();
-    }
+    this.searchGroup();
   }
 
-  searchPost() {
+  searchGroup() {
     const { dispatch, userId } = this.props;
     const { searchKey } = this.state;
     setTimeout(() => {
@@ -38,31 +34,20 @@ class MenuStudySpacePage extends Component {
 
   render() {
     return (
-      <div className="MenuMain">
-        <nav className="navbar navbar-expand">
-          <div className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <InputGroup className="SearchMenuBar">
-                <Button
-                  id="basic-addon-search-home-page"
-                  variant="light"
-                  onClick={() => this.searchPost()}
-                >
-                  <BsSearch />
-                </Button>
-                <Form.Control
-                  placeholder="search group in study space..."
-                  aria-label="search group"
-                  aria-describedby="basic-addon-search-home-page"
-                  onChange={(event) => this.onChangeSearch(event)}
-                  className="InputSearchMenuBar"
-                />
-              </InputGroup>
-            </li>
-          </div>
-          <MenuMain />
-        </nav>
-      </div>
+      <Navbar collapseOnSelect expand="sm" className="MenuMain">
+        <Navbar.Brand>
+          <SearchMenuPageCommon
+            title="Tìm kiếm nhóm theo tiêu đề..."
+            onChangeSearch={(e) => this.onChangeSearch(e)}
+            search={() => this.searchGroup()}
+          />
+        </Navbar.Brand>
+        <Navbar.Toggle
+          aria-controls="navbarScroll"
+          data-bs-target="#navbarScroll"
+        />
+        <MenuMain />
+      </Navbar>
     );
   }
 }
