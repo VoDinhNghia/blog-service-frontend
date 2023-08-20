@@ -30,7 +30,7 @@ class NewPostCommon extends Component {
     const { page, limit } = this.props;
     const { isShowNewPost } = this.state;
     const currentUser = AuthService.getCurrentUser();
-
+    const userName = `${currentUser.lastName || ""} ${currentUser.middleName || ""} ${currentUser.firstName || ""}`;
     return (
       <>
         <InputGroup className="PostHomePage">
@@ -47,9 +47,7 @@ class NewPostCommon extends Component {
           </Button>
           <Form.Control
             className="InputNewPostHomePage"
-            placeholder={`Hi ${currentUser?.lastName || ""} ${
-              currentUser?.middleName || ""
-            } ${currentUser?.firstName || ""}! write something new post...`}
+            placeholder={`Xin chào ${userName}! Hôm nay, bạn muốn đăng gì?...`}
             aria-label="new post"
             aria-describedby="basic-addon-post-home"
             onClick={() => this.showNewPost()}

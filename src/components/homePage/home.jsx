@@ -7,6 +7,7 @@ import RightHomePage from "./components/rightPage/rightPage";
 import LeftHomePage from "./components/leftPage/leftPage";
 import { connect } from "react-redux";
 import { userAction } from "../../store/action";
+import { Container } from "react-bootstrap";
 
 class Home extends Component {
   constructor(props) {
@@ -31,18 +32,20 @@ class Home extends Component {
 
   render() {
     const { userList = [] } = this.props;
-  
+
     return (
       <>
         <MenuHomePage />
-        <Row>
-          <Col xs lg="4">
-            <LeftHomePage userList={userList} />
-          </Col>
-          <Col>
-            <RightHomePage />
-          </Col>
-        </Row>
+        <Container>
+          <Row>
+            <Col xs lg="4">
+              <LeftHomePage userList={userList} />
+            </Col>
+            <Col>
+              <RightHomePage />
+            </Col>
+          </Row>
+        </Container>
         <Footer />
       </>
     );

@@ -34,7 +34,7 @@ class InfoUserPanel extends Component {
                 } ${data?.code ? `- ${data?.code}` : ""}`}
               </h5>
             </Link>
-            <p>role: {data?.role?.toLowerCase()}</p>
+            <p>Chức vụ: {data?.role?.toLowerCase()}</p>
           </span>
           <hr />
           <Link
@@ -44,7 +44,7 @@ class InfoUserPanel extends Component {
             state={{ userId: data?.id }}
             className="LinkLeftHomePage"
           >
-            <BsPersonWorkspace className="IconLeftHomePage" /> Study Space
+            <BsPersonWorkspace className="IconLeftHomePage" /> Không gian học tập
           </Link>
         </div>
         <hr />

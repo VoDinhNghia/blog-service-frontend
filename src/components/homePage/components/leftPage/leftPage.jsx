@@ -83,7 +83,7 @@ class LeftHomePage extends Component {
           <InfoUserPanel data={currentUser} />
           <InputGroup className="AddFollow">
             <Form.Control
-              placeholder="search user..."
+              placeholder="Tìm kiếm người dùng..."
               onChange={(event) => this.onChangeValue(event)}
               className="SelectUserAddFollow"
             />{" "}
