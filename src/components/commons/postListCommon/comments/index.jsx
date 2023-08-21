@@ -4,7 +4,7 @@ import "./index.css";
 import { Link } from "react-router-dom";
 import { routes, formatDateTime } from "../../../../common/constant";
 import Button from "react-bootstrap/Button";
-import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
+import { BsFillTrashFill, BsPencilSquare } from "react-icons/bs";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -133,7 +133,7 @@ class ShowCommentHomePage extends Component {
                                 this.showModal(comment?.id, comment?.content)
                               }
                             >
-                              <BsFillPencilFill className="IconUpdateComment" />
+                              <BsPencilSquare className="IconUpdateComment" />
                             </Button>
                           ) : null}
                           {userId === userPost ||

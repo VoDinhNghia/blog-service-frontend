@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./index.css";
-import { InputGroup, Button } from "react-bootstrap";
+import { Button, Card, Row, Col } from "react-bootstrap";
 import Select from "react-select";
 import { SlUserFollow } from "react-icons/sl";
 import { followAction, userAction } from "../../../../store/action";
@@ -52,23 +52,31 @@ class AddFollow extends Component {
         value: user?.id,
       };
     });
-    
+
     return (
-      <InputGroup className="AddFollow">
-        <Select
-          options={options}
-          placeholder="search user..."
-          onChange={(value) => this.onSelectValue(value)}
-          className="SelectUserAddFollow"
-        />{" "}
-        <Button
-          variant="outline-primary"
-          className="BtnAddFollow"
-          onClick={() => this.addFollow()}
-        >
-          <SlUserFollow /> Add Follow
-        </Button>
-      </InputGroup>
+      <Card className="mt-4">
+        <Card.Body>
+          <Row>
+            <Col xl={9}>
+              <Select
+                options={options}
+                placeholder="Tìm kiếm bạn bè..."
+                onChange={(value) => this.onSelectValue(value)}
+                className="ms-2 w-100"
+              />
+            </Col>
+            <Col xl={3}>
+              <Button
+                variant="outline-primary"
+                className=""
+                onClick={() => this.addFollow()}
+              >
+                <SlUserFollow /> Theo dõi
+              </Button>
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
     );
   }
 }

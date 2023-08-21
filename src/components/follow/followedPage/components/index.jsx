@@ -5,7 +5,7 @@ import { Row, Col, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { SlUserFollow } from "react-icons/sl";
 import { followAction } from "../../../../store/action";
-import { typeFollowPage } from "../../../../common/constant";
+import { typeFollowPage, routes } from "../../../../common/constant";
 import moment from "moment";
 import { formatDateTime } from "../../../../common/constant";
 
@@ -29,7 +29,10 @@ class RightFollowPage extends Component {
 
   followUser(id) {
     const { dispatch } = this.props;
-    dispatch({ type: followAction.ADD_FOLLOW, payload: { userFollowedId: id } });
+    dispatch({
+      type: followAction.ADD_FOLLOW,
+      payload: { userFollowedId: id },
+    });
     setTimeout(() => {
       this.fetchListFollow();
     }, 100);
@@ -39,45 +42,44 @@ class RightFollowPage extends Component {
     const { followList = [] } = this.props;
 
     return (
-      <>
-        <Row>
-          {followList.map((follow) => {
-            return (
-              <Col className="col-4">
-                <Card className="CardFollowPage">
-                  <Card.Body>
-                    <Card.Img
-                      variant="top"
-                      src={
-                        follow?.userFollow?.avatar || "/image/icon-login.png"
-                      }
-                      className="ImgAvatarFollow"
-                    />
-                    <Card.Title className="FollowName">
-                      <Link>{`${follow?.userFollow?.lastName || ""} ${
-                        follow?.userFollow?.middleName || ""
-                      } ${follow?.userFollow?.firstName || ""}`}</Link>
-                    </Card.Title>
-                    <Card.Subtitle className="FollowTime">
-                      Follow at:{" "}
-                      {moment(follow?.createdAt).format(formatDateTime)}
-                    </Card.Subtitle>
-                    <hr />
-                    <Button
-                      className="BtnFollow"
-                      size="sm"
-                      variant="outline-primary"
-                      onClick={() => this.followUser(follow?.userFollow?.id)}
-                    >
-                      <SlUserFollow /> Follow
-                    </Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            );
-          })}
-        </Row>
-      </>
+      <Row>
+        {followList.map((follow) => {
+          return (
+            <Col xl={4}>
+              <Card className="CardFollowPage">
+                <Card.Body>
+                  <Card.Img
+                    variant="top"
+                    src={follow?.userFollow?.avatar || "/image/icon-login.png"}
+                    className="ImgAvatarFollow"
+                  />
+                  <Card.Title className="FollowName text-center">
+                    <Link
+                      to={{ pathname: routes.PERSONEL }}
+                      state={{ userId: follow?.userFollow?.id }}
+                    >{`${follow?.userFollow?.lastName || ""} ${
+                      follow?.userFollow?.middleName || ""
+                    } ${follow?.userFollow?.firstName || ""}`}</Link>
+                  </Card.Title>
+                  <Card.Subtitle className="FollowTime text-center">
+                    Theo dõi bạn vào lúc:{" "}
+                    {moment(follow?.createdAt).format(formatDateTime)}
+                  </Card.Subtitle>
+                  <hr />
+                  <Button
+                    className="BtnFollow w-100"
+                    size="sm"
+                    variant="outline-primary"
+                    onClick={() => this.followUser(follow?.userFollow?.id)}
+                  >
+                    <SlUserFollow /> Theo dõi
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          );
+        })}
+      </Row>
     );
   }
 }
