@@ -6,18 +6,28 @@ import {
   BsFillHandThumbsUpFill,
   BsFillChatLeftTextFill,
   BsFillReplyFill,
+  BsHeart,
+  BsFillEmojiHeartEyesFill,
 } from "react-icons/bs";
 import "./index.css";
 import ModalLikeHomepage from "./likeModal";
-import Button from "react-bootstrap/Button";
-import Collapse from "react-bootstrap/Collapse";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
+import {
+  Button,
+  Collapse,
+  Form,
+  InputGroup,
+  OverlayTrigger,
+  Popover,
+} from "react-bootstrap";
 import AuthService from "../../../services/authService";
 import ShowCommentHomePage from "./comments";
 import ActionPostItem from "./actions";
 import ShowImagePost from "./showImages";
-import { routes, typePostListPage, formatDateTime } from "../../../common/constant";
+import {
+  routes,
+  typePostListPage,
+  formatDateTime,
+} from "../../../common/constant";
 import { Link } from "react-router-dom";
 
 class PostListHomePage extends Component {
@@ -47,7 +57,7 @@ class PostListHomePage extends Component {
   actionLike(postId) {
     const { dispatch } = this.props;
     dispatch({ type: postAction.LIKE_POST, payload: { postId } });
-    this.fetchPostList()
+    this.fetchPostList();
   }
 
   actionShare(postId) {
@@ -56,7 +66,7 @@ class PostListHomePage extends Component {
       type: postAction.SHARE_POST,
       payload: { postId, privateMode: false },
     });
-    this.fetchPostList()
+    this.fetchPostList();
   }
 
   showComment(postId) {
@@ -88,7 +98,7 @@ class PostListHomePage extends Component {
     });
     this.fetchPostList();
     this.setState({
-      commentPost: '',
+      commentPost: "",
     });
   }
 
@@ -115,6 +125,7 @@ class PostListHomePage extends Component {
     const { isShowModal, userLikes, openedCommentId, commentPost } = this.state;
     const currentUser = AuthService.getCurrentUser();
     const isPersonel = typePostListPage.PERSONEL_PAGE === typePage;
+
     return (
       <div>
         {postLists?.map((post, index) => {
@@ -140,13 +151,16 @@ class PostListHomePage extends Component {
                     to={{
                       pathname: routes.PERSONEL,
                     }}
-                    state={{userId: post?.user?.id}}
+                    state={{ userId: post?.user?.id }}
                     onClick={isPersonel ? () => window.location.reload() : null}
                   >
                     {`${post?.user?.lastName || ""} ${
                       post?.user?.middleName || ""
                     } ${post?.user?.firstName || ""}`}
-                  </Link> <span className="PrivateModePost">{post?.privateMode ? '(private)' : ''}</span>
+                  </Link>{" "}
+                  <span className="PrivateModePost">
+                    {post?.privateMode ? "(private)" : ""}
+                  </span>
                   <p>
                     {post?.createdAt
                       ? moment(post?.createdAt).format(formatDateTime)
@@ -191,27 +205,38 @@ class PostListHomePage extends Component {
               </p>
               <br />
               <hr />
-              <p className="LikeShareComment">
-                <Button
-                  className="ButtonLSC"
-                  variant="outline-light"
-                  onClick={() => this.actionLike(post?.id)}
-                  style={
-                    post?.likes?.find((p) => p?.user?.id === currentUser?.id)
-                      ? { color: "blue" }
-                      : {}
+              <p className="LikeShareComment text-center">
+                <OverlayTrigger
+                  trigger="click"
+                  placement="top"
+                  overlay={
+                    <Popover>
+                      <Button
+                        variant="outline-light"
+                        onClick={() => this.actionLike(post?.id)}
+                        style={
+                          post?.likes?.find(
+                            (p) => p?.user?.id === currentUser?.id
+                          )
+                            ? { color: "blue" }
+                            : { color: "green" }
+                        }
+                      >
+                        <BsFillHandThumbsUpFill />
+                      </Button>
+                      <Button variant="outline-light">
+                        <BsHeart className="HeartIcon" />
+                      </Button>
+                      <Button variant="outline-light">
+                        <BsFillEmojiHeartEyesFill className="HeartEyesIcon" />
+                      </Button>
+                    </Popover>
                   }
                 >
-                  <BsFillHandThumbsUpFill /> like
-                </Button>
-                <Button
-                  className="ButtonLSC"
-                  variant="outline-light"
-                  aria-expanded={openedCommentId === post?.id}
-                  onClick={() => this.showComment(post?.id)}
-                >
-                  <BsFillChatLeftTextFill /> comment
-                </Button>{" "}
+                  <Button className="ButtonLSC" variant="outline-light">
+                    <BsFillHandThumbsUpFill /> Thích
+                  </Button>
+                </OverlayTrigger>
                 <Button
                   className="ButtonLSC"
                   variant="outline-light"
@@ -221,14 +246,14 @@ class PostListHomePage extends Component {
                     currentUser?.id === post?.user?.id ? { color: "gray" } : {}
                   }
                 >
-                  <BsFillReplyFill /> share
+                  <BsFillReplyFill /> Chia sẻ
                 </Button>
               </p>
               <Collapse in={openedCommentId === post?.id}>
                 <div>
                   <InputGroup className="mb-3">
                     <Form.Control
-                      placeholder="write something comments..."
+                      placeholder="Viết bình luận..."
                       aria-label="comment post"
                       aria-describedby="basic-addon-comment-post"
                       value={commentPost}
@@ -236,10 +261,10 @@ class PostListHomePage extends Component {
                     />
                     <Button
                       id="basic-addon-comment-post"
-                      variant="light"
+                      variant="outline-primary"
                       onClick={(event) => this.sendComment(event, post?.id)}
                     >
-                      send
+                      gửi
                     </Button>
                   </InputGroup>
                   <ShowCommentHomePage
