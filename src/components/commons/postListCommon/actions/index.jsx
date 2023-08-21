@@ -10,6 +10,7 @@ import "./index.css";
 import { typeModal } from "../../../../common/constant";
 import Select from "react-select";
 import ImageUploadingPage from "../../ImageUploadingPage";
+import { optionPrivateMode } from "../../../../utils/newPost";
 
 class ActionPostItem extends Component {
   constructor(props) {
@@ -122,16 +123,6 @@ class ActionPostItem extends Component {
   render() {
     const { postInfo = {}, currentUser = {} } = this.props;
     const { isShowModal, typeAction, images } = this.state;
-    const options = [
-      {
-        value: true,
-        label: "Mọi người",
-      },
-      {
-        value: false,
-        label: "Riêng tư",
-      },
-    ];
 
     return (
       <>
@@ -171,27 +162,30 @@ class ActionPostItem extends Component {
               {typeAction === typeModal.UPDATE ? (
                 <Form encType="multipart/form-data">
                   <Form.Group role="form">
-                    <Form.Label>Lựa chọn chế độ xem:</Form.Label>
                     <Select
-                      options={options}
-                      defaultValue={options?.find(
+                      options={optionPrivateMode}
+                      getOptionLabel={(e) => (
+                        <span>
+                          {e.icon} {e.label}
+                        </span>
+                      )}
+                      defaultValue={optionPrivateMode?.find(
                         (op) =>
                           op.value === postInfo?.privateMode ||
                           op?.value === false
                       )}
                       onChange={(e) => this.onChangePrivateMode(e)}
                     />
-                    <Form.Label>Tiêu đề</Form.Label>
                     <Form.Control
                       placeholder="Nhập tiêu đề bài đăng..."
                       aria-label="title new post"
                       defaultValue={postInfo?.title || null}
                       name="title"
+                      className="mt-2"
                       onChange={(event) => this.onChangeTitle(event)}
                     />
-                    <Form.Label>Nội dung</Form.Label>
                     <Form.Control
-                      className="mb-2"
+                      className="mb-2 mt-2"
                       placeholder="Nhập nội dung bài đăng..."
                       aria-label="type new post"
                       defaultValue={postInfo?.content || null}
@@ -208,13 +202,21 @@ class ActionPostItem extends Component {
                     />
                     <br />
                     <Button
-                      variant="danger"
+                      variant="outline-danger"
                       className="BtnCancleModalUpdatePost"
                       onClick={() => this.closeModal()}
+                      size="sm"
                     >
                       Hủy
                     </Button>{" "}
-                    <Button className="BtnCancleModalUpdatePost" onClick={() => this.updatePost()}>Lưu</Button>{" "}
+                    <Button
+                      variant="outline-primary"
+                      size="sm"
+                      className="BtnCancleModalUpdatePost"
+                      onClick={() => this.updatePost()}
+                    >
+                      Lưu
+                    </Button>{" "}
                   </Form.Group>
                 </Form>
               ) : null}

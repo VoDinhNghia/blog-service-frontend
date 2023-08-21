@@ -204,7 +204,7 @@ class MessageModal extends Component {
                   <MDBInputGroup className="mb-0">
                     <input
                       className="form-control"
-                      placeholder="Type message"
+                      placeholder="Viết tin nhắn..."
                       type="text"
                       value={content}
                       onChange={(event) => this.onChangeContent(event)}
@@ -213,7 +213,7 @@ class MessageModal extends Component {
                       variant="outline-primary"
                       onClick={() => this.sendMessage()}
                     >
-                      send
+                      gửi
                     </Button>
                   </MDBInputGroup>
                 </MDBCardFooter>

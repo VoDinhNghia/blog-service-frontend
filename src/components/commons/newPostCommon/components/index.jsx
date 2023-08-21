@@ -10,6 +10,9 @@ import { postAction } from "../../../../store/action";
 import { typePostListPage } from "../../../../common/constant";
 import Select from "react-select";
 import ImageUploadingPage from "../../ImageUploadingPage";
+import { optionPrivateMode } from "../../../../utils/newPost";
+import { BsCardImage, BsPencilSquare } from "react-icons/bs";
+import { CiSaveUp1 } from "react-icons/ci";
 
 class NewPostModal extends Component {
   constructor(props) {
@@ -69,6 +72,9 @@ class NewPostModal extends Component {
     this.setState({
       files: null,
       isUploadImages: false,
+      privateMode: false,
+      title: null,
+      content: null,
     });
     this.props.closeNewPost(false);
   }
@@ -114,20 +120,16 @@ class NewPostModal extends Component {
     });
   }
 
+  editPost() {
+    this.setState({
+      isUploadImages: false,
+    });
+  }
+
   render() {
     const { isShowNewPost = false } = this.props;
     const currentUser = AuthService.getCurrentUser();
-    const { isUploadImages, images } = this.state;
-    const options = [
-      {
-        value: true,
-        label: "Riêng tư",
-      },
-      {
-        value: false,
-        label: "Mọi người",
-      },
-    ];
+    const { isUploadImages, images, privateMode, content, title } = this.state;
 
     return (
       <div>
@@ -146,26 +148,31 @@ class NewPostModal extends Component {
               <Form.Group role="form">
                 {!isUploadImages ? (
                   <>
-                    <Form.Label>Lựa chọn chế độ xem:</Form.Label>
                     <Select
-                      options={options}
-                      defaultValue={options[1]}
+                      className="mt-2"
+                      options={optionPrivateMode}
+                      getOptionLabel={(e) => (
+                        <span>{e.icon}{" "}{e.label}</span>
+                      )}
+                      defaultValue={optionPrivateMode.find((op) => op.value === privateMode)}
                       onChange={(e) => this.onChangePrivateMode(e)}
                     />
-                    <Form.Label>Tiêu đề</Form.Label>
                     <Form.Control
+                      className="mt-2"
                       placeholder="Nhập tiêu đề bài đăng..."
                       aria-label="title new post"
                       name="title"
+                      defaultValue={title}
                       onChange={(event) => this.onChangeTitle(event)}
                     />
-                    <Form.Label>Nội dung</Form.Label>
                     <Form.Control
+                      className="mt-2"
                       placeholder="Nhập nội dung bài đăng..."
                       aria-label="type new post"
                       as="textarea"
-                      rows={5}
+                      rows={6}
                       name="content"
+                      defaultValue={content}
                       onChange={(event) => this.onChangeContent(event)}
                     />{" "}
                   </>
@@ -180,19 +187,31 @@ class NewPostModal extends Component {
                 ) : null}
                 <br />
                 {isUploadImages ? (
+                  <>
                   <Button
-                    className="BtnSubmitNewPost"
-                    onClick={() => this.createNewPost(currentUser?.id)}
+                    size="sm"
+                    variant="outline-primary"
+                    onClick={() => this.editPost()}
                   >
-                    Đăng bài
+                    <BsPencilSquare /> Chỉnh sửa bài viết
                   </Button>
-                ) : (
                   <Button
                     className="BtnSubmitNewPost"
                     variant="outline-primary"
+                    size="sm"
+                    onClick={() => this.createNewPost(currentUser?.id)}
+                  >
+                    <CiSaveUp1 /> Đăng bài
+                  </Button>
+                  </>
+                ) : (
+                  <Button
+                    size="sm"
+                    className="BtnSubmitNewPost w-100"
+                    variant="outline-primary"
                     onClick={() => this.UploadImageAndSubmit()}
                   >
-                    Chọn ảnh và Đăng bài
+                    <BsCardImage /> Chọn ảnh và Đăng bài
                   </Button>
                 )}
               </Form.Group>
