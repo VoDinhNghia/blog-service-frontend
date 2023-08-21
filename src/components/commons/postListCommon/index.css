@@ -96,7 +96,7 @@
   color: rgb(235, 34, 168);
 }
 
-@media only screen and (min-width: 200px) and (max-width: 420px) {
+/* @media only screen and (min-width: 200px) and (max-width: 420px) {
   .LikeShareComment {
     margin: 0px 0px 10px 10px;
   }
@@ -112,4 +112,4 @@
   .ButtonLSC {
     margin-right: 0px;
   }
-}
+} */

@@ -6,9 +6,9 @@ import {
   BsFillHandThumbsUpFill,
   BsFillChatLeftTextFill,
   BsFillReplyFill,
-  BsHeart,
   BsFillEmojiHeartEyesFill,
 } from "react-icons/bs";
+import { AiFillHeart } from "react-icons/ai";
 import "./index.css";
 import ModalLikeHomepage from "./likeModal";
 import {
@@ -27,6 +27,7 @@ import {
   routes,
   typePostListPage,
   formatDateTime,
+  likeAction,
 } from "../../../common/constant";
 import { Link } from "react-router-dom";
 
@@ -54,9 +55,9 @@ class PostListHomePage extends Component {
     });
   }
 
-  actionLike(postId) {
+  actionLike(postId, action) {
     const { dispatch } = this.props;
-    dispatch({ type: postAction.LIKE_POST, payload: { postId } });
+    dispatch({ type: postAction.LIKE_POST, payload: { postId, action } });
     this.fetchPostList();
   }
 
@@ -213,22 +214,54 @@ class PostListHomePage extends Component {
                     <Popover>
                       <Button
                         variant="outline-light"
-                        onClick={() => this.actionLike(post?.id)}
+                        onClick={() =>
+                          this.actionLike(post?.id, likeAction.LIKE)
+                        }
                         style={
                           post?.likes?.find(
-                            (p) => p?.user?.id === currentUser?.id
+                            (p) =>
+                              p?.user?.id === currentUser?.id &&
+                              p?.action === likeAction.LIKE
                           )
-                            ? { color: "blue" }
-                            : { color: "green" }
+                            ? { color: "blue", fontSize: 25 }
+                            : { color: "gray", fontSize: 25 }
                         }
                       >
                         <BsFillHandThumbsUpFill />
                       </Button>
-                      <Button variant="outline-light">
-                        <BsHeart className="HeartIcon" />
+                      <Button
+                        variant="outline-light"
+                        onClick={() =>
+                          this.actionLike(post?.id, likeAction.HEART)
+                        }
+                        style={
+                          post?.likes?.find(
+                            (p) =>
+                              p?.user?.id === currentUser?.id &&
+                              p?.action === likeAction.HEART
+                          )
+                            ? { color: "red", fontSize: 25 }
+                            : { color: "gray", fontSize: 25 }
+                        }
+                      >
+                        <AiFillHeart />
                       </Button>
-                      <Button variant="outline-light">
-                        <BsFillEmojiHeartEyesFill className="HeartEyesIcon" />
+                      <Button
+                        variant="outline-light"
+                        onClick={() =>
+                          this.actionLike(post?.id, likeAction.LOVE)
+                        }
+                        style={
+                          post?.likes?.find(
+                            (p) => 
+                              p?.user?.id === currentUser?.id &&
+                              p?.action === likeAction.LOVE
+                          )
+                            ? { color: "#e810c0", fontSize: 25 }
+                            : { color: "gray", fontSize: 25 }
+                        }
+                      >
+                        <BsFillEmojiHeartEyesFill />
                       </Button>
                     </Popover>
                   }
