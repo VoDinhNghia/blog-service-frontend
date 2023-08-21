@@ -27,6 +27,7 @@ class MessageModal extends Component {
       newMessage: null,
       limit: 10,
       page: 1,
+      listMessages: []
     };
   }
 
@@ -35,6 +36,7 @@ class MessageModal extends Component {
     socket.on("message_new", (data) => {
       this.setState({
         newMessage: data?.data,
+        listMessages: [...this.state.listMessages, data?.data],
       });
     });
   }
@@ -83,11 +85,11 @@ class MessageModal extends Component {
       messages = [],
       conversationInfo = {},
     } = this.props;
-    const { newMessage, content } = this.state;
+    const { newMessage, content, listMessages } = this.state;
     const currentUser = AuthService.getCurrentUser();
     const pushNewMessage =
       newMessage && newMessage?.conversationId === conversationInfo?.id
-        ? [...messages, newMessage]
+        ? [...messages, ...listMessages]
         : [...messages];
     const listMessage = _.uniqBy(pushNewMessage, "id");
 
