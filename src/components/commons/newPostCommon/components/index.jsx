@@ -9,9 +9,7 @@ import { createPost } from "../../../../services/postService";
 import { postAction } from "../../../../store/action";
 import { typePostListPage } from "../../../../common/constant";
 import Select from "react-select";
-import ImageUploading from "react-images-uploading";
-import { BsCamera2, BsPencilSquare, BsTrash } from "react-icons/bs";
-import { Col, Row } from "react-bootstrap";
+import ImageUploadingPage from "../../ImageUploadingPage";
 
 class NewPostModal extends Component {
   constructor(props) {
@@ -126,7 +124,7 @@ class NewPostModal extends Component {
         label: "Riêng tư",
       },
       {
-        value: true,
+        value: false,
         label: "Mọi người",
       },
     ];
@@ -151,6 +149,7 @@ class NewPostModal extends Component {
                     <Form.Label>Lựa chọn chế độ xem:</Form.Label>
                     <Select
                       options={options}
+                      defaultValue={options[1]}
                       onChange={(e) => this.onChangePrivateMode(e)}
                     />
                     <Form.Label>Tiêu đề</Form.Label>
@@ -172,75 +171,12 @@ class NewPostModal extends Component {
                   </>
                 ) : null}
                 {isUploadImages ? (
-                  <>
-                    <ImageUploading
-                      multiple
-                      value={images}
-                      onChange={(imageList) => this.onChangeUpload(imageList)}
-                      maxNumber={69}
-                      dataURLKey="data_url"
-                    >
-                      {({
-                        imageList,
-                        onImageUpload,
-                        onImageRemoveAll,
-                        onImageUpdate,
-                        onImageRemove,
-                        isDragging,
-                        dragProps,
-                      }) => (
-                        <div className="upload__image-wrapper">
-                          <Button
-                            style={isDragging ? { color: "red" } : undefined}
-                            onClick={onImageUpload}
-                            {...dragProps}
-                            variant="outline-primary"
-                            size="sm"
-                          >
-                            <BsCamera2 /> Chọn ảnh
-                          </Button>
-                          &nbsp;
-                          <Button
-                            onClick={onImageRemoveAll}
-                            variant="outline-danger"
-                            size="sm"
-                          >
-                            <BsTrash /> Xóa tất cả ảnh
-                          </Button>
-                          <Row>
-                            {imageList.map((image, index) => (
-                              <Col xl={4} className="mt-2 mb-2">
-                                <div key={index} className="image-item border">
-                                  <img
-                                    src={image["data_url"]}
-                                    alt=""
-                                    width="100%"
-                                    height="120px"
-                                  />
-                                  <div className="image-item__btn-wrapper mt-1 mb-1 text-center">
-                                    <Button
-                                      onClick={() => onImageUpdate(index)}
-                                      variant="outline-primary"
-                                      size="sm"
-                                    >
-                                      <BsPencilSquare />
-                                    </Button>{" "}
-                                    <Button
-                                      onClick={() => onImageRemove(index)}
-                                      variant="outline-danger"
-                                      size="sm"
-                                    >
-                                      <BsTrash />
-                                    </Button>
-                                  </div>
-                                </div>
-                              </Col>
-                            ))}
-                          </Row>
-                        </div>
-                      )}
-                    </ImageUploading>
-                  </>
+                  <ImageUploadingPage
+                    images={images}
+                    onChangeUpload={(imageList) =>
+                      this.onChangeUpload(imageList)
+                    }
+                  />
                 ) : null}
                 <br />
                 {isUploadImages ? (

@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import { connect } from "react-redux";
-import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
+import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { postAction } from "../../../../store/action";
 import "./index.css";
+import { typeModal } from "../../../../common/constant";
+import Select from "react-select";
+import ImageUploadingPage from "../../ImageUploadingPage";
 
 class ActionPostItem extends Component {
   constructor(props) {
@@ -18,13 +21,15 @@ class ActionPostItem extends Component {
       content: "",
       files: null,
       isShowModal: false,
-      isShowModalDelete: false,
+      typeAction: "",
+      images: [],
     };
   }
 
   showModal() {
     this.setState({
       isShowModal: true,
+      typeAction: typeModal.UPDATE,
     });
   }
 
@@ -36,13 +41,8 @@ class ActionPostItem extends Component {
 
   showModalDelete() {
     this.setState({
-      isShowModalDelete: true,
-    });
-  }
-
-  closeModalDelete() {
-    this.setState({
-      isShowModalDelete: false,
+      isShowModal: true,
+      typeAction: typeModal.DELETE,
     });
   }
 
@@ -110,9 +110,29 @@ class ActionPostItem extends Component {
     });
   }
 
+  onChangeUpload(imageList) {
+    this.setState({
+      files: imageList?.map((image) => {
+        return image?.file;
+      }),
+      images: imageList,
+    });
+  }
+
   render() {
     const { postInfo = {}, currentUser = {} } = this.props;
-    const { isShowModal, isShowModalDelete } = this.state;
+    const { isShowModal, typeAction, images } = this.state;
+    const options = [
+      {
+        value: true,
+        label: "Mọi người",
+      },
+      {
+        value: false,
+        label: "Riêng tư",
+      },
+    ];
+
     return (
       <>
         <div className="OptionsHeaderPostItem">
@@ -129,15 +149,13 @@ class ActionPostItem extends Component {
                 onClick={() => this.showModal()}
                 className="ItemOptionHeaderPost"
               >
-                <BsFillPencilFill className="BtnHeaderMenuPostItem" />
-                update post
+                <BsPencilSquare className="BtnHeaderMenuPostItem" /> Chỉnh sửa
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => this.showModalDelete()}
                 className="ItemOptionHeaderPost"
               >
-                <BsFillTrashFill className="BtnHeaderMenuPostItem" /> delete
-                post
+                <BsTrash className="BtnHeaderMenuPostItem" /> Xóa bài đăng
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
@@ -150,75 +168,72 @@ class ActionPostItem extends Component {
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Form encType="multipart/form-data">
-                <Form.Group role="form">
-                  <Form.Label>Private mode options:</Form.Label>
-                  <Form.Select
-                    className="browser-default custom-select"
-                    defaultValue={postInfo?.privateMode || false}
-                    name="privateMode"
-                    onChange={(event) => this.onChangePrivateMode(event)}
-                  >
-                    <option value={false}>false</option>
-                    <option value={true}>true</option>
-                  </Form.Select>
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control
-                    placeholder="title new post..."
-                    aria-label="title new post"
-                    name="title"
-                    defaultValue={postInfo?.title}
-                    onChange={(event) => this.onChangeTitle(event)}
-                  />
-                  <Form.Label>Content</Form.Label>
-                  <Form.Control
-                    placeholder="type new post..."
-                    aria-label="type new post"
-                    as="textarea"
-                    rows={5}
-                    name="content"
-                    defaultValue={postInfo?.content}
-                    onChange={(event) => this.onChangeContent(event)}
-                  />
-                  <Form.Label>File upload</Form.Label>
-                  <Form.Control
-                    type="file"
-                    multiple="multiple"
-                    name="imageFile"
-                    onChange={(event) => this.onChangeFile(event)}
-                  />
-                  <br />
+              {typeAction === typeModal.UPDATE ? (
+                <Form encType="multipart/form-data">
+                  <Form.Group role="form">
+                    <Form.Label>Lựa chọn chế độ xem:</Form.Label>
+                    <Select
+                      options={options}
+                      defaultValue={options?.find(
+                        (op) =>
+                          op.value === postInfo?.privateMode ||
+                          op?.value === false
+                      )}
+                      onChange={(e) => this.onChangePrivateMode(e)}
+                    />
+                    <Form.Label>Tiêu đề</Form.Label>
+                    <Form.Control
+                      placeholder="Nhập tiêu đề bài đăng..."
+                      aria-label="title new post"
+                      defaultValue={postInfo?.title || null}
+                      name="title"
+                      onChange={(event) => this.onChangeTitle(event)}
+                    />
+                    <Form.Label>Nội dung</Form.Label>
+                    <Form.Control
+                      className="mb-2"
+                      placeholder="Nhập nội dung bài đăng..."
+                      aria-label="type new post"
+                      defaultValue={postInfo?.content || null}
+                      as="textarea"
+                      rows={5}
+                      name="content"
+                      onChange={(event) => this.onChangeContent(event)}
+                    />{" "}
+                    <ImageUploadingPage
+                      images={images}
+                      onChangeUpload={(imageList) =>
+                        this.onChangeUpload(imageList)
+                      }
+                    />
+                    <br />
+                    <Button
+                      variant="danger"
+                      className="BtnCancleModalUpdatePost"
+                      onClick={() => this.closeModal()}
+                    >
+                      Hủy
+                    </Button>{" "}
+                    <Button className="BtnCancleModalUpdatePost" onClick={() => this.updatePost()}>Lưu</Button>{" "}
+                  </Form.Group>
+                </Form>
+              ) : null}
+              {typeAction === typeModal.DELETE ? (
+                <>
+                  <p>
+                    Xin chào {currentUser?.firstName}! Bạn có chắc chắn muốn xóa
+                    bài đăng này "<b>{postInfo?.title}</b>"?
+                  </p>
+                  <Button onClick={() => this.deletePost()}>Đồng ý</Button>
                   <Button
                     variant="danger"
                     className="BtnCancleModalUpdatePost"
-                    onClick={() => this.closeModal()}
+                    onClick={() => this.closeModalDelete()}
                   >
-                    Cancle
+                    Hủy
                   </Button>
-                  <Button onClick={() => this.updatePost()}>Save</Button>
-                </Form.Group>
-              </Form>
-            </Modal.Body>
-          </Modal>
-
-          <Modal
-            show={isShowModalDelete}
-            onHide={() => this.closeModalDelete(false)}
-            size="sm"
-          >
-            <Modal.Body>
-              <p>
-                Hi {currentUser?.firstName}! Are you sure you want to delete
-                this post "<b>{postInfo?.title}</b>"?
-              </p>
-              <Button
-                variant="danger"
-                className="BtnCancleModalUpdatePost"
-                onClick={() => this.closeModalDelete()}
-              >
-                Cancle
-              </Button>
-              <Button onClick={() => this.deletePost()}>Ok</Button>
+                </>
+              ) : null}
             </Modal.Body>
           </Modal>
         </div>
