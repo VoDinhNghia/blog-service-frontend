@@ -43,13 +43,13 @@ class AddNewProblemModal extends Component {
       >
         <Modal.Header closeButton={true} className="HeaderModalUpdatePost">
           <Modal.Title className="TitlePostUpdate">
-            Create new problem
+            Thêm vấn đề
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Label>Problem</Form.Label>
+          <Form.Label>Nội dung vấn đề</Form.Label>
           <Form.Control
-            placeholder="problem..."
+            placeholder="Viết vấn đề..."
             aria-label="problem"
             as="textarea"
             rows={4}
@@ -58,7 +58,7 @@ class AddNewProblemModal extends Component {
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => this.createNewProblem()}>Save</Button>
+          <Button onClick={() => this.createNewProblem()}>Lưu</Button>
         </Modal.Footer>
       </Modal>
     );

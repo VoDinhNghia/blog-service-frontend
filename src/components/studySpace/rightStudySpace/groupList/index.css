@@ -12,7 +12,7 @@
   font-size: 13px;
 }
 
-.BtnRightStudySpace {
+/* .BtnRightStudySpace {
   margin: 10px 40px 20px 0px;
 }
 
@@ -22,7 +22,7 @@
 
 .BtnTopicRightStudySpace {
   margin-right: 20px;
-}
+} */
 
 .CollapaseRightStudySpace {
   margin-top: 10px;
@@ -51,7 +51,7 @@
   color: red;
 }
 
-@media only screen and (min-width: 200px) and (max-width: 350px) {
+/* @media only screen and (min-width: 200px) and (max-width: 350px) {
   .BtnRightStudySpace {
     margin: 0px 0px 10px 10px;
   }
@@ -89,4 +89,4 @@
   .BtnMemberRightStudySpace {
     margin-right: 90px;
   }
-}
+} */

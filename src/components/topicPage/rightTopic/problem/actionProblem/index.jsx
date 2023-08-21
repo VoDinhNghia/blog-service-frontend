@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./index.css";
 import { connect } from "react-redux";
 import { Dropdown, Button, Modal, Form } from "react-bootstrap";
-import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
+import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import { studySpaceAction } from "../../../../../store/action";
 
 class ActionProblem extends Component {
@@ -86,15 +86,15 @@ class ActionProblem extends Component {
                 onClick={() => this.showModal()}
                 className="ItemActionProlem"
               >
-                <BsFillPencilFill className="BtnItemActionGroupList" />
-                Update problem
+                <BsPencilSquare className="BtnItemActionGroupList" />
+                Cập nhật
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => this.showModalDelete()}
                 className="ItemActionProlem"
               >
-                <BsFillTrashFill className="BtnItemActionDeleteProblem" />
-                Delete problem
+                <BsTrash className="BtnItemActionDeleteProblem" />
+                Xóa vấn đề
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
@@ -102,13 +102,13 @@ class ActionProblem extends Component {
           <Modal show={isShowModal} onHide={() => this.closeModal()}>
             <Modal.Header closeButton={true} className="HeaderModalUpdatePost">
               <Modal.Title className="TitlePostUpdate">
-                Update Problem
+                Cạp nhật vấn đề
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Form.Label>Problem</Form.Label>
+              <Form.Label>Vấn đề</Form.Label>
               <Form.Control
-                placeholder="problem..."
+                placeholder="Viết vấn đề..."
                 aria-label="problem"
                 as="textarea"
                 rows={4}
@@ -118,13 +118,13 @@ class ActionProblem extends Component {
               />
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={() => this.updateProblem()}>Save</Button>
+              <Button onClick={() => this.updateProblem()}>Lưu</Button>
             </Modal.Footer>
           </Modal>
           <Modal show={isShowModalDelete} size="sm">
             <Modal.Body>
               <p>
-                Are you sure you want to delete this problem "
+                Bạn có chắc chắn muốn xóa vấn đề này "
                 <b>{problemInfo?.problem?.slice(0, 10)}...</b>"?
               </p>
               <Button
@@ -132,10 +132,10 @@ class ActionProblem extends Component {
                 className="BtnCancleModalAddMember"
                 onClick={() => this.closeModalDelete()}
               >
-                Cancle
+                Hủy
               </Button>
               <Button onClick={() => this.deleteProblem()}>
-                Ok
+                Đồng ý
               </Button>
             </Modal.Body>
           </Modal>

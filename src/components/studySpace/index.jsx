@@ -5,15 +5,17 @@ import Col from "react-bootstrap/Col";
 import Footer from "../footerPage/footer";
 import LeftStudySpace from "./leftStudySpace";
 import RightStudySpace from "./rightStudySpace";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
+import { Container } from "react-bootstrap";
 
 const StudySpacePage = () => {
   const location = useLocation();
   const userId = location?.state?.userId;
 
-    return (
-      <>
-        <MenuStudySpacePage userId={userId} />
+  return (
+    <>
+      <MenuStudySpacePage userId={userId} />
+      <Container>
         <Row>
           <Col xs lg="4">
             <LeftStudySpace userId={userId} />
@@ -22,9 +24,10 @@ const StudySpacePage = () => {
             <RightStudySpace userId={userId} />
           </Col>
         </Row>
-        <Footer />
-      </>
-    );
-}
+      </Container>
+      <Footer />
+    </>
+  );
+};
 
 export default StudySpacePage;
