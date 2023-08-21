@@ -88,12 +88,16 @@
   color: gray;
 }
 
+.LikeIcon {
+  color: blue;
+}
+
 .HeartIcon {
   color: red;
 }
 
 .HeartEyesIcon {
-  color: rgb(235, 34, 168);
+  color: rgb(235, 14, 161);
 }
 
 /* @media only screen and (min-width: 200px) and (max-width: 420px) {
