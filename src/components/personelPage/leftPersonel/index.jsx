@@ -53,7 +53,7 @@ class LeftPersonel extends Component {
             <div>
               <div className="UtilitiesPersonalPage">
                 <h3 className="title">
-                  <BsFillBriefcaseFill className="icon" /> Utilities Link
+                  <BsFillBriefcaseFill className="icon" /> Tiện ích
                 </h3>
                 <hr />
                 <p>
@@ -66,7 +66,7 @@ class LeftPersonel extends Component {
                     className="LinkLeftHomePage"
                   >
                     <BsFillPersonCheckFill className="IconLeftHomePage" />
-                    List Your Followers
+                    Danh sách người theo dõi bạn
                   </Link>
                 </p>
                 <p>
@@ -79,24 +79,24 @@ class LeftPersonel extends Component {
                     className="LinkLeftHomePage"
                   >
                     <BsFillPersonPlusFill className="IconLeftHomePage" />
-                    List of Your Followeds
+                    Danh sách người bạn theo dõi
                   </Link>
                 </p>
                 <p>
                   <Link to={"/"} className="LinkLeftHomePage">
-                    <FaShare className="IconLeftHomePage" /> Shared Post Lists
+                    <FaShare className="IconLeftHomePage" /> Danh sách bài chia sẻ
                   </Link>
                 </p>
                 <p>
                   <Link to={"/"} className="LinkLeftHomePage">
-                    <BsFillTrash3Fill className="IconLeftHomePage" /> My Trash
+                    <BsFillTrash3Fill className="IconLeftHomePage" /> Thùng rác
                   </Link>
                 </p>
               </div>
               <hr />
               <div className="UtilitiesPersonalPage">
                 <h3 className="title">
-                  <BsImages className="icon" /> My Pictures List
+                  <BsImages className="icon" /> Danh sách ảnh
                 </h3>
               </div>
               <div className="ImageListLefPersonel">

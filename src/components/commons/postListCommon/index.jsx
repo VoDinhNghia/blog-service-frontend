@@ -273,6 +273,14 @@ class PostListHomePage extends Component {
                 <Button
                   className="ButtonLSC"
                   variant="outline-light"
+                  aria-expanded={openedCommentId === post?.id}
+                  onClick={() => this.showComment(post?.id)}
+                >
+                  <BsFillChatLeftTextFill /> Bình luận
+                </Button>{" "}
+                <Button
+                  className="ButtonLSC"
+                  variant="outline-light"
                   onClick={() => this.actionShare(post?.id)}
                   disabled={currentUser?.id === post?.user?.id ? true : false}
                   style={

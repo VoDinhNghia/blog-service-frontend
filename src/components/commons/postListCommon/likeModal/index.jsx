@@ -28,7 +28,6 @@ class ModalLikeHomepage extends Component {
           </Modal.Header>
           <Modal.Body>
             {data?.map((lists, index) => {
-              console.log("lsisy", lists)
               return (
                 <p className="ModalUserLike" key={`${lists?.id}${index}`}>
                   <span>

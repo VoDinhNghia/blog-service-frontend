@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { SlUserUnfollow } from "react-icons/sl";
 import AddFollow from "../../common/addFollow";
 import { followAction } from "../../../../store/action";
-import { typeFollowPage } from "../../../../common/constant";
+import { routes, typeFollowPage } from "../../../../common/constant";
 import moment from "moment";
 import { formatDateTime } from "../../../../common/constant";
 
@@ -45,7 +45,7 @@ class RightFollowingPage extends Component {
         <Row>
           {followList.map((follow) => {
             return (
-              <Col className="col-4">
+              <Col xl={4}>
                 <Card className="CardFollowPage">
                   <Card.Body>
                     <Card.Img
@@ -55,18 +55,18 @@ class RightFollowingPage extends Component {
                       }
                       className="ImgAvatarFollow"
                     />
-                    <Card.Title className="FollowName">
-                      <Link>{`${follow?.userFollowed?.lastName || ""} ${
+                    <Card.Title className="FollowName text-center">
+                      <Link to={{ pathname: routes.PERSONEL }} state={{ userId: follow?.userFollowed?.id }}>{`${follow?.userFollowed?.lastName || ""} ${
                         follow?.userFollowed?.middleName || ""
                       } ${follow?.userFollowed?.firstName || ""}`}</Link>
                     </Card.Title>
-                    <Card.Subtitle className="FollowTime">
-                      Follow at:{" "}
+                    <Card.Subtitle className="FollowTime text-center">
+                      Bạn theo dõi vào lúc:{" "}
                       {moment(follow?.createdAt).format(formatDateTime)}
                     </Card.Subtitle>
                     <hr />
-                    <Button size="sm" variant="outline-danger" onClick={() => this.removeFollow(follow?.id)}>
-                      <SlUserUnfollow /> Cancle follow
+                    <Button className="w-100" size="sm" variant="outline-danger" onClick={() => this.removeFollow(follow?.id)}>
+                      <SlUserUnfollow /> Hủy theo dõi
                     </Button>
                   </Card.Body>
                 </Card>
