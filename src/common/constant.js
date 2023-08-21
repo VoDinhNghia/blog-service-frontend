@@ -33,3 +33,10 @@ export const typeFollowPage = {
   FOLLOWING: "FOLLOWING",
   FOLLOWED: "FOLLOWED",
 }
+
+export const typeModal = {
+  VIEW: "VIEW",
+  DELETE: "DELETE",
+  ADD: "ADD",
+  UPDATE: "UPDATE",
+}
