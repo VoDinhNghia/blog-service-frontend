@@ -8,13 +8,10 @@ export const fetchAllPosts = (payload) =>
     params: payload,
   });
 
-export const likePost = (postId) =>
+export const likePost = (payload) =>
   axios.post(
     `${API_URL}/api/like/`,
-    {
-      postId,
-      type: "POST",
-    },
+    {...payload, type: "POST"},
     {
       headers: authHeader(),
     }

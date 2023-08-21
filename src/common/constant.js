@@ -40,3 +40,9 @@ export const typeModal = {
   ADD: "ADD",
   UPDATE: "UPDATE",
 }
+
+export const likeAction = {
+  HEART: "HEART",
+  LOVE: "LOVE",
+  LIKE: "LIKE",
+}

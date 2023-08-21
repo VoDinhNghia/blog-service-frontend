@@ -40,8 +40,7 @@ function* getAllPostPersonel({ payload }) {
 
 function* likePosts({ payload }) {
   try {
-    const { postId } = payload;
-    yield call(likePost, postId);
+    yield call(likePost, payload);
   } catch (error) {}
 }
 
