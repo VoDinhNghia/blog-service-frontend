@@ -51,7 +51,7 @@ class RightTopicPage extends Component {
         <div className="TopicDetailPage">
           <div className="TitleTopicInfo">
             <h4>
-              {topicInfo?.name}{" "}
+              Chủ đề: {topicInfo?.name}{" "}
               <span className="ActionTopic">
                 {currentUser?.id === topicInfo?.createdBy?.id ? (
                   <ActionTopicDetail topicInfo={topicInfo} />
@@ -61,7 +61,7 @@ class RightTopicPage extends Component {
           </div>
           <div className="ContentTopicInfo">
             <p>
-              <b>Created by</b>:{" "}
+              <b>Được tạo bởi: </b>:{" "}
               <Link
                 to={routes.PERSONEL}
                 state={{ userId: topicInfo?.createdBy?.id }}
@@ -72,11 +72,11 @@ class RightTopicPage extends Component {
               </Link>
             </p>
             <p>
-              <b>CreateAt</b>:{" "}
+              <b>Được tạo vào lúc: </b>:{" "}
               {moment(topicInfo?.createdAt).format(formatDateTime)}
             </p>
             <p>
-              <b>Description</b>: {topicInfo?.description}
+              <b>Mô tả: </b>: {topicInfo?.description}
             </p>
           </div>
         </div>
@@ -86,7 +86,7 @@ class RightTopicPage extends Component {
             variant="outline-primary"
             onClick={() => this.showModalAddProblem()}
           >
-            <BsFillPlusSquareFill /> Add new problem
+            <BsFillPlusSquareFill /> Thêm vấn đề
           </Button>
           <AddNewProblemModal
             isShowModalAddProblem={isShowModalAddProblem}

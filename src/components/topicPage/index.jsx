@@ -6,6 +6,7 @@ import Footer from "../footerPage/footer";
 import LeftTopicPage from "./leftTopic";
 import RightTopicPage from "./rightTopic";
 import { useLocation } from "react-router-dom";
+import { Container } from "react-bootstrap";
 
 const TopicPage = () => {
   const location = useLocation();
@@ -14,14 +15,16 @@ const TopicPage = () => {
   return (
     <>
       <MenuStudySpacePage userId={userId} />
-      <Row>
-        <Col xs lg="4">
-          <LeftTopicPage userId={userId} />
-        </Col>
-        <Col>
-          <RightTopicPage userId={userId} topicId={topicId} />
-        </Col>
-      </Row>
+      <Container>
+        <Row>
+          <Col xs lg="4">
+            <LeftTopicPage userId={userId} />
+          </Col>
+          <Col>
+            <RightTopicPage userId={userId} topicId={topicId} />
+          </Col>
+        </Row>
+      </Container>
       <Footer />
     </>
   );

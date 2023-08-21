@@ -64,7 +64,7 @@ class SolutionList extends Component {
           className="BtnViewSolution"
           onClick={() => this.props.showCollapse(problemId)}
         >
-          <FcViewDetails /> View Solution
+          <FcViewDetails /> Xem giải pháp
         </Button>
         <Collapse in={openedProblemId === problemId}>
           <div>

@@ -44,19 +44,19 @@ class CreateNewTopicModal extends Component {
         onHide={() => this.props.closeModal({ isShowModalNewTopic: false })}
       >
         <Modal.Header closeButton={true} className="HeaderModalUpdateGroup">
-          <Modal.Title className="TitlePostUpdate">Add new topic</Modal.Title>
+          <Modal.Title className="TitlePostUpdate">Thêm chủ đề</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Label>Topic name</Form.Label>
+          <Form.Label>Tên chủ đề</Form.Label>
           <Form.Control
-            placeholder="topic name..."
+            placeholder="Viết tên chủ đề..."
             aria-label="topicName"
             name="topicName"
             onChange={(event) => this.onChangeName(event)}
           />
-          <Form.Label>Topic description</Form.Label>
+          <Form.Label>Mô tả</Form.Label>
           <Form.Control
-            placeholder="topic description..."
+            placeholder="Viết mô tả..."
             aria-label="description"
             as="textarea"
             rows={4}
@@ -65,7 +65,7 @@ class CreateNewTopicModal extends Component {
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => this.createNewTopic()}>Save</Button>
+          <Button onClick={() => this.createNewTopic()} variant="outline-primary">Save</Button>
         </Modal.Footer>
       </Modal>
     );

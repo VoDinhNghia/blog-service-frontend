@@ -131,7 +131,7 @@ class GroupListPage extends Component {
                           variant="outline-danger"
                           onClick={() => this.leaveGroup(group?.id)}
                         >
-                          Leave
+                          Rời nhóm
                         </Button>
                       ) : null}
                     </span>
@@ -141,7 +141,7 @@ class GroupListPage extends Component {
                   {`${moment(group?.createdAt || "").format(formatDateTime)}`}{" "}
                   {currentUser?.id === group?.createdById ? null : (
                     <span>
-                      created by{" "}
+                      được tạo bởi{" "}
                       <Link
                         to={routes.PERSONEL}
                         state={{ userId: group?.createdById }}
@@ -156,17 +156,19 @@ class GroupListPage extends Component {
                   <Button
                     className="BtnTopicRightStudySpace"
                     variant="outline-primary"
+                    size="sm"
                     aria-expanded={openedTopicGroupId === group?.id}
                     onClick={() => this.showTopics(group?.id)}
                   >
-                    <MdTopic /> Topics
-                  </Button>
+                    <MdTopic /> Chủ đề
+                  </Button>{" "}
                   <Button
                     variant="outline-primary"
+                    size="sm"
                     className="BtnMemberRightStudySpace"
                     onClick={() => this.showModal(group?.id)}
                   >
-                    <AiOutlineUsergroupAdd /> Members
+                    <AiOutlineUsergroupAdd /> Thành viên
                   </Button>
                 </p>
                 <MemberGroup
@@ -202,8 +204,8 @@ class GroupListPage extends Component {
                                     </Link>
                                   </Card.Title>
                                   <Card.Text>
-                                    {topic?.description?.length > 40
-                                      ? `${topic?.description?.slice(0, 40)}...`
+                                    {topic?.description?.length > 30
+                                      ? `${topic?.description?.slice(0, 30)}...`
                                       : topic?.description}
                                   </Card.Text>
                                   <Button
@@ -212,7 +214,7 @@ class GroupListPage extends Component {
                                     size="sm"
                                     onClick={() => this.showModalDeleteTopic()}
                                   >
-                                    <BsFillTrashFill /> Delete
+                                    <BsFillTrashFill /> Xóa
                                   </Button>
                                   <Button
                                     variant="light"
@@ -223,30 +225,28 @@ class GroupListPage extends Component {
                                       to={routes.STUDY_SPACE_TOPIC}
                                       state={{ topicId: topic?.id }}
                                     >
-                                      <FcViewDetails /> View
+                                      <FcViewDetails /> Xem
                                     </Link>
                                   </Button>
                                   <Modal
                                     show={isShowModalDeleteTopic}
                                     onHide={() => this.closeModal({ isShowModalDeleteTopic: false })}
-                                    size="sm"
                                   >
                                     <Modal.Body>
                                       <p>
-                                        Are you sure you want to delete this
-                                        topic "<b>{topic?.name?.slice(0, 10)}...</b>"?
+                                        Bạn có chắc chắn muốn xóa chủ đề này "<b>{topic?.name}</b>"?
                                       </p>
                                       <Button
                                         variant="danger"
                                         className="BtnCancleModalAddMember"
                                         onClick={() => this.closeModal({ isShowModalDeleteTopic: false })}
                                       >
-                                        Cancle
+                                        Hủy
                                       </Button>
                                       <Button
                                         onClick={() => this.deleteTopic(topic?.id)}
                                       >
-                                        Ok
+                                        Đồng ý
                                       </Button>
                                     </Modal.Body>
                                   </Modal>
@@ -265,7 +265,7 @@ class GroupListPage extends Component {
                           variant="outline-primary"
                           onClick={() => this.showModalNewTopic(group?.id)}
                         >
-                          <BsPlusCircle /> Add new topic
+                          <BsPlusCircle /> Thêm chủ đề
                         </Button>
                       ) : null}
                     </div>
