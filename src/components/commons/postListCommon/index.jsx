@@ -130,6 +130,15 @@ class PostListHomePage extends Component {
     return (
       <div>
         {postLists?.map((post, index) => {
+          const likeNumber = post?.likes?.filter(
+            (p) => p.action === likeAction.LIKE
+          )?.length;
+          const loveNumber = post?.likes?.filter(
+            (p) => p?.action === likeAction.LOVE
+          )?.length;
+          const heartNumber = post?.likes?.filter(
+            (p) => p?.action === likeAction.HEART
+          )?.length;
           return (
             <div className="PostItem" key={`${post?.id}${index}`}>
               <span>
@@ -187,7 +196,23 @@ class PostListHomePage extends Component {
                   variant="outline-light"
                   onClick={() => this.showModal(post?.likes || [])}
                 >
-                  <BsFillHandThumbsUpFill /> {post?.likes?.length}
+                  {likeNumber > 0 ? (
+                    <span>
+                      <BsFillHandThumbsUpFill className="LikeIcon" />{" "}
+                      {likeNumber}{" "}
+                    </span>
+                  ) : null}
+                  {loveNumber > 0 ? (
+                    <span>
+                      <BsFillEmojiHeartEyesFill className="HeartIcon" />{" "}
+                      {loveNumber}{" "}
+                    </span>
+                  ) : null}
+                  {heartNumber > 0 ? (
+                    <span>
+                      <AiFillHeart className="HeartEyesIcon" /> {heartNumber}{" "}
+                    </span>
+                  ) : null}
                 </Button>{" "}
                 <span className="NumberCommentShare">
                   <Button
@@ -253,7 +278,7 @@ class PostListHomePage extends Component {
                         }
                         style={
                           post?.likes?.find(
-                            (p) => 
+                            (p) =>
                               p?.user?.id === currentUser?.id &&
                               p?.action === likeAction.LOVE
                           )

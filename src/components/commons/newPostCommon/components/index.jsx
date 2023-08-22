@@ -13,6 +13,7 @@ import ImageUploadingPage from "../../ImageUploadingPage";
 import { optionPrivateMode } from "../../../../utils/newPost";
 import { BsCardImage, BsPencilSquare } from "react-icons/bs";
 import { CiSaveUp1 } from "react-icons/ci";
+import { Card } from "react-bootstrap";
 
 class NewPostModal extends Component {
   constructor(props) {
@@ -165,16 +166,21 @@ class NewPostModal extends Component {
                       defaultValue={title}
                       onChange={(event) => this.onChangeTitle(event)}
                     />
-                    <Form.Control
-                      className="mt-2"
-                      placeholder="Nhập nội dung bài đăng..."
-                      aria-label="type new post"
-                      as="textarea"
-                      rows={6}
-                      name="content"
-                      defaultValue={content}
-                      onChange={(event) => this.onChangeContent(event)}
-                    />{" "}
+                    <Card className="mt-2">
+                      <Card.Body className="m-0 w-100">
+                        <Form.Control
+                          className="w-100"
+                          placeholder="Nhập nội dung bài đăng..."
+                          aria-label="type new post"
+                          as="textarea"
+                          rows={7}
+                          name="content"
+                          defaultValue={content}
+                          onChange={(event) => this.onChangeContent(event)}
+                        />
+              
+                      </Card.Body>
+                    </Card>
                   </>
                 ) : null}
                 {isUploadImages ? (
