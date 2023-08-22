@@ -6,8 +6,11 @@ import Col from "react-bootstrap/Col";
 import RightHomePage from "./components/rightPage/rightPage";
 import LeftHomePage from "./components/leftPage/leftPage";
 import { connect } from "react-redux";
-import { userAction } from "../../store/action";
+import { messageAction, userAction } from "../../store/action";
 import { Container } from "react-bootstrap";
+import { getNumberMsgNotRead } from "../../utils/messageHandle";
+import { socket } from "../../services/socket";
+import { socketMesg } from "../../common/constant";
 
 class Home extends Component {
   constructor(props) {
@@ -21,7 +24,14 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    socket.connect();
+    socket.on(socketMesg.MESSAGE_NEW, (data) => {
+      if (data?.data) {
+        this.fetchNewMessage();
+      }
+    })
     this.fetchAllUsers();
+    this.fetchNewMessage();
   }
 
   fetchAllUsers() {
@@ -30,12 +40,21 @@ class Home extends Component {
     dispatch({ type: userAction.GET_ALL_USER, payload: { limit, page } });
   }
 
+  fetchNewMessage() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: messageAction.GET_CONVERSATION_BY_USER,
+    });
+  }
+
   render() {
-    const { userList = [] } = this.props;
+    const { userList = [], newMessages = [] } = this.props;
+    const numberMsg = getNumberMsgNotRead(newMessages);
+    console.log("nudm", numberMsg)
 
     return (
       <>
-        <MenuHomePage />
+        <MenuHomePage numberMsg={numberMsg}/>
         <Container>
           <Row>
             <Col xs lg="4">
@@ -55,6 +74,7 @@ class Home extends Component {
 function mapStateToProps(state) {
   return {
     userList: state.UserReducer.userList,
+    newMessages: state.MessageReducer.newMessages,
   };
 }
 export default connect(mapStateToProps)(Home);
