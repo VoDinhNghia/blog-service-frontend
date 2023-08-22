@@ -55,7 +55,7 @@ class MenuMain extends Component {
           <Nav.Link href={routes.HOME} className="NavLinkMenu">
             <BsHouseFill /> Trang chủ
           </Nav.Link>
-          <Nav.Link href="/" className="NavLinkMenu">
+          <Nav.Link href={routes.MESSAGE_PAGE} className="NavLinkMenu">
             <BsChatQuote />
             <span className="NumberNotifyMenu"> {numberMsg}</span>
           </Nav.Link>

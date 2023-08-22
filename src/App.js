@@ -14,16 +14,9 @@ import StudySpacePage from "./components/studySpace";
 import TopicPage from "./components/topicPage";
 import FollowedPage from "./components/follow/followedPage";
 import FollowingPage from "./components/follow/followingPage";
+import MessagePage from "./components/messagePage";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      content: "hello",
-    };
-  }
-
   render() {
     return (
       <div className="AppMain">
@@ -75,6 +68,14 @@ class App extends Component {
             element={
               <PrivateRoute>
                 <FollowingPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={routes.MESSAGE_PAGE}
+            element={
+              <PrivateRoute>
+                <MessagePage />
               </PrivateRoute>
             }
           />

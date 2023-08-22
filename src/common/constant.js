@@ -17,6 +17,7 @@ export const routes = {
   STUDY_SPACE_TOPIC: "/study-space-topic",
   FOLLOWED: "/followed",
   FOLLOWING: "/following",
+  MESSAGE_PAGE: "/message-page",
 };
 
 export const typePostListPage = {
