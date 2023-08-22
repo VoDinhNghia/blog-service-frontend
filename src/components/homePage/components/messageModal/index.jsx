@@ -11,7 +11,7 @@ import {
   MDBInputGroup,
 } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
-import { formatTimeMessage, routes } from "../../../../common/constant";
+import { formatTimeMessage, routes, socketMesg } from "../../../../common/constant";
 import { connect } from "react-redux";
 import { socket } from "../../../../services/socket";
 import { messageAction } from "../../../../store/action";
@@ -33,7 +33,7 @@ class MessageModal extends Component {
 
   componentDidMount() {
     socket.connect();
-    socket.on("message_new", (data) => {
+    socket.on(socketMesg.MESSAGE_NEW, (data) => {
       this.setState({
         newMessage: data?.data,
         listMessages: [...this.state.listMessages, data?.data],

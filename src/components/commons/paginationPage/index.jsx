@@ -8,7 +8,7 @@ class PaginationPage extends Component {
 
     return (
       <>
-        {totalPage > 0 ? (
+        {totalPage >= 1 ? (
           <Card className="mb-3 text-center border-0">
             <Card.Body>
               <Button

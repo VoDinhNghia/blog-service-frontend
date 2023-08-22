@@ -31,6 +31,8 @@ class MenuHomePage extends Component {
   }
 
   render() {
+    const { numberMsg = 0 } = this.props;
+
     return (
       <Navbar collapseOnSelect expand="sm" className="MenuMain">
         <Navbar.Brand>
@@ -44,7 +46,7 @@ class MenuHomePage extends Component {
           aria-controls="navbarScroll"
           data-bs-target="#navbarScroll"
         />
-        <MenuMain />
+        <MenuMain numberMsg={numberMsg} />
       </Navbar>
     );
   }

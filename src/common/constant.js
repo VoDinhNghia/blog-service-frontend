@@ -46,3 +46,7 @@ export const likeAction = {
   LOVE: "LOVE",
   LIKE: "LIKE",
 }
+
+export const socketMesg = {
+  MESSAGE_NEW: "message_new",
+}

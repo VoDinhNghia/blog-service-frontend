@@ -172,7 +172,7 @@ class PostListHomePage extends Component {
                     {post?.privateMode ? "(private)" : ""}
                   </span>
                   <p>
-                    {post?.createdAt
+                    Đã đăng vào lúc {post?.createdAt
                       ? moment(post?.createdAt).format(formatDateTime)
                       : ""}
                   </p>

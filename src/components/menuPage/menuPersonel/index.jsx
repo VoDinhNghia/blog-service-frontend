@@ -1,10 +1,13 @@
 import React, { Component } from "react";
-import { postAction } from "../../../store/action";
+import { messageAction, postAction } from "../../../store/action";
 import { connect } from "react-redux";
 import MenuMain from "../menuMain";
 import AuthService from "../../../services/authService";
 import SearchMenuPageCommon from "../../commons/searchMenuPage";
 import { Navbar } from "react-bootstrap";
+import { getNumberMsgNotRead } from "../../../utils/messageHandle";
+import { socket } from "../../../services/socket";
+import { socketMesg } from "../../../common/constant";
 
 class MenuPersonelPage extends Component {
   constructor(props) {
@@ -12,6 +15,16 @@ class MenuPersonelPage extends Component {
     this.state = {
       searchKey: null,
     };
+  }
+
+  componentDidMount() {
+    socket.connect();
+    socket.on(socketMesg.MESSAGE_NEW, (data) => {
+      if (data?.data) {
+        this.fetchNewMessage();
+      }
+    });
+    this.fetchNewMessage();
   }
 
   onChangeSearch(event) {
@@ -34,7 +47,17 @@ class MenuPersonelPage extends Component {
     }, 100);
   }
 
+  fetchNewMessage() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: messageAction.GET_CONVERSATION_BY_USER,
+    });
+  }
+
   render() {
+    const { newMessages = [] } = this.props;
+    const numberMsg = getNumberMsgNotRead(newMessages);
+
     return (
       <Navbar collapseOnSelect expand="sm" className="MenuMain">
         <Navbar.Brand>
@@ -48,10 +71,16 @@ class MenuPersonelPage extends Component {
           aria-controls="navbarScroll"
           data-bs-target="#navbarScroll"
         />
-        <MenuMain />
+        <MenuMain numberMsg={numberMsg}/>
       </Navbar>
     );
   }
 }
 
-export default connect()(MenuPersonelPage);
+const mapStateToProps = (state) => {
+  return {
+    newMessages: state.MessageReducer.newMessages,
+  }
+}
+
+export default connect(mapStateToProps)(MenuPersonelPage);
