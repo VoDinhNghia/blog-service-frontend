@@ -47,6 +47,14 @@ class MessageModal extends Component {
     });
   }
 
+  onViewMessage() {
+    const { conversationInfo, dispatch } = this.props;
+    dispatch({
+      type: messageAction.UPDATE_STATUS_MESSAGE,
+      id: conversationInfo?.id,
+    });
+  }
+
   closeModal() {
     this.setState({
       newMessage: null,
@@ -207,6 +215,7 @@ class MessageModal extends Component {
                       placeholder="Viết tin nhắn..."
                       type="text"
                       value={content}
+                      onClick={() => this.onViewMessage()}
                       onChange={(event) => this.onChangeContent(event)}
                     />
                     <Button

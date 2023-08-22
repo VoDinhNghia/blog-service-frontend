@@ -10,6 +10,9 @@ import EventBus from "../../common/eventBus";
 import { routes } from "../../common/constant";
 import "./index.css";
 import { Nav, Navbar } from "react-bootstrap";
+import { socket } from "../../services/socket";
+import { connect } from "react-redux";
+import { messageAction } from "../../store/action";
 
 class MenuMain extends Component {
   constructor(props) {
@@ -29,13 +32,25 @@ class MenuMain extends Component {
         currentUser: user,
       });
     }
+    socket.connect();
+    socket.on("message_new", (data) => {
+      this.fetchNewMessage();
+    });
     EventBus.on("logout", () => {
       this.logOut();
     });
+    this.fetchNewMessage();
   }
 
   componentWillUnmount() {
     EventBus.remove("logout");
+  }
+
+  fetchNewMessage() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: messageAction.GET_CONVERSATION_BY_USER,
+    });
   }
 
   async logOut() {
@@ -47,6 +62,14 @@ class MenuMain extends Component {
   }
 
   render() {
+    const { newMessages = [] } = this.props;
+    const { currentUser } = this.state;
+    const listMsgNotRead = newMessages?.filter((msg) =>
+      msg?.messages?.find(
+        (m) => m?.userSendId !== currentUser?.id && !m?.status
+      )
+    );
+
     return (
       <Navbar.Collapse id="navbarScroll" className="MenuRight">
         <Nav className="me-auto">
@@ -55,7 +78,7 @@ class MenuMain extends Component {
           </Nav.Link>
           <Nav.Link href="/" className="NavLinkMenu">
             <BsChatQuote />
-            <span className="NumberNotifyMenu">10</span>
+            <span className="NumberNotifyMenu"> {listMsgNotRead?.length}</span>
           </Nav.Link>
           <Nav.Link href="/" className="NavLinkMenu">
             <BsBell />
@@ -74,4 +97,10 @@ class MenuMain extends Component {
   }
 }
 
-export default MenuMain;
+const mapStateToProps = (state) => {
+  return {
+    newMessages: state.MessageReducer.newMessages,
+  };
+};
+
+export default connect(mapStateToProps)(MenuMain);

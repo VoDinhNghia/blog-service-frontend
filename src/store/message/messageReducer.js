@@ -3,6 +3,7 @@ import { messageAction } from "../action";
 const initState = {
   conversationInfo: {},
   messageConverList: [],
+  newMessages: [],
 };
 
 const MessageReducer = (state = initState, action) => {
@@ -17,7 +18,7 @@ const MessageReducer = (state = initState, action) => {
         ...state,
         conversationInfo: action?.payload || {},
         isLoading: false,
-      }
+      };
     case messageAction.CLOSE_MODAL_MESS:
       return {
         ...state,
@@ -28,6 +29,12 @@ const MessageReducer = (state = initState, action) => {
       return {
         ...state,
         messageConverList: action?.payload || [],
+        isLoading: false,
+      };
+    case messageAction.GET_CONVERSATION_BY_USER_SUCCESS:
+      return {
+        ...state,
+        newMessages: action?.payload,
         isLoading: false,
       };
     default:
