@@ -37,5 +37,14 @@ export const getAllMessByOneConver = async (payload) => {
     params: payload,
   });
   return response?.data?.data;
-}
+};
 
+export const updateStatusMessage = (id, payload) =>
+  axios.put(`${API_URL}/api/message/update-status/${id}`, payload, {
+    headers: authHeader(),
+  });
+
+export const getListConversationByUser = () =>
+  axios.get(`${API_URL}/api/conversation/list-by-user`, {
+    headers: authHeader(),
+  });
