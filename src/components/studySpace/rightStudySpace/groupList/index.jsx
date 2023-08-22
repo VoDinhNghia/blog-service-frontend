@@ -198,8 +198,8 @@ class GroupListPage extends Component {
                                       state={{ topicId: topic?.id }}
                                       style={{ color: "#283035" }}
                                     >
-                                      {topic?.name?.length > 30
-                                        ? `${topic?.name?.slice(0, 30)}...`
+                                      {topic?.name?.length > 20
+                                        ? `${topic?.name?.slice(0, 20)}...`
                                         : topic?.name}
                                     </Link>
                                   </Card.Title>
@@ -213,6 +213,7 @@ class GroupListPage extends Component {
                                     className="BtnDeleteCardItemTopic"
                                     size="sm"
                                     onClick={() => this.showModalDeleteTopic()}
+                                    disabled={topic?.createdById === currentUser?.id ? false : true}
                                   >
                                     <BsFillTrashFill /> Xóa
                                   </Button>

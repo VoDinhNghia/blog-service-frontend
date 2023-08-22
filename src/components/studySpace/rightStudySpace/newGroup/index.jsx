@@ -8,6 +8,8 @@ import Modal from "react-bootstrap/Modal";
 import { Multiselect } from "multiselect-react-dropdown";
 import "./index.css";
 import { studySpaceAction } from "../../../../store/action";
+import Select from "react-select";
+import { optionPrivateMode } from "../../../../utils/newPost";
 
 class NewGroup extends Component {
   constructor(props) {
@@ -41,7 +43,7 @@ class NewGroup extends Component {
 
   onChangePrivateMode(event) {
     this.setState({
-      privateMode: event.target.value,
+      privateMode: event.value,
     });
   }
 
@@ -68,7 +70,7 @@ class NewGroup extends Component {
       description,
       privateMode: Boolean(privateMode),
       members,
-    }
+    };
     dispatch({ type: studySpaceAction.CREATE_NEW_GROUP, payload });
     setTimeout(() => {
       this.props.fetchAllGroups();
@@ -82,10 +84,12 @@ class NewGroup extends Component {
     const currentUser = AuthService.getCurrentUser();
     const userOptions = userList.map((user) => {
       return {
-        name: `${user?.lastName || ""} ${user?.middleName || ""} ${user?.firstName || ""}`,
+        name: `${user?.lastName || ""} ${user?.middleName || ""} ${
+          user?.firstName || ""
+        }`,
         id: user?.id,
-      }
-    })
+      };
+    });
 
     return (
       <div>
@@ -103,9 +107,9 @@ class NewGroup extends Component {
           </Button>
           <Form.Control
             className="CreateNewGroupInput"
-            placeholder={`Hi ${currentUser?.lastName || ""} ${
+            placeholder={`Xin chào ${currentUser?.lastName || ""} ${
               currentUser?.middleName || ""
-            } ${currentUser?.firstName || ""}! create new group...`}
+            } ${currentUser?.firstName || ""}! Tạo nhóm mới...`}
             aria-label="new group"
             aria-describedby="basic-addon-post-home"
             onClick={() => this.showModalNewGroup()}
@@ -114,47 +118,54 @@ class NewGroup extends Component {
 
         <Modal show={isShowModal} onHide={() => this.closeModal()}>
           <Modal.Header closeButton={true} className="HeaderModalUpdatePost">
-            <Modal.Title className="TitlePostUpdate">
-              Create new group
-            </Modal.Title>
+            <Modal.Title className="TitlePostUpdate">Tạo nhóm mới</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form.Label>Private mode:</Form.Label>
-            <Form.Select
-              className="browser-default custom-select"
-              defaultValue={false}
+            <Select
+              getOptionLabel={(e) => (
+                <span>
+                  {e.icon} {e.label}
+                </span>
+              )}
+              defaultValue={optionPrivateMode.find((op) => !op.value)}
               name="privateMode"
+              options={optionPrivateMode}
               onChange={(event) => this.onChangePrivateMode(event)}
-            >
-              <option value={false}>false</option>
-              <option value={true}>true</option>
-            </Form.Select>
-            <Form.Label>Members</Form.Label>
+            />
+
             <Multiselect
               options={userOptions}
               onSelect={(value) => this.onSelectValue(value)}
               onRemove={this.onRemove}
               displayValue="name"
+              className="mt-2"
+              placeholder="Thêm thành viên nhóm"
             />
-            <Form.Label>Group name</Form.Label>
             <Form.Control
-              placeholder="group name..."
+              className="mt-2"
+              placeholder="Nhập vào tên nhóm..."
               aria-label="groupName"
               name="groupName"
               onChange={(event) => this.onChangeName(event)}
             />
-            <Form.Label>Group description</Form.Label>
             <Form.Control
-              placeholder="group description..."
+              placeholder="Nhập vào mô tả..."
               aria-label="description"
               as="textarea"
               rows={4}
               name="description"
+              className="mt-2"
               onChange={(event) => this.onChangeDescription(event)}
             />
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => this.createNewGroup()}>Save</Button>
+            <Button
+              variant="outline-primary"
+              size="sm"
+              onClick={() => this.createNewGroup()}
+            >
+              Lưu
+            </Button>
           </Modal.Footer>
         </Modal>
       </div>

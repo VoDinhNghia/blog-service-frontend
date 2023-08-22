@@ -8,10 +8,10 @@ import { Link } from "react-router-dom";
 import {
   BsFillBriefcaseFill,
   BsFillPersonCheckFill,
-  BsFillPersonPlusFill,
   BsFillTrash3Fill,
   BsImages,
 } from "react-icons/bs";
+import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { FaShare } from "react-icons/fa";
 import ShowImagePost from "../../commons/postListCommon/showImages";
 import { routes, typeFollowPage } from "../../../common/constant";
@@ -65,7 +65,7 @@ class LeftPersonel extends Component {
                     }}
                     className="LinkLeftHomePage"
                   >
-                    <BsFillPersonCheckFill className="IconLeftHomePage" />
+                    <AiOutlineUsergroupAdd className="IconLeftHomePage" />
                     Danh sách người theo dõi bạn
                   </Link>
                 </p>
@@ -78,18 +78,23 @@ class LeftPersonel extends Component {
                     }}
                     className="LinkLeftHomePage"
                   >
-                    <BsFillPersonPlusFill className="IconLeftHomePage" />
+                    <AiOutlineUsergroupAdd className="IconLeftHomePage" />
                     Danh sách người bạn theo dõi
                   </Link>
                 </p>
                 <p>
-                  <Link to={"/"} className="LinkLeftHomePage">
+                  <Link to={routes.HOME} className="LinkLeftHomePage">
                     <FaShare className="IconLeftHomePage" /> Danh sách bài chia sẻ
                   </Link>
                 </p>
                 <p>
-                  <Link to={"/"} className="LinkLeftHomePage">
+                  <Link to={routes.HOME} className="LinkLeftHomePage">
                     <BsFillTrash3Fill className="IconLeftHomePage" /> Thùng rác
+                  </Link>
+                </p>
+                <p>
+                  <Link to={routes.HOME} className="LinkLeftHomePage">
+                    <BsFillPersonCheckFill className="IconLeftHomePage"/> Thông tin cá nhân
                   </Link>
                 </p>
               </div>
