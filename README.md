@@ -28,4 +28,10 @@ npm start
 yarn start
 ```
 
+### To test
+```
+- clone source frontend.
+- clone source backend and run: https://github.com/VoDinhNghia/blog-service => access database (mgt_blog) => create new user to test (to get password, please enter password on UI login page => write console.log() in function checkIfUnencryptedPasswordIsValid() in file user.entity.ts)
+```
+
 Open [http://localhost:8005](http://localhost:8005) to view it in the browser.
