@@ -1,12 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Navbar } from "react-bootstrap";
-import { getNumberMsgNotRead } from "../../../utils/messageHandle";
 import MenuMain from "../menuMain";
 import SearchMenuPageCommon from "../../commons/searchMenuPage";
-import { messageAction } from "../../../store/action";
-import { socket } from "../../../services/socket";
-import { socketMesg } from "../../../common/constant";
 
 class MenuMessagePage extends Component {
   constructor(props) {
@@ -14,16 +10,6 @@ class MenuMessagePage extends Component {
     this.state = {
       searchKey: null,
     };
-  }
-
-  componentDidMount() {
-    socket.connect();
-    socket.on(socketMesg.MESSAGE_NEW, (data) => {
-      if (data?.data) {
-        this.fetchNewMessage();
-      }
-    });
-    this.fetchNewMessage();
   }
 
   searchUser() {
@@ -34,16 +20,8 @@ class MenuMessagePage extends Component {
     alert("Chua lam");
   }
 
-  fetchNewMessage() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: messageAction.GET_CONVERSATION_BY_USER,
-    });
-  }
-
   render() {
-    const { newMessages = [] } = this.props;
-    const numberMsg = getNumberMsgNotRead(newMessages);
+    const { numberMsg = 0 } = this.props;
 
     return (
       <Navbar collapseOnSelect expand="sm" className="MenuMain">
@@ -64,10 +42,4 @@ class MenuMessagePage extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    newMessages: state.MessageReducer.newMessages,
-  };
-};
-
-export default connect(mapStateToProps)(MenuMessagePage);
+export default connect()(MenuMessagePage);
