@@ -16,7 +16,9 @@ import {
 class MessagePage extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+        conversation: null,
+    };
   }
 
   componentDidMount() {
@@ -36,21 +38,37 @@ class MessagePage extends Component {
     });
   }
 
+  goToConversation(conver) {
+    this.setState({
+        conversation: conver,
+    });
+  }
+
   render() {
     const { newMessages = [] } = this.props;
+    const { conversation } = this.state;
     const messageNotRead = getMessageNotRead(newMessages);
     const numberMsg = getNumberMsgNotRead(newMessages);
 
     return (
       <div>
         <MenuMessagePage numberMsg={numberMsg} />
-        <Container className="mt-3">
+        <Container className="mt-3 mb-3">
           <Row>
             <Col xl={3}>
-              <MessageLeftPage messageNotRead={messageNotRead} />
+              <MessageLeftPage
+                messageNotRead={messageNotRead}
+                fetchListMessage={() => this.fetchListMessage()}
+                goToConversation={(conver) => this.goToConversation(conver)}
+              />
             </Col>
             <Col xl={9}>
-              <MessageRightPage messageNotRead={messageNotRead} />
+              <MessageRightPage
+                messageNotRead={messageNotRead}
+                conversation={conversation}
+                fetchListMessage={() => this.fetchListMessage()}
+                goToConversation={() => this.goToConversation(null)}
+              />
             </Col>
           </Row>
         </Container>
