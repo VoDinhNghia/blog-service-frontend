@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { takeLatest } from "redux-saga/effects";
 import {
   getAllGroup,
   createNewGroup,
@@ -19,227 +19,91 @@ import {
   deleteSolution,
 } from "../../services/studySpaceService";
 import { studySpaceAction } from "../action";
-import { NotificationManager } from "react-notifications";
+import {
+  fetchList,
+  addNewItem,
+  updateItem,
+  deleteItem,
+  addNewItemById,
+  fetchById,
+} from "../sagaCommon";
 
 function* fetchAllGroups({ payload }) {
-  try {
-    const res = yield call(getAllGroup, payload);
-    yield put({
-      type: studySpaceAction.GET_ALL_GROUP_SUCCESS,
-      payload: res?.data?.data,
-    });
-  } catch (error) {}
+  yield fetchList(
+    getAllGroup,
+    payload,
+    studySpaceAction.GET_ALL_GROUP_SUCCESS,
+    "get all groups"
+  );
 }
 
 function* createNewGroups({ payload }) {
-  try {
-    const res = yield call(createNewGroup, payload);
-    NotificationManager.success(res?.data?.message, "Create new group", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Create new group",
-      4000
-    );
-  }
+  yield addNewItem(createNewGroup, payload, "Create new group");
 }
 
 function* updateGroups({ id, payload }) {
-  try {
-    const res = yield call(updateGroup, id, payload);
-    NotificationManager.success(res?.data?.message, "Update group", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Update group",
-      4000
-    );
-  }
+  yield updateItem(updateGroup, id, payload, "Update group");
 }
 
 function* deleteGroups({ id }) {
-  try {
-    const res = yield call(deleteGroup, id);
-    NotificationManager.success(res?.data?.message, "Delete group", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Delete group",
-      4000
-    );
-  }
+  yield deleteItem(deleteGroup, id, "Delete group");
 }
 
 function* addMembers({ id, payload }) {
-  try {
-    const res = yield call(addMember, id, payload);
-    NotificationManager.success(res?.data?.message, "Add member", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Add member",
-      4000
-    );
-  }
+  yield addNewItemById(addMember, id, payload, "Add member");
 }
 
 function* deleteMembers({ id }) {
-  try {
-    const res = yield call(deleteMember, id);
-    NotificationManager.success(res?.data?.message, "Delete member", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Delete member",
-      4000
-    );
-  }
+  yield deleteItem(deleteMember, id, "Delete member");
 }
 
 function* leaveGroups({ groupId }) {
-  try {
-    const res = yield call(leaveGroup, groupId);
-    NotificationManager.success(res?.data?.message, "Leave froup", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Leave group",
-      4000
-    );
-  }
+  yield deleteItem(leaveGroup, groupId, "Leave group");
 }
 
 function* createNewTopics({ payload }) {
-  try {
-    const res = yield call(createNewTopic, payload);
-    NotificationManager.success(res?.data?.message, "Create new topic", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Create new topic",
-      4000
-    );
-  }
+  yield addNewItem(createNewTopic, payload, "Create new topic");
 }
 
 function* fetchTopicById({ id }) {
-  try {
-    const res = yield call(getTopicById, id);
-    yield put({
-      type: studySpaceAction.GET_TOPIC_BY_ID_SUCCESS,
-      payload: res?.data?.data,
-    });
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Get topic by id",
-      4000
-    );
-  }
+  yield fetchById(
+    getTopicById,
+    id,
+    studySpaceAction.GET_TOPIC_BY_ID_SUCCESS,
+    "Get topic by id"
+  );
 }
 
 function* updateTopics({ id, payload }) {
-  try {
-    const res = yield call(updateTopic, id, payload);
-    NotificationManager.success(res?.data?.message, "Update topic", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Update topic",
-      4000
-    );
-  }
+  yield updateItem(updateTopic, id, payload, "Update topic");
 }
 
 function* deleteTopics({ id }) {
-  try {
-    const res = yield call(deleteTopic, id);
-    NotificationManager.success(res?.data?.message, "Delete topic", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Delete topic",
-      4000
-    );
-  }
+  yield deleteItem(deleteTopic, id, "Delete topic");
 }
 
 function* createNewProblems({ payload }) {
-  try {
-    const res = yield call(createNewProblem, payload);
-    NotificationManager.success(res?.data?.message, "Create new problem", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Create new problem",
-      4000
-    );
-  }
+  yield addNewItem(createNewProblem, payload, "Create new problem");
 }
 
 function* updateProblems({ id, payload }) {
-  try {
-    const res = yield call(updateProblem, id, payload);
-    NotificationManager.success(res?.data?.message, "Update problem", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Update problem",
-      4000
-    );
-  }
+  yield updateItem(updateProblem, id, payload, "Update problem");
 }
 
 function* deleteProblems({ id }) {
-  try {
-    const res = yield call(deleteProblem, id);
-    NotificationManager.success(res?.data?.message, "Delete problem", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Delete problem",
-      4000
-    );
-  }
+  yield deleteItem(deleteProblem, id, "Delete problem");
 }
 
 function* createNewSolutions({ payload }) {
-  try {
-    const res = yield call(createNewSolution, payload);
-    NotificationManager.success(res?.data?.message, "Create new solution", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Create new solution",
-      4000
-    );
-  }
+  yield addNewItem(createNewSolution, payload, "Create new solution");
 }
 
 function* updateSolutions({ id, payload }) {
-  try {
-    const res = yield call(updateSolution, id, payload);
-    NotificationManager.success(res?.data?.message, "Update solution", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Update solution",
-      4000
-    );
-  }
+  yield updateItem(updateSolution, id, payload, "Update solution");
 }
 
 function* deleteSolutions({ id }) {
-  try {
-    const res = yield call(deleteSolution, id);
-    NotificationManager.success(res?.data?.message, "Delete solution", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Delete solution",
-      4000
-    );
-  }
+  yield deleteItem(deleteSolution, id, "Delete solution");
 }
 
 function* watchStudySpaceSaga() {

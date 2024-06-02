@@ -1,32 +1,24 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { takeLatest } from "redux-saga/effects";
 import { getUserById, getAllUser } from "../../services/userService";
 import { userAction } from "../action";
-import { NotificationManager } from "react-notifications";
+import { fetchById, fetchList } from "../sagaCommon";
 
 function* fetchUserById({ payload }) {
-  try {
-    const res = yield call(getUserById, payload?.userId);
-    yield put({
-      type: userAction.GET_USER_BY_ID_SUCCESS,
-      payload: res?.data?.data,
-    });
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Get user by id",
-      4000
-    );
-  }
+  yield fetchById(
+    getUserById,
+    payload?.userId,
+    userAction.GET_USER_BY_ID_SUCCESS,
+    "Get user by id"
+  );
 }
 
 function* fetchAllUsers({ payload }) {
-  try {
-    const res = yield call(getAllUser, payload);
-    yield put({
-      type: userAction.GET_ALL_USER_SUCCESS,
-      payload: res?.data?.data,
-    });
-  } catch (error) {}
+  yield fetchList(
+    getAllUser,
+    payload,
+    userAction.GET_ALL_USER_SUCCESS,
+    "get all users"
+  );
 }
 
 function* watchUserSage() {

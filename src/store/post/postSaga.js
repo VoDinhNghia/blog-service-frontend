@@ -11,17 +11,16 @@ import {
   deleteComment,
 } from "../../services/postService";
 import { postAction } from "../action";
-import { NotificationManager } from "react-notifications";
 import { typePostListPage } from "../../common/constant";
+import { fetchList, actionPosts, updateItem, deleteItem } from "../sagaCommon";
 
 function* getAllPost({ payload }) {
-  try {
-    const res = yield call(fetchAllPosts, payload);
-    yield put({
-      type: postAction.GET_ALL_POST_SUCCESS,
-      payload: res?.data?.data,
-    });
-  } catch (error) {}
+  yield fetchList(
+    fetchAllPosts,
+    payload,
+    postAction.GET_ALL_POST_SUCCESS,
+    "Get all posts"
+  );
 }
 
 function* getAllPostPersonel({ payload }) {
@@ -39,92 +38,35 @@ function* getAllPostPersonel({ payload }) {
 }
 
 function* likePosts({ payload }) {
-  try {
-    yield call(likePost, payload);
-  } catch (error) {}
+  yield actionPosts(likePost, payload, "Like post");
 }
 
 function* sharePosts({ payload }) {
-  try {
-    yield call(sharePost, payload);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Share post",
-      4000
-    );
-  }
+  yield actionPosts(sharePost, payload, "Share post");
 }
 
 function* commentPosts({ payload }) {
-  try {
-    yield call(commentPost, payload);
-  } catch (error) {}
+  yield actionPosts(commentPost, payload, "Comment post");
 }
 
 function* updatePosts({ id, payload }) {
-  try {
-    const res = yield call(updatePost, id, payload);
-    NotificationManager.success(res?.data?.message, "Update post", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Update post",
-      4000
-    );
-  }
+  yield updateItem(updatePost, id, payload, "Update post");
 }
 
 function* deletePosts({ id }) {
-  try {
-    const res = yield call(deletePost, id);
-    NotificationManager.success(res?.data?.message, "Delete post", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Delete post",
-      4000
-    );
-  }
+  yield deleteItem(deletePost, id, "Delete post");
 }
 
 function* deleteImagePosts({ id }) {
-  try {
-    const res = yield call(deleteImagePost, id);
-    NotificationManager.success(res?.data?.message, "Delete image", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Delete image",
-      4000
-    );
-  }
+  yield deleteItem(deleteImagePost, id, "Delete image");
 }
 
 function* updateComments({ id, payload }) {
-  try {
-    const res = yield call(updateComment, id, payload);
-    NotificationManager.success(res?.data?.message, "Update comment", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Update comment",
-      4000
-    );
-  }
+  yield updateItem(updateComment, id, payload, "Update comment");
 }
 
 function* deleteComments({ id }) {
-  try {
-    const res = yield call(deleteComment, id);
-    NotificationManager.success(res?.data?.message, "Delete comment", 4000);
-  } catch (error) {
-    NotificationManager.error(
-      error?.response?.data?.message,
-      "Delete comment",
-      4000
-    );
-  }
+  yield deleteItem(deleteComment, id, "Delete comment");
 }
 
 function* watchGetAllPost() {
