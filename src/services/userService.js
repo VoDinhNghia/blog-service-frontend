@@ -1,14 +1,4 @@
-import axios from "axios";
-import { API_URL } from "../common/constant";
-import { authHeader } from "./authHeader";
+import { getMethod } from "./service";
 
-export const getUserById = (userId) =>
-  axios.get(`${API_URL}/api/user/${userId}`, {
-    headers: authHeader(),
-  });
-
-export const getAllUser = (payload) =>
-  axios.get(`${API_URL}/api/user/`, {
-    headers: authHeader(),
-    params: payload,
-  });
+export const getUserById = (userId) => getMethod(`user/${userId}`, null);
+export const getAllUser = (payload) => getMethod(`user`, payload);

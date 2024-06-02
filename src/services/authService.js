@@ -12,7 +12,7 @@ class AuthService {
         email,
         password,
       });
-    if (response.data.data.accessToken) {
+    if (response.data?.data?.accessToken) {
       sessionStorage.setItem(
         localStorageItem.USER,
         JSON.stringify(response.data.data)
