@@ -9,6 +9,7 @@ import {
 } from "../../services/messageService";
 import { messageAction } from "../action";
 import { NotificationManager } from "react-notifications";
+import { fetchById, fetchList, updateItem } from "../sagaCommon";
 
 function* sendNewMessage({ payload }) {
   try {
@@ -23,41 +24,34 @@ function* sendNewMessage({ payload }) {
 }
 
 function* fetchOneConversation({ chatWithId }) {
-  try {
-    const res = yield call(getOneConversation, chatWithId);
-    yield put({
-      type: messageAction.GET_ONE_CONVERSATION_SUCCESS,
-      payload: res?.data?.data,
-    });
-  } catch (error) {}
+  yield fetchById(
+    getOneConversation,
+    chatWithId,
+    messageAction.GET_ONE_CONVERSATION_SUCCESS,
+    "Get conversation"
+  );
 }
 
 function* fetchAllMessage({ payload }) {
-  try {
-    const res = yield call(getAllMessage, payload);
-    yield put({
-      type: messageAction.GET_ALL_MESSAGE_SUCCESS,
-      payload: res?.data?.data,
-    });
-  } catch (error) {}
+  yield fetchList(
+    getAllMessage,
+    payload,
+    messageAction.GET_ALL_MESSAGE_SUCCESS,
+    "Get all message"
+  );
 }
 
 function* fetchAllMessageByConver({ payload }) {
-  try {
-    const res = yield call(getAllMessageByConver, payload);
-    yield put({
-      type: messageAction.GET_MESSAGE_BY_CONVERSATION_SUCCESS,
-      payload: res?.data?.data,
-    });
-  } catch (error) {}
+  yield fetchList(
+    getAllMessageByConver,
+    payload,
+    messageAction.GET_MESSAGE_BY_CONVERSATION_SUCCESS,
+    "Get all message of converation"
+  );
 }
 
 function* updateStatusMsg({ id, payload }) {
-  try {
-    yield call(updateStatusMessage, id, payload);
-  } catch (error) {
-    NotificationManager.error(error?.response?.message, "Update message", 4000);
-  }
+  yield updateItem(updateStatusMessage, id, payload, "Update message");
 }
 
 function* fetchConverByUser() {
