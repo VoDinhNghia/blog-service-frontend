@@ -1,18 +1,17 @@
 import { localStorageItem } from "../common/constant";
-export function authHeader() {
+
+export const authHeader = () => {
   const user = JSON.parse(sessionStorage.getItem(localStorageItem.USER));
   if (user && user.accessToken) {
     return { Authorization: `Bearer ${user.accessToken}` };
-  } else {
-    return {};
   }
-}
+  return {};
+};
 
-export function authHeaderNoBearer() {
+export const authHeaderNoBearer = () => {
   const user = JSON.parse(sessionStorage.getItem(localStorageItem.USER));
   if (user && user.accessToken) {
     return { Authorization: user.accessToken };
-  } else {
-    return {};
   }
-}
+  return {};
+};

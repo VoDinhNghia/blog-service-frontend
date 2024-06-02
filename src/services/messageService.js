@@ -1,36 +1,18 @@
 import axios from "axios";
-import { API_URL } from "../common/constant";
 import { authHeader } from "./authHeader";
+import { API_URL } from "../common/constant";
+import { getMethod, postMethod, putMethod } from "./service";
 
-export const sendMessage = (payload) =>
-  axios.post(`${API_URL}/api/message/`, payload, {
-    headers: authHeader(),
-  });
-
-export const createConversation = async (payload) => {
-  const response = await axios.post(`${API_URL}/api/conversation/`, payload, {
-    headers: authHeader(),
-  });
-  return response?.data?.data;
-};
-
+export const sendMessage = (payload) => postMethod("message", payload);
 export const getOneConversation = (chatWithId) =>
-  axios.get(`${API_URL}/api/conversation/one/${chatWithId}`, {
-    headers: authHeader(),
-  });
-
-export const getAllMessage = (payload) =>
-  axios.get(`${API_URL}/api/message`, {
-    headers: authHeader(),
-    params: payload,
-  });
-
+  getMethod(`conversation/one/${chatWithId}`, null);
+export const getAllMessage = (payload) => getMethod("message", payload);
 export const getAllMessageByConver = (payload) =>
-  axios.get(`${API_URL}/api/message/conversation`, {
-    headers: authHeader(),
-    params: payload,
-  });
-
+  getMethod("message/conversation", payload);
+export const updateStatusMessage = (id, payload) =>
+  putMethod(`message/update-status/${id}`, payload);
+export const getListConversationByUser = () =>
+  getMethod("conversation/list-by-user", null);
 export const getAllMessByOneConver = async (payload) => {
   const response = await axios.get(`${API_URL}/api/message/conversation`, {
     headers: authHeader(),
@@ -38,13 +20,9 @@ export const getAllMessByOneConver = async (payload) => {
   });
   return response?.data?.data;
 };
-
-export const updateStatusMessage = (id, payload) =>
-  axios.put(`${API_URL}/api/message/update-status/${id}`, payload, {
+export const createConversation = async (payload) => {
+  const response = await axios.post(`${API_URL}/api/conversation/`, payload, {
     headers: authHeader(),
   });
-
-export const getListConversationByUser = () =>
-  axios.get(`${API_URL}/api/conversation/list-by-user`, {
-    headers: authHeader(),
-  });
+  return response?.data?.data;
+};
