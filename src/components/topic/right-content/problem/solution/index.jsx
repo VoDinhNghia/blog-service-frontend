@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./index.css";
-import moment from "moment/moment";
-import { formatDateTime, routes } from "../../../../../common/constant";
+import { routes } from "../../../../../common/constant";
 import { Button, Collapse, InputGroup, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { BsFillPlusSquareFill } from "react-icons/bs";
 import { FcViewDetails } from "react-icons/fc";
 import { studySpaceAction } from "../../../../../store/action";
 import ActionSolution from "./action";
+import { getUserName, showDateTime } from "../../../../../utils/util";
 
 class SolutionList extends Component {
   constructor(props) {
@@ -16,6 +16,7 @@ class SolutionList extends Component {
     this.state = {
       solutionText: "",
     };
+    this.dispatch = this.props.dispatch;
   }
 
   onChangeSolution(event) {
@@ -25,9 +26,9 @@ class SolutionList extends Component {
   }
 
   addSolution() {
-    const { dispatch, problemId } = this.props;
+    const { problemId } = this.props;
     const { solutionText } = this.state;
-    dispatch({
+    this.dispatch({
       type: studySpaceAction.CREATE_NEW_SOLUTION,
       payload: {
         problemId,
@@ -41,9 +42,9 @@ class SolutionList extends Component {
   }
 
   fetchTopicInfo() {
-    const { dispatch, topicId } = this.props;
+    const { topicId } = this.props;
     setTimeout(() => {
-      dispatch({ type: studySpaceAction.GET_TOPIC_BY_ID, id: topicId });
+      this.dispatch({ type: studySpaceAction.GET_TOPIC_BY_ID, id: topicId });
     }, 100);
   }
 
@@ -55,6 +56,14 @@ class SolutionList extends Component {
       currentUser,
     } = this.props;
     const { solutionText } = this.state;
+    const displayAction = (solution) => {
+      return currentUser?.id === solution?.createdById ? (
+        <ActionSolution
+          solutionInfo={solution}
+          fetchTopicInfo={() => this.fetchTopicInfo()}
+        />
+      ) : null;
+    };
 
     return (
       <>
@@ -93,25 +102,14 @@ class SolutionList extends Component {
                                 state={{
                                   userId: solution?.createdById,
                                 }}
-                              >{`${solution?.createdBy?.lastName || ""} ${
-                                solution?.createdBy?.middleName || ""
-                              } ${solution?.createdBy?.firstName || ""}`}</Link>
+                              >
+                                {getUserName(solution?.createdBy)}
+                              </Link>
                               <br />
-                              <span>
-                                {solution?.createdAt
-                                  ? moment(solution?.createdAt).format(
-                                      formatDateTime
-                                    )
-                                  : ""}
-                              </span>
+                              <span>{showDateTime(solution?.createdAt)}</span>
                             </h6>
                             <div className="SolutionAction">
-                              {currentUser?.id === solution?.createdById ? (
-                                <ActionSolution
-                                  solutionInfo={solution}
-                                  fetchTopicInfo={() => this.fetchTopicInfo()}
-                                />
-                              ) : null}
+                              {displayAction(solution)}
                             </div>
                           </div>
                           <div className="SolutionContent">

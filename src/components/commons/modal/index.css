@@ -1,0 +1,19 @@
+.HeaderModalCommon button {
+  border: none;
+  height: 20px;
+  background-color: white;
+  color: red;
+}
+
+.HeaderModalCommon button::before {
+  content: "x";
+}
+
+.TitleModalCommon {
+  color: blue;
+  font-size: 15px;
+}
+
+.BtnCancleModalCommon {
+  float: right;
+}

@@ -9,8 +9,9 @@ import ActionTopicDetail from "./actions";
 import { Link } from "react-router-dom";
 import { BsFillPlusSquareFill } from "react-icons/bs";
 import AuthService from "../../../services/authService";
-import AddNewProblemModal from "./newProblem";
+import AddNewProblemModal from "./new-problem";
 import ProblemList from "./problem";
+import { getUserName } from "../../../utils/util";
 
 class RightTopicPage extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class RightTopicPage extends Component {
     this.state = {
       isShowModalAddProblem: false,
     };
+    this.dispatch = this.props.dispatch;
   }
 
   componentDidMount() {
@@ -25,8 +27,10 @@ class RightTopicPage extends Component {
   }
 
   fetchTopicInfo() {
-    const { dispatch, topicId } = this.props;
-    dispatch({ type: studySpaceAction.GET_TOPIC_BY_ID, id: topicId });
+    this.dispatch({
+      type: studySpaceAction.GET_TOPIC_BY_ID,
+      id: this.props?.topicId,
+    });
   }
 
   showModalAddProblem() {
@@ -43,7 +47,6 @@ class RightTopicPage extends Component {
 
   render() {
     const { topicInfo = {} } = this.props;
-    const { isShowModalAddProblem } = this.state;
     const currentUser = AuthService.getCurrentUser();
 
     return (
@@ -66,9 +69,7 @@ class RightTopicPage extends Component {
                 to={routes.PERSONEL}
                 state={{ userId: topicInfo?.createdBy?.id }}
               >
-                {`${topicInfo?.createdBy?.lastName || ""} ${
-                  topicInfo?.createdBy?.middleName || ""
-                } ${topicInfo?.createdBy?.firstName || ""}`}
+                {getUserName(topicInfo?.createdBy)}
               </Link>
             </p>
             <p>
@@ -89,22 +90,24 @@ class RightTopicPage extends Component {
             <BsFillPlusSquareFill /> Thêm vấn đề
           </Button>
           <AddNewProblemModal
-            isShowModalAddProblem={isShowModalAddProblem}
+            isShowModalAddProblem={this.state.isShowModalAddProblem}
             closeModalAddProblem={() => this.closeModalAddProblem()}
             topicId={topicInfo?.id}
           />
         </div>
         <div>
-          <ProblemList problemList={topicInfo?.studyProblems} topicId={topicInfo?.id} />
+          <ProblemList
+            problemList={topicInfo?.studyProblems}
+            topicId={topicInfo?.id}
+          />
         </div>
       </>
     );
   }
 }
 
-function mapStateToProps(state) {
+export default connect((state) => {
   return {
     topicInfo: state.StudySpaceReducer.topicInfo,
   };
-}
-export default connect(mapStateToProps)(RightTopicPage);
+})(RightTopicPage);

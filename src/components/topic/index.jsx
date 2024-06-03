@@ -3,8 +3,8 @@ import MenuStudySpacePage from "../menuPage/menuStudySpace/index";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Footer from "../footerPage/footer";
-import LeftTopicPage from "./leftTopic";
-import RightTopicPage from "./rightTopic";
+import LeftTopicPage from "./left-content";
+import RightTopicPage from "./right-content";
 import { useLocation } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
