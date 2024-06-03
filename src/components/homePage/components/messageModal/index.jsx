@@ -11,13 +11,19 @@ import {
   MDBInputGroup,
 } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
-import { formatTimeMessage, routes, socketMesg } from "../../../../common/constant";
+import {
+  formatTimeMessage,
+  routes,
+  socketMesg,
+} from "../../../../common/constant";
 import { connect } from "react-redux";
 import { socket } from "../../../../services/socket";
 import { messageAction } from "../../../../store/action";
 import AuthService from "../../../../services/authService";
 import moment from "moment/moment";
 import _ from "lodash";
+import { getOneConversation } from "../../../../utils/messageHandle";
+import { getUserName } from "../../../../utils/util";
 
 class MessageModal extends Component {
   constructor(props) {
@@ -27,8 +33,9 @@ class MessageModal extends Component {
       newMessage: null,
       limit: 10,
       page: 1,
-      listMessages: []
+      listMessages: [],
     };
+    this.dispatch = this.props.dispatch;
   }
 
   componentDidMount() {
@@ -48,10 +55,9 @@ class MessageModal extends Component {
   }
 
   onViewMessage() {
-    const { conversationInfo, dispatch } = this.props;
-    dispatch({
+    this.dispatch({
       type: messageAction.UPDATE_STATUS_MESSAGE,
-      id: conversationInfo?.id,
+      id: this.props?.conversationInfo?.id,
     });
   }
 
@@ -63,21 +69,19 @@ class MessageModal extends Component {
   }
 
   async sendMessage() {
-    const { dispatch, userInfo = {}, conversationInfo = {} } = this.props;
+    const { userInfo = {}, conversationInfo = {} } = this.props;
     if (!conversationInfo.id) {
-      setTimeout(() => {
-        dispatch({
-          type: messageAction.GET_ONE_CONVERSATION,
-          chatWithId: userInfo?.id,
-        });
-      }, 70);
+      getOneConversation(
+        this.dispatch,
+        messageAction.GET_ONE_CONVERSATION,
+        userInfo?.id
+      );
     }
-    const { content } = this.state;
     const payloadMessage = {
-      content,
+      content: this.state.content,
       userReviceId: userInfo?.id,
     };
-    dispatch({
+    this.dispatch({
       type: messageAction.SEND_MESSAGE,
       payload: { ...payloadMessage },
     });
@@ -115,9 +119,7 @@ class MessageModal extends Component {
                 <MDBCardHeader className="d-flex justify-content-between align-items-center">
                   <h5 className="mb-0">
                     <Link to={routes.PERSONEL} state={{ userId: userInfo?.id }}>
-                      {`${userInfo?.lastName || ""} ${
-                        userInfo?.middleName || ""
-                      } ${userInfo?.firstName || ""}`}
+                      {getUserName(userInfo)}
                     </Link>
                   </h5>
                   <div className="d-flex flex-row align-items-center">
@@ -143,9 +145,7 @@ class MessageModal extends Component {
                                   to={routes.PERSONEL}
                                   state={{ userId: userInfo?.id }}
                                 >
-                                  {`${userInfo?.lastName || ""} ${
-                                    userInfo?.middleName || ""
-                                  } ${userInfo?.firstName || ""}`}
+                                  {getUserName(userInfo)}
                                 </Link>{" "}
                                 <span className="small mb-1 text-muted">
                                   {" "}
@@ -184,9 +184,7 @@ class MessageModal extends Component {
                                   to={routes.PERSONEL}
                                   state={{ userId: currentUser?.id }}
                                 >
-                                  {`${currentUser?.lastName || ""} ${
-                                    currentUser?.middleName || ""
-                                  } ${currentUser?.firstName || ""}`}
+                                  {getUserName(currentUser)}
                                 </Link>
                               </p>
                             </div>
@@ -235,10 +233,9 @@ class MessageModal extends Component {
   }
 }
 
-function mapStateToProps(state) {
+export default connect((state) => {
   return {
     conversationInfo: state.MessageReducer.conversationInfo,
     messageConverList: state.MessageReducer.messageConverList,
   };
-}
-export default connect(mapStateToProps)(MessageModal);
+})(MessageModal);

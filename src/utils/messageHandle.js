@@ -14,3 +14,12 @@ export const getMessageNotRead = (messages = []) => {
   );
   return listMessages;
 };
+
+export const getOneConversation = (dispatch, type, userId) => {
+  setTimeout(() => {
+    dispatch({
+      type,
+      chatWithId: userId,
+    });
+  }, 70);
+}
