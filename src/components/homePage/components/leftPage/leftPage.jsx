@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import { routes } from "../../../../common/constant";
 import MessageModal from "../messageModal";
 import { getAllMessByOneConver } from "../../../../services/messageService";
+import { filterStatusLoginUser } from "../../../../utils/home.util";
+import { getUserName } from "../../../../utils/util";
 
 class LeftHomePage extends Component {
   constructor(props) {
@@ -22,26 +24,25 @@ class LeftHomePage extends Component {
       page: 1,
       messages: [],
     };
+    this.dispatch = this.props.dispatch;
   }
 
   onChangeValue(event) {
     this.setState({
       searchKey: event.target.value,
     });
-    const { dispatch } = this.props;
-    dispatch({
+    this.dispatch({
       type: userAction.GET_ALL_USER,
       payload: { searchKey: event.target.value },
     });
   }
 
   onSearch() {
-    const { dispatch } = this.props;
     const { searchKey } = this.state;
-    dispatch({ type: userAction.GET_ALL_USER, payload: { searchKey } });
+    this.dispatch({ type: userAction.GET_ALL_USER, payload: { searchKey } });
   }
 
-  async showModalMessage(userInfo) {
+  showModalMessage(userInfo) {
     this.setState({
       isShowModalMessage: true,
       userInfo,
@@ -58,9 +59,8 @@ class LeftHomePage extends Component {
     });
   }
 
-  async fetchMessAndConversation(userInfo) {
-    const { dispatch } = this.props;
-    dispatch({
+  fetchMessAndConversation(userInfo) {
+    this.dispatch({
       type: messageAction.GET_ONE_CONVERSATION,
       chatWithId: userInfo?.id,
     });
@@ -85,6 +85,7 @@ class LeftHomePage extends Component {
       searchKey,
     } = this.state;
     const currentUser = AuthService.getCurrentUser();
+    const userOnlineList = filterStatusLoginUser(userList, searchKey);
 
     return (
       <>
@@ -105,53 +106,44 @@ class LeftHomePage extends Component {
             </Button>
           </InputGroup>
           <div className="ListFriendMajorLeftHomePage">
-            {userList
-              ?.filter((user) =>
-                searchKey
-                  ? user?.statusLogin || !user?.statusLogin
-                  : user?.statusLogin
-              )
-              .map((user) => {
-                return (
-                  <p key={user?.id}>
-                    <span>
-                      <img
-                        src={user?.avatar || "/image/icon-login.png"}
-                        alt=""
-                        className="FriendMajorAvatar"
-                      />
-                      <span className="badge">
-                        {user?.statusLogin ? (
-                          <img
-                            src="/image/green-status.jpg"
-                            alt=""
-                            className="StatusLoginIcon"
-                          />
-                        ) : (
-                          <img
-                            src="/image/red-status.png"
-                            alt=""
-                            className="StatusLoginIcon"
-                          />
-                        )}
-                      </span>
-                      <Link
-                        to={routes.PERSONEL}
-                        state={{ userId: user?.id }}
-                      >{`${user?.lastName || ""} ${user?.middleName || ""} ${
-                        user?.firstName || ""
-                      }`}</Link>{" "}
-                      <Button
-                        className="BtnMessageLeftMenuHome"
-                        variant="light"
-                        onClick={() => this.showModalMessage(user)}
-                      >
-                        <BsChatQuote />
-                      </Button>
+            {userOnlineList.map((user) => {
+              return (
+                <p key={user?.id}>
+                  <span>
+                    <img
+                      src={user?.avatar || "/image/icon-login.png"}
+                      alt=""
+                      className="FriendMajorAvatar"
+                    />
+                    <span className="badge">
+                      {user?.statusLogin ? (
+                        <img
+                          src="/image/green-status.jpg"
+                          alt=""
+                          className="StatusLoginIcon"
+                        />
+                      ) : (
+                        <img
+                          src="/image/red-status.png"
+                          alt=""
+                          className="StatusLoginIcon"
+                        />
+                      )}
                     </span>
-                  </p>
-                );
-              })}
+                    <Link to={routes.PERSONEL} state={{ userId: user?.id }}>
+                      {getUserName(user)}
+                    </Link>{" "}
+                    <Button
+                      className="BtnMessageLeftMenuHome"
+                      variant="light"
+                      onClick={() => this.showModalMessage(user)}
+                    >
+                      <BsChatQuote />
+                    </Button>
+                  </span>
+                </p>
+              );
+            })}
           </div>
           <MessageModal
             isShowModalMessage={isShowModalMessage}

@@ -15,6 +15,7 @@ class RightHomePage extends Component {
       limit: 50,
       isShowNewPost: false,
     };
+    this.dispatch = this.props.dispatch;
   }
 
   componentDidMount() {
@@ -23,54 +24,53 @@ class RightHomePage extends Component {
 
   async fetchAllPosts() {
     const { limit, page } = this.state;
-    const { dispatch } = this.props;
-    dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
+    this.dispatch({ type: postAction.GET_ALL_POST, payload: { page, limit } });
   }
 
   goToNextPage(totalPage) {
-    const { dispatch } = this.props;
-    const { limit, page } = this.state;
-    const currentPage = page < totalPage ? page + 1 : totalPage;
+    const currentPage =
+      this.state.page < totalPage ? this.state.page + 1 : totalPage;
     this.setState({
       page: currentPage,
     });
     setTimeout(() => {
-      dispatch({
+      this.dispatch({
         type: postAction.GET_ALL_POST,
         payload: {
           page: currentPage,
-          limit,
+          limit: this.state.limit,
         },
       });
     }, 100);
   }
 
   goToBackPage() {
-    const { dispatch } = this.props;
-    const { limit, page } = this.state;
-    const currentPage = page > 1 ? page - 1 : 1;
+    const currentPage = this.state.page > 1 ? this.state.page - 1 : 1;
     this.setState({
       page: currentPage,
     });
     setTimeout(() => {
-      dispatch({
+      this.dispatch({
         type: postAction.GET_ALL_POST,
-        payload: { page: currentPage, limit },
+        payload: { page: currentPage, limit: this.state.limit },
       });
     }, 100);
   }
 
   render() {
     const { postLists = [], total = 0 } = this.props;
-    const { limit, page } = this.state;
-    const totalPage = Math.round(Number(total / limit) + 0.45);
+    const totalPage = Math.round(Number(total / this.state.limit) + 0.45);
 
     return (
       <>
         <NewPostCommon />
-        <PostListHomePage postLists={postLists} page={page} limit={limit} />
-        <PaginationPage 
-          page={page}
+        <PostListHomePage
+          postLists={postLists}
+          page={this.state.page}
+          limit={this.state.limit}
+        />
+        <PaginationPage
+          page={this.state.page}
           totalPage={totalPage}
           goToBackPage={() => this.goToBackPage()}
           goToNextPage={() => this.goToNextPage(totalPage)}
@@ -80,11 +80,9 @@ class RightHomePage extends Component {
   }
 }
 
-function mapStateToProps(state) {
+export default connect((state) => {
   return {
     postLists: state.PostReducer.postLists,
     total: state.PostReducer.total,
   };
-}
-
-export default connect(mapStateToProps)(RightHomePage);
+})(RightHomePage);

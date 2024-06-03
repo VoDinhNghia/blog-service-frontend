@@ -21,6 +21,7 @@ class Home extends Component {
       limit: 15,
       page: 1,
     };
+    this.dispatch = this.props.dispatch;
   }
 
   componentDidMount() {
@@ -29,20 +30,18 @@ class Home extends Component {
       if (data?.data) {
         this.fetchNewMessage();
       }
-    })
+    });
     this.fetchAllUsers();
     this.fetchNewMessage();
   }
 
   fetchAllUsers() {
-    const { dispatch } = this.props;
     const { limit, page } = this.state;
-    dispatch({ type: userAction.GET_ALL_USER, payload: { limit, page } });
+    this.dispatch({ type: userAction.GET_ALL_USER, payload: { limit, page } });
   }
 
   fetchNewMessage() {
-    const { dispatch } = this.props;
-    dispatch({
+    this.dispatch({
       type: messageAction.GET_CONVERSATION_BY_USER,
     });
   }
@@ -50,11 +49,10 @@ class Home extends Component {
   render() {
     const { userList = [], newMessages = [] } = this.props;
     const numberMsg = getNumberMsgNotRead(newMessages);
-    console.log("nudm", numberMsg)
 
     return (
       <>
-        <MenuHomePage numberMsg={numberMsg}/>
+        <MenuHomePage numberMsg={numberMsg} />
         <Container>
           <Row>
             <Col xs lg="4">
@@ -71,10 +69,9 @@ class Home extends Component {
   }
 }
 
-function mapStateToProps(state) {
+export default connect((state) => {
   return {
     userList: state.UserReducer.userList,
     newMessages: state.MessageReducer.newMessages,
   };
-}
-export default connect(mapStateToProps)(Home);
+})(Home);
