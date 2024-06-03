@@ -9,6 +9,7 @@ class LeftTopicPage extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.dispatch = this.props.dispatch;
   }
 
   componentDidMount() {
@@ -16,9 +17,8 @@ class LeftTopicPage extends Component {
   }
 
   fetchUserInfo() {
-    const { dispatch } = this.props;
     const currentUser = AuthService.getCurrentUser();
-    dispatch({
+    this.dispatch({
       type: userAction.GET_USER_BY_ID,
       payload: { userId: currentUser?.id },
     });
@@ -36,9 +36,8 @@ class LeftTopicPage extends Component {
   }
 }
 
-function mapStateToProps(state) {
+export default connect((state) => {
   return {
     userInfo: state.UserReducer.userInfo,
   };
-}
-export default connect(mapStateToProps)(LeftTopicPage);
+})(LeftTopicPage);

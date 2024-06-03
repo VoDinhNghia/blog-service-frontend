@@ -11,7 +11,7 @@ import "react-notifications/lib/notifications.css";
 import { NotificationContainer } from "react-notifications";
 import PersonelPage from "./components/personelPage/index";
 import StudySpacePage from "./components/studySpace";
-import TopicPage from "./components/topicPage";
+import TopicPage from "./components/topic";
 import FollowedPage from "./components/follow/followedPage";
 import FollowingPage from "./components/follow/followingPage";
 import MessagePage from "./components/messagePage";

@@ -6,9 +6,10 @@ import { formatDateTime, routes } from "../../../../common/constant";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import AuthService from "../../../../services/authService";
-import ActionProblem from "./actionProblem";
+import ActionProblem from "./actions";
 import SolutionList from "./solution";
 import { studySpaceAction } from "../../../../store/action";
+import { getUserName } from "../../../../utils/util";
 
 class ProblemList extends Component {
   constructor(props) {
@@ -16,25 +17,20 @@ class ProblemList extends Component {
     this.state = {
       openedProblemId: null,
     };
+    this.dispatch = this.props.dispatch;
   }
 
   showCollapse(problemId) {
     const { openedProblemId } = this.state;
-    if (openedProblemId !== problemId) {
-      this.setState({
-        openedProblemId: problemId,
-      });
-    } else {
-      this.setState({
-        openedProblemId: null,
-      });
-    }
+    this.setState({
+      openedProblemId: openedProblemId !== problemId ? problemId : null,
+    });
   }
 
   fetchTopicInfo() {
-    const { dispatch, topicId } = this.props;
+    const { topicId } = this.props;
     setTimeout(() => {
-      dispatch({ type: studySpaceAction.GET_TOPIC_BY_ID, id: topicId });
+      this.dispatch({ type: studySpaceAction.GET_TOPIC_BY_ID, id: topicId });
     }, 100);
   }
 
@@ -42,6 +38,14 @@ class ProblemList extends Component {
     const { problemList = [] } = this.props;
     const { openedProblemId } = this.state;
     const currentUser = AuthService.getCurrentUser();
+    const displayAction = (problem) => {
+      return currentUser?.id === problem?.createdById ? (
+        <ActionProblem
+          problemInfo={problem}
+          fetchTopicInfo={() => this.fetchTopicInfo()}
+        />
+      ) : null;
+    };
     return (
       <>
         {problemList.map((problem) => {
@@ -58,14 +62,10 @@ class ProblemList extends Component {
                     to={routes.PERSONEL}
                     state={{ userId: problem?.createdById }}
                   >
-                    {`${problem?.createdBy?.lastName || ""} ${
-                      problem?.createdBy?.middleName || ""
-                    } ${problem?.createdBy?.firstName || ""}`}
+                    {getUserName(problem?.createdBy)}
                   </Link>
                   <span className="ActionProblem">
-                    {currentUser?.id === problem?.createdById ? (
-                      <ActionProblem problemInfo={problem} fetchTopicInfo={() => this.fetchTopicInfo()} />
-                    ) : null}
+                    {displayAction(problem)}
                   </span>
                   <p className="ShowTimeProblem">
                     {`${moment(problem?.createdAt || "").format(
