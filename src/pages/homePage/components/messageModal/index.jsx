@@ -19,7 +19,7 @@ import {
 import { connect } from "react-redux";
 import { socket } from "../../../../services/socket";
 import { messageAction } from "../../../../store/action";
-import AuthService from "../../../../services/authService";
+import AuthService from "../../../../services/auth.service";
 import moment from "moment/moment";
 import _ from "lodash";
 import { getOneConversation } from "../../../../utils/message.util";

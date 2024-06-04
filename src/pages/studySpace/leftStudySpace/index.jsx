@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import InfoUserPanel from "../../commons/InfoUserPanel";
-import AuthService from "../../../services/authService";
+import AuthService from "../../../services/auth.service";
 import { userAction } from "../../../store/action";
 import "./index.css";
 

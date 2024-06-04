@@ -9,7 +9,7 @@ import {
   deleteImagePost,
   updateComment,
   deleteComment,
-} from "../../services/postService";
+} from "../../services/post.service";
 import { postAction } from "../action";
 import { typePostListPage } from "../../constants/constant";
 import { fetchList, actionPosts, updateItem, deleteItem } from "../sagaCommon";

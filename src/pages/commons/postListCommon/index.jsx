@@ -19,7 +19,7 @@ import {
   OverlayTrigger,
   Popover,
 } from "react-bootstrap";
-import AuthService from "../../../services/authService";
+import AuthService from "../../../services/auth.service";
 import ShowCommentHomePage from "./comments";
 import ActionPostItem from "./actions";
 import ShowImagePost from "./showImages";

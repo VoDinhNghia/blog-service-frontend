@@ -8,7 +8,7 @@ import { Button } from "react-bootstrap";
 import ActionTopicDetail from "./actions";
 import { Link } from "react-router-dom";
 import { BsFillPlusSquareFill } from "react-icons/bs";
-import AuthService from "../../../services/authService";
+import AuthService from "../../../services/auth.service";
 import AddNewProblemModal from "./new-problem";
 import ProblemList from "./problem";
 import { getUserName } from "../../../utils/util";

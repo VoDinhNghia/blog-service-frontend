@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { messageAction } from "../../../store/action";
-import AuthenService from "../../../services/authService";
+import AuthenService from "../../../services/auth.service";
 import { formatTimeMessage, routes } from "../../../constants/constant";
 import moment from "moment/moment";
 

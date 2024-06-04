@@ -1,4 +1,4 @@
-import AuthenService from "../services/authService";
+import AuthenService from "../services/auth.service";
 
 export const getNumberMsgNotRead = (messages = []) => {
   const listMessages = getMessageNotRead(messages);
