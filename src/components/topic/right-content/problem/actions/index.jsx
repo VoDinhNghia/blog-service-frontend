@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import "./index.css";
 import { connect } from "react-redux";
-import { Dropdown, Form } from "react-bootstrap";
-import { BsPencilSquare, BsTrash } from "react-icons/bs";
+import { Form } from "react-bootstrap";
 import { studySpaceAction } from "../../../../../store/action";
 import ModalCommon from "../../../../commons/modal";
 import { typeModal } from "../../../../../common/constant";
+import DropdownCommon from "../../../../commons/dropdown";
 
 class ActionProblem extends Component {
   constructor(props) {
@@ -75,31 +75,10 @@ class ActionProblem extends Component {
     return (
       <>
         <div>
-          <Dropdown>
-            <Dropdown.Toggle
-              variant="light"
-              id="dropdown-basic"
-              className="IconToggleActionGroupList"
-              size="sm"
-            ></Dropdown.Toggle>
-
-            <Dropdown.Menu className="MenuActionProblem">
-              <Dropdown.Item
-                onClick={() => this.setState({ isShowModal: true })}
-                className="ItemActionProlem"
-              >
-                <BsPencilSquare className="BtnItemActionGroupList" />
-                Cập nhật
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => this.setState({ isShowModalDelete: true })}
-                className="ItemActionProlem"
-              >
-                <BsTrash className="BtnItemActionDeleteProblem" />
-                Xóa vấn đề
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          <DropdownCommon
+            onShowModalUpdate={() => this.setState({ isShowModal: true })}
+            onShowModalDelete={() => this.setState({ isShowModalDelete: true })}
+          />
           <ModalCommon
             isShowModal={isShowModal}
             titleHeader="Cập nhật vấn đề"
