@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../constants/constant";
-import { authHeader } from "./authHeader";
+import { authHeader } from "./auth-header.service";
 
 export const postMethod = (path, payload) =>
   axios.post(`${API_URL}/api/${path}`, payload, {

@@ -17,7 +17,7 @@ import {
   createNewSolution,
   updateSolution,
   deleteSolution,
-} from "../../services/studySpaceService";
+} from "../../services/study-space.service";
 import { studySpaceAction } from "../action";
 import {
   fetchList,

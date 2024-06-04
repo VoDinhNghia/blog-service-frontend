@@ -4,7 +4,7 @@ import moment from "moment/moment";
 import { formatDateTime, routes } from "../../../../constants/constant";
 import ActionGroupList from "./actions";
 import MemberGroup from "./members";
-import AuthService from "../../../../services/authService";
+import AuthService from "../../../../services/auth.service";
 import { Collapse, Modal, Col, Row, Button, Card } from "react-bootstrap";
 import { studySpaceAction } from "../../../../store/action";
 import { connect } from "react-redux";

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import Modal from "react-bootstrap/Modal";
 import "./index.css";
-import AuthService from "../../../../services/authService";
+import AuthService from "../../../../services/auth.service";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
-import { createPost } from "../../../../services/postService";
+import { createPost } from "../../../../services/post.service";
 import { postAction } from "../../../../store/action";
 import { typePostListPage } from "../../../../constants/constant";
 import Select from "react-select";

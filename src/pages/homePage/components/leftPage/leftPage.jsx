@@ -3,13 +3,13 @@ import { connect } from "react-redux";
 import { BsChatQuote, BsSearch } from "react-icons/bs";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import InfoUserPanel from "../../../commons/InfoUserPanel/index";
-import AuthService from "../../../../services/authService";
+import AuthService from "../../../../services/auth.service";
 import "./index.css";
 import { messageAction, userAction } from "../../../../store/action";
 import { Link } from "react-router-dom";
 import { routes } from "../../../../constants/constant";
 import MessageModal from "../messageModal";
-import { getAllMessByOneConver } from "../../../../services/messageService";
+import { getAllMessByOneConver } from "../../../../services/message.service";
 import { filterStatusLoginUser } from "../../../../utils/home.util";
 import { getUserName } from "../../../../utils/util";
 

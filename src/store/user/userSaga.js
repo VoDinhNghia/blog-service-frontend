@@ -1,5 +1,5 @@
 import { takeLatest } from "redux-saga/effects";
-import { getUserById, getAllUser } from "../../services/userService";
+import { getUserById, getAllUser } from "../../services/user.service";
 import { userAction } from "../action";
 import { fetchById, fetchList } from "../sagaCommon";
 

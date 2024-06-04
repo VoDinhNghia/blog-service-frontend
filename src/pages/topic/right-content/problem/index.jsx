@@ -5,7 +5,7 @@ import moment from "moment/moment";
 import { formatDateTime, routes } from "../../../../constants/constant";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import AuthService from "../../../../services/authService";
+import AuthService from "../../../../services/auth.service";
 import ActionProblem from "./actions";
 import SolutionList from "./solution";
 import { studySpaceAction } from "../../../../store/action";

@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import AuthService from "../services/authService";
+import AuthService from "../services/auth.service";
 import { routes } from "../constants/constant";
 
 const PrivateRoute = ({ children }) => {

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./index.css";
 import InfoUserPanel from "../../commons/InfoUserPanel";
-import AuthService from "../../../services/authService";
+import AuthService from "../../../services/auth.service";
 import { userAction } from "../../../store/action";
 
 class LeftTopicPage extends Component {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { authHeader } from "./authHeader";
+import { authHeader } from "./auth-header.service";
 import { API_URL } from "../constants/constant";
 import { getMethod, postMethod, putMethod } from "./service";
 

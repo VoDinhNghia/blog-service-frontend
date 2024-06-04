@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { messageAction, postAction } from "../../../store/action";
 import { connect } from "react-redux";
 import MenuMain from "../menuMain";
-import AuthService from "../../../services/authService";
+import AuthService from "../../../services/auth.service";
 import SearchMenuPageCommon from "../../commons/searchMenuPage";
 import { Navbar } from "react-bootstrap";
 import { getNumberMsgNotRead } from "../../../utils/message.util";

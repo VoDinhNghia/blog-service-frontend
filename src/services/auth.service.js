@@ -3,7 +3,7 @@ import axios from "axios";
 import { localStorageItem } from "../constants/constant";
 import { routes } from "../constants/constant";
 import { API_URL } from "../constants/constant";
-import { authHeader } from "./authHeader";
+import { authHeader } from "./auth-header.service";
 
 class AuthService {
   async login(email, password) {

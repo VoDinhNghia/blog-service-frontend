@@ -6,7 +6,7 @@ import {
   getAllMessageByConver,
   getListConversationByUser,
   updateStatusMessage,
-} from "../../services/messageService";
+} from "../../services/message.service";
 import { messageAction } from "../action";
 import { NotificationManager } from "react-notifications";
 import { fetchById, fetchList, updateItem } from "../sagaCommon";

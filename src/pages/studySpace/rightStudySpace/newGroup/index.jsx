@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Button } from "react-bootstrap";
-import AuthService from "../../../../services/authService";
+import AuthService from "../../../../services/auth.service";
 import Modal from "react-bootstrap/Modal";
 import { Multiselect } from "multiselect-react-dropdown";
 import "./index.css";

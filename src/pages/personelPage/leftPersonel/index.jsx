@@ -3,7 +3,7 @@ import "./index.css";
 import InfoUserPanel from "../../commons/InfoUserPanel/index";
 import { connect } from "react-redux";
 import { userAction } from "../../../store/action";
-import AuthService from "../../../services/authService";
+import AuthService from "../../../services/auth.service";
 import { Link } from "react-router-dom";
 import {
   BsFillBriefcaseFill,

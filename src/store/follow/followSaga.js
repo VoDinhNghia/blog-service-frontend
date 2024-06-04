@@ -3,7 +3,7 @@ import {
   getListFollowOfMe,
   addFollow,
   removeFollow,
-} from "../../services/followService";
+} from "../../services/follow.service";
 import { followAction } from "../action";
 import { fetchList, addNewItem, deleteItem } from "../sagaCommon";
 
