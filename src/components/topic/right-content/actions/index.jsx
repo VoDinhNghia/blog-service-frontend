@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import "./index.css";
 import { connect } from "react-redux";
-import { Dropdown, Form } from "react-bootstrap";
-import { BsFillPencilFill } from "react-icons/bs";
+import { Form } from "react-bootstrap";
 import { studySpaceAction } from "../../../../store/action";
 import ModalCommon from "../../../commons/modal";
+import DropdownCommon from "../../../commons/dropdown";
 
 class ActionTopicDetail extends Component {
   constructor(props) {
@@ -79,25 +79,10 @@ class ActionTopicDetail extends Component {
     return (
       <>
         <div>
-          <Dropdown>
-            <Dropdown.Toggle
-              variant="light"
-              id="dropdown-basic"
-              className="IconToggleActionGroupList"
-              size="sm"
-            ></Dropdown.Toggle>
-
-            <Dropdown.Menu className="MenuActionGroupList">
-              <Dropdown.Item
-                onClick={() => this.setState({ isShowModal: true })}
-                className="ItemActionGroupList"
-              >
-                <BsFillPencilFill className="BtnItemActionGroupList" />
-                Update topic
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-
+          <DropdownCommon
+            onShowModalUpdate={() => this.setState({ isShowModal: true })}
+            isShowDelete={false}
+          />
           <ModalCommon
             isShowModal={this.state.isShowModal}
             onClose={() => this.setState({ isShowModal: false })}

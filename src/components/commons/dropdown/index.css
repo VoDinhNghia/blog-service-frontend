@@ -1,0 +1,29 @@
+.ItemActionDropdownCommon {
+  color: blue;
+}
+
+.IconToggleActionDropdownCommon {
+  width: 25px;
+  height: 27px;
+  color: red;
+  border: 1px solid lightgray;
+}
+
+.MenuActionDropdownCommon {
+  text-align: left;
+  width: 80px;
+}
+
+.BtnItemActionDropdownCommon {
+  color: blue;
+  margin-right: 10px;
+}
+
+.BtnActionDeleteDropdownCommon {
+  color: red;
+  margin-right: 10px;
+}
+
+.ItemColorDropdownCommon {
+  color: blue;
+}
