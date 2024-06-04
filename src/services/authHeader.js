@@ -1,4 +1,4 @@
-import { localStorageItem } from "../common/constant";
+import { localStorageItem } from "../constants/constant";
 
 export const authHeader = () => {
   const user = JSON.parse(sessionStorage.getItem(localStorageItem.USER));

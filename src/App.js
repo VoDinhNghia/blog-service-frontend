@@ -2,19 +2,19 @@ import React, { Component } from "react";
 import { Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import Login from "./components/loginPage";
-import Home from "./components/homePage/home";
-import PrivateRoute from "./common/protectedRoute";
-import NotFoundRoute from "./components/notFoundPage/notfoundPage";
-import { routes } from "./common/constant";
+import Login from "./pages/loginPage";
+import Home from "./pages/homePage/home";
+import PrivateRoute from "./utils/protected-route.util";
+import NotFoundRoute from "./pages/notFoundPage/notfoundPage";
+import { routes } from "./constants/constant";
 import "react-notifications/lib/notifications.css";
 import { NotificationContainer } from "react-notifications";
-import PersonelPage from "./components/personelPage/index";
-import StudySpacePage from "./components/studySpace";
-import TopicPage from "./components/topic";
-import FollowedPage from "./components/follow/followedPage";
-import FollowingPage from "./components/follow/followingPage";
-import MessagePage from "./components/messagePage";
+import PersonelPage from "./pages/personelPage/index";
+import StudySpacePage from "./pages/studySpace";
+import TopicPage from "./pages/topic";
+import FollowedPage from "./pages/follow/followedPage";
+import FollowingPage from "./pages/follow/followingPage";
+import MessagePage from "./pages/messagePage";
 
 class App extends Component {
   render() {
