@@ -1,5 +1,5 @@
 import moment from "moment";
-import { formatDateTime } from "../common/constant";
+import { formatDateTime } from "../constants/constant";
 
 export const getUserName = (user) => {
   return `${user?.lastName || ""} ${user?.middleName || ""} ${

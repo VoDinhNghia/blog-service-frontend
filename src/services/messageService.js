@@ -1,6 +1,6 @@
 import axios from "axios";
 import { authHeader } from "./authHeader";
-import { API_URL } from "../common/constant";
+import { API_URL } from "../constants/constant";
 import { getMethod, postMethod, putMethod } from "./service";
 
 export const sendMessage = (payload) => postMethod("message", payload);

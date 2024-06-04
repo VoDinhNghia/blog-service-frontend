@@ -1,8 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
 import axios from "axios";
-import { localStorageItem } from "../common/constant";
-import { routes } from "../common/constant";
-import { API_URL } from "../common/constant";
+import { localStorageItem } from "../constants/constant";
+import { routes } from "../constants/constant";
+import { API_URL } from "../constants/constant";
 import { authHeader } from "./authHeader";
 
 class AuthService {

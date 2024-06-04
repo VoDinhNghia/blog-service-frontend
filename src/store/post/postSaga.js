@@ -11,7 +11,7 @@ import {
   deleteComment,
 } from "../../services/postService";
 import { postAction } from "../action";
-import { typePostListPage } from "../../common/constant";
+import { typePostListPage } from "../../constants/constant";
 import { fetchList, actionPosts, updateItem, deleteItem } from "../sagaCommon";
 
 function* getAllPost({ payload }) {

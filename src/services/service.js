@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL } from "../common/constant";
+import { API_URL } from "../constants/constant";
 import { authHeader } from "./authHeader";
 
 export const postMethod = (path, payload) =>
