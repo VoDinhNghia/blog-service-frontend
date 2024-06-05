@@ -14,24 +14,11 @@ import {
   MDBRow,
   MDBCol,
 } from "mdb-react-ui-kit";
-
-const required = (value) => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        This field is required!
-      </div>
-    );
-  }
-};
+import { requiredField } from "../../utils/login.util";
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.handleLogin = this.handleLogin.bind(this);
-    this.onChangeUsername = this.onChangeUsername.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
-
     this.state = {
       username: "",
       password: "",
@@ -54,38 +41,23 @@ class Login extends Component {
 
   handleLogin(e) {
     e.preventDefault();
-
-    this.setState({
-      message: "",
-      loading: true,
-    });
-
+    let message = "";
+    let loading = false;
     this.form.validateAll();
-
-    if (this.checkBtn.context._errors.length === 0) {
-      AuthService.login(this.state.username, this.state.password).then(
-        (response) => {
-          this.props.router.navigate(routes.HOME);
-        },
-        (error) => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-
-          this.setState({
-            loading: false,
-            message: resMessage,
-          });
-        }
-      );
-    } else {
-      this.setState({
-        loading: false,
-      });
-    }
+    AuthService.login(this.state.username, this.state.password).then(
+      (response) => {
+        this.props.router.navigate(routes.HOME);
+        loading = true;
+      },
+      (error) => {
+        message =
+          error.response?.data?.message || error.message || error.toString();
+      }
+    );
+    this.setState({
+      loading,
+      message,
+    });
   }
 
   render() {
@@ -130,7 +102,7 @@ class Login extends Component {
                       name="username"
                       value={this.state.username}
                       onChange={this.onChangeUsername}
-                      validations={[required]}
+                      validations={[requiredField]}
                     />
                   </div>
 
@@ -142,7 +114,7 @@ class Login extends Component {
                       name="password"
                       value={this.state.password}
                       onChange={this.onChangePassword}
-                      validations={[required]}
+                      validations={[requiredField]}
                     />
                   </div>
 
