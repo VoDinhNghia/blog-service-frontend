@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { postAction } from "../../../store/action.store";
 import { connect } from "react-redux";
-import SearchMenuPageCommon from "../../commons/searchMenuPage";
+import SearchMenuPageCommon from "../../commons/search";
 import { Navbar } from "react-bootstrap";
 import "./index.css";
 import MenuMain from "../menuMain";

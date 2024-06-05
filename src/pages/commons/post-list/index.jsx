@@ -22,7 +22,7 @@ import {
 import AuthService from "../../../services/auth.service";
 import ShowCommentHomePage from "./comments";
 import ActionPostItem from "./actions";
-import ShowImagePost from "./showImages";
+import ShowImagePost from "./show-image";
 import {
   routes,
   typePostListPage,

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Navbar } from "react-bootstrap";
 import MenuMain from "../menuMain";
-import SearchMenuPageCommon from "../../commons/searchMenuPage";
+import SearchMenuPageCommon from "../../commons/search";
 
 class MenuMessagePage extends Component {
   constructor(props) {
