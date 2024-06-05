@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { postAction } from "../../../store/action";
+import { postAction } from "../../../store/action.store";
 import { connect } from "react-redux";
 import SearchMenuPageCommon from "../../commons/searchMenuPage";
 import { Navbar } from "react-bootstrap";

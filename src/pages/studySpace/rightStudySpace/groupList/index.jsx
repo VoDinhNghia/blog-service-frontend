@@ -6,7 +6,7 @@ import ActionGroupList from "./actions";
 import MemberGroup from "./members";
 import AuthService from "../../../../services/auth.service";
 import { Collapse, Modal, Col, Row, Button, Card } from "react-bootstrap";
-import { studySpaceAction } from "../../../../store/action";
+import { studySpaceAction } from "../../../../store/action.store";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { BsPlusCircle, BsFillTrashFill } from "react-icons/bs";

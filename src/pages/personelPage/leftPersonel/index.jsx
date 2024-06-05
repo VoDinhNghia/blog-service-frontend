@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./index.css";
-import InfoUserPanel from "../../commons/InfoUserPanel/index";
+import InfoUserPanel from "../../commons/user-info";
 import { connect } from "react-redux";
-import { userAction } from "../../../store/action";
+import { userAction } from "../../../store/action.store";
 import AuthService from "../../../services/auth.service";
 import { Link } from "react-router-dom";
 import {
@@ -13,7 +13,7 @@ import {
 } from "react-icons/bs";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { FaShare } from "react-icons/fa";
-import ShowImagePost from "../../commons/postListCommon/showImages";
+import ShowImagePost from "../../commons/post-list/show-image";
 import { routes, typeFollowPage } from "../../../constants/constant";
 
 class LeftPersonel extends Component {

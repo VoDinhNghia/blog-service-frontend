@@ -10,9 +10,9 @@ import {
   updateComment,
   deleteComment,
 } from "../../services/post.service";
-import { postAction } from "../action";
+import { postAction } from "../action.store";
 import { typePostListPage } from "../../constants/constant";
-import { fetchList, actionPosts, updateItem, deleteItem } from "../sagaCommon";
+import { fetchList, actionPosts, updateItem, deleteItem } from "../saga-common.store";
 
 function* getAllPost({ payload }) {
   yield fetchList(

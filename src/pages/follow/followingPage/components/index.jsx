@@ -5,7 +5,7 @@ import { Row, Col, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { SlUserUnfollow } from "react-icons/sl";
 import AddFollow from "../../common/addFollow";
-import { followAction } from "../../../../store/action";
+import { followAction } from "../../../../store/action.store";
 import { routes, typeFollowPage } from "../../../../constants/constant";
 import moment from "moment";
 import { formatDateTime } from "../../../../constants/constant";

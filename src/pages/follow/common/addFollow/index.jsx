@@ -4,7 +4,7 @@ import "./index.css";
 import { Button, Card, Row, Col } from "react-bootstrap";
 import Select from "react-select";
 import { SlUserFollow } from "react-icons/sl";
-import { followAction, userAction } from "../../../../store/action";
+import { followAction, userAction } from "../../../../store/action.store";
 import { typeFollowPage } from "../../../../constants/constant";
 
 class AddFollow extends Component {

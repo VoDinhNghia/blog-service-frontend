@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import AuthService from "../../../../services/auth.service";
 import ActionProblem from "./actions";
 import SolutionList from "./solution";
-import { studySpaceAction } from "../../../../store/action";
+import { studySpaceAction } from "../../../../store/action.store";
 import { getUserName } from "../../../../utils/util";
 
 class ProblemList extends Component {

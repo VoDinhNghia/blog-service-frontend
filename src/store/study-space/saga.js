@@ -18,7 +18,7 @@ import {
   updateSolution,
   deleteSolution,
 } from "../../services/study-space.service";
-import { studySpaceAction } from "../action";
+import { studySpaceAction } from "../action.store";
 import {
   fetchList,
   addNewItem,
@@ -26,7 +26,7 @@ import {
   deleteItem,
   addNewItemById,
   fetchById,
-} from "../sagaCommon";
+} from "../saga-common.store";
 
 function* fetchAllGroups({ payload }) {
   yield fetchList(

@@ -11,7 +11,7 @@ import Collapse from "react-bootstrap/Collapse";
 import Form from "react-bootstrap/Form";
 import { Multiselect } from "multiselect-react-dropdown";
 import { Link } from "react-router-dom";
-import { studySpaceAction } from "../../../../../store/action";
+import { studySpaceAction } from "../../../../../store/action.store";
 
 class MemberGroup extends Component {
   constructor(props) {

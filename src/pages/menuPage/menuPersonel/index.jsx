@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { messageAction, postAction } from "../../../store/action";
+import { messageAction, postAction } from "../../../store/action.store";
 import { connect } from "react-redux";
 import MenuMain from "../menuMain";
 import AuthService from "../../../services/auth.service";

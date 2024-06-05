@@ -7,7 +7,7 @@ import AuthService from "../../../../services/auth.service";
 import Modal from "react-bootstrap/Modal";
 import { Multiselect } from "multiselect-react-dropdown";
 import "./index.css";
-import { studySpaceAction } from "../../../../store/action";
+import { studySpaceAction } from "../../../../store/action.store";
 import Select from "react-select";
 import { optionPrivateMode } from "../../../../utils/new-post.util";
 

@@ -6,7 +6,7 @@ import { Button, Collapse, InputGroup, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { BsFillPlusSquareFill } from "react-icons/bs";
 import { FcViewDetails } from "react-icons/fc";
-import { studySpaceAction } from "../../../../../store/action";
+import { studySpaceAction } from "../../../../../store/action.store";
 import ActionSolution from "./action";
 import { getUserName, showDateTime } from "../../../../../utils/util";
 

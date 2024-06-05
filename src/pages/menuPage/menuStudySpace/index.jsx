@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import MenuMain from "../menuMain";
-import { messageAction, studySpaceAction } from "../../../store/action";
+import { messageAction, studySpaceAction } from "../../../store/action.store";
 import SearchMenuPageCommon from "../../commons/searchMenuPage";
 import { Navbar } from "react-bootstrap";
 import { getNumberMsgNotRead } from "../../../utils/message.util";

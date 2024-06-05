@@ -6,7 +6,7 @@ import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 import Form from "react-bootstrap/Form";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import { studySpaceAction } from "../../../../../store/action";
+import { studySpaceAction } from "../../../../../store/action.store";
 import "./index.css";
 
 class ActionGroupList extends Component {

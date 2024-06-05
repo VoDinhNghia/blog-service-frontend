@@ -1,4 +1,4 @@
-import { postAction } from "../action";
+import { postAction } from "../action.store";
 
 const initState = {
   postLists: [],

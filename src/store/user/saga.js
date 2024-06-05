@@ -1,7 +1,7 @@
 import { takeLatest } from "redux-saga/effects";
 import { getUserById, getAllUser } from "../../services/user.service";
-import { userAction } from "../action";
-import { fetchById, fetchList } from "../sagaCommon";
+import { userAction } from "../action.store";
+import { fetchById, fetchList } from "../saga-common.store";
 
 function* fetchUserById({ payload }) {
   yield fetchById(

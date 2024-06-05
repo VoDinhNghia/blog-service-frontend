@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./index.css";
-import InfoUserPanel from "../../commons/InfoUserPanel";
+import InfoUserPanel from "../../commons/user-info";
 import AuthService from "../../../services/auth.service";
-import { userAction } from "../../../store/action";
+import { userAction } from "../../../store/action.store";
 
 class LeftTopicPage extends Component {
   constructor(props) {

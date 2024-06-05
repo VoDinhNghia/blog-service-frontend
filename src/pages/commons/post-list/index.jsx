@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment/moment";
 import { connect } from "react-redux";
-import { postAction } from "../../../store/action";
+import { postAction } from "../../../store/action.store";
 import {
   BsFillHandThumbsUpFill,
   BsFillChatLeftTextFill,

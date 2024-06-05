@@ -1,4 +1,4 @@
-import { followAction } from "../action";
+import { followAction } from "../action.store";
 
 const initState = {
   followList: [],

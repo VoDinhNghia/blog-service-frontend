@@ -1,4 +1,4 @@
-import { studySpaceAction } from "../action";
+import { studySpaceAction } from "../action.store";
 
 const initState = {
   groupList: [],

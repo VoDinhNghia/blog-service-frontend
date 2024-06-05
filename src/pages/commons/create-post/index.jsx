@@ -5,6 +5,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import AuthService from "../../../services/auth.service";
 import "./index.css";
 import NewPostModal from "./components";
+import { getUserName } from "../../../utils/util";
 
 class NewPostCommon extends Component {
   constructor(props) {
@@ -14,34 +15,23 @@ class NewPostCommon extends Component {
     };
   }
 
-  showNewPost() {
-    this.setState({
-      isShowNewPost: true,
-    });
-  }
-
-  closeNewPost(value) {
-    this.setState({
-      isShowNewPost: value,
-    });
-  }
-
   render() {
     const { page, limit } = this.props;
     const { isShowNewPost } = this.state;
     const currentUser = AuthService.getCurrentUser();
-    const userName = `${currentUser.lastName || ""} ${currentUser.middleName || ""} ${currentUser.firstName || ""}`;
+    const userName = getUserName(currentUser);
+    const { firstName = "", avatar = "" } = currentUser;
     return (
       <>
         <InputGroup className="PostHomePage">
           <Button
-            onClick={() => this.showNewPost()}
+            onClick={() => this.setState({ isShowNewPost: true })}
             id="basic-addon-post-home"
             variant="light"
           >
             <img
-              src={currentUser?.avatar || "/image/icon-login.png"}
-              alt={currentUser?.firstName}
+              src={avatar || "/image/icon-login.png"}
+              alt={firstName}
               className="PostHomePageAvatar"
             />
           </Button>
@@ -50,14 +40,14 @@ class NewPostCommon extends Component {
             placeholder={`Xin chào ${userName}! Hôm nay, bạn muốn đăng gì?...`}
             aria-label="new post"
             aria-describedby="basic-addon-post-home"
-            onClick={() => this.showNewPost()}
+            onClick={() => this.setState({ isShowNewPost: true })}
           />
         </InputGroup>
         <NewPostModal
           isShowNewPost={isShowNewPost}
           page={page}
           limit={limit}
-          closeNewPost={(value) => this.closeNewPost(value)}
+          closeNewPost={(value) => this.setState({ isShowNewPost: false })}
         />
       </>
     );
