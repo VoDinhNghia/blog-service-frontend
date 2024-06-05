@@ -4,8 +4,9 @@ import "./index.css";
 import { Button, Card, Row, Col } from "react-bootstrap";
 import Select from "react-select";
 import { SlUserFollow } from "react-icons/sl";
-import { followAction, userAction } from "../../../../store/action.store";
-import { typeFollowPage } from "../../../../constants/constant";
+import { followAction, userAction } from "../../../store/action.store";
+import { typeFollowPage } from "../../../constants/constant";
+import { optionListOfUser } from "../../../utils/user.util";
 
 class AddFollow extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class AddFollow extends Component {
     this.state = {
       userFollowedId: "",
     };
+    this.dispatch = this.props.dispatch;
   }
 
   componentDidMount() {
@@ -26,16 +28,17 @@ class AddFollow extends Component {
   }
 
   fetchAllUsers() {
-    const { dispatch } = this.props;
-    dispatch({ type: userAction.GET_ALL_USER });
+    this.dispatch({ type: userAction.GET_ALL_USER });
   }
 
   addFollow() {
-    const { dispatch } = this.props;
     const { userFollowedId } = this.state;
-    dispatch({ type: followAction.ADD_FOLLOW, payload: { userFollowedId } });
+    this.dispatch({
+      type: followAction.ADD_FOLLOW,
+      payload: { userFollowedId },
+    });
     setTimeout(() => {
-      dispatch({
+      this.dispatch({
         type: followAction.GET_LIST_FOLLOW,
         payload: { type: typeFollowPage.FOLLOWING },
       });
@@ -44,14 +47,6 @@ class AddFollow extends Component {
 
   render() {
     const { userList = [] } = this.props;
-    const options = userList.map((user) => {
-      return {
-        label: `${user?.lastName || ""} ${user?.middleName || ""} ${
-          user?.firstName || ""
-        } - ${user?.code}`,
-        value: user?.id,
-      };
-    });
 
     return (
       <Card className="mt-4">
@@ -59,7 +54,7 @@ class AddFollow extends Component {
           <Row>
             <Col xl={9}>
               <Select
-                options={options}
+                options={optionListOfUser(userList)}
                 placeholder="Tìm kiếm bạn bè..."
                 onChange={(value) => this.onSelectValue(value)}
                 className="ms-2 w-100"
@@ -81,9 +76,8 @@ class AddFollow extends Component {
   }
 }
 
-function mapStateToProps(state) {
+export default connect((state) => {
   return {
     userList: state.UserReducer.userList,
   };
-}
-export default connect(mapStateToProps)(AddFollow);
+})(AddFollow);

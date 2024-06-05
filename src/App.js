@@ -12,8 +12,8 @@ import { NotificationContainer } from "react-notifications";
 import PersonelPage from "./pages/personelPage/index";
 import StudySpacePage from "./pages/studySpace";
 import TopicPage from "./pages/topic";
-import FollowedPage from "./pages/follow/followedPage";
-import FollowingPage from "./pages/follow/followingPage";
+import FollowedPage from "./pages/follow/followed";
+import FollowingPage from "./pages/follow/following";
 import MessagePage from "./pages/messagePage";
 
 class App extends Component {

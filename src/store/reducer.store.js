@@ -6,11 +6,11 @@ import FollowReducer from "./follow/reducer";
 import MessageReducer from "./message/reducer";
 
 const rootReducer = combineReducers({
-    PostReducer: PostReducer,
-    UserReducer: UserReducer,
-    StudySpaceReducer: StudySpaceReducer,
-    FollowReducer: FollowReducer,
-    MessageReducer: MessageReducer,
+  PostReducer,
+  UserReducer,
+  StudySpaceReducer,
+  FollowReducer,
+  MessageReducer,
 });
 
 export default rootReducer;
