@@ -3,7 +3,7 @@ import MenuMessagePage from "../menuPage/menuMessagePage";
 import { Col, Container, Row } from "react-bootstrap";
 import MessageLeftPage from "./leftPage";
 import MessageRightPage from "./rightPage";
-import FooterPage from "../footer";
+import FooterPage from "../commons/footer";
 import { connect } from "react-redux";
 import { messageAction } from "../../store/action.store";
 import { socket } from "../../services/socket";

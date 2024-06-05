@@ -5,7 +5,7 @@ import "./App.css";
 import Login from "./pages/loginPage";
 import Home from "./pages/homePage/home";
 import PrivateRoute from "./utils/protected-route.util";
-import NotFoundRoute from "./pages/notFoundPage/notfoundPage";
+import NotFoundPage from "./pages/commons/page-not-found";
 import { routes } from "./constants/constant";
 import "react-notifications/lib/notifications.css";
 import { NotificationContainer } from "react-notifications";
@@ -79,7 +79,7 @@ class App extends Component {
               </PrivateRoute>
             }
           />
-          <Route path="*" element={<NotFoundRoute />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <NotificationContainer />
       </div>
