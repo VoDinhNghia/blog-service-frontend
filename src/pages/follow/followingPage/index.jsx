@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import MenuPersonelPage from "../../menuPage/menuPersonel/index";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Footer from "../../footerPage/footer";
+import Footer from "../../footer";
 import LeftPersonel from "../../personelPage/leftPersonel";
 import { useLocation } from "react-router-dom";
 import RightFollowingPage from "./components";
