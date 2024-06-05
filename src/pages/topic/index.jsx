@@ -2,7 +2,7 @@ import React from "react";
 import MenuStudySpacePage from "../menuPage/menuStudySpace/index";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Footer from "../footer";
+import Footer from "../commons/footer";
 import LeftTopicPage from "./left-content";
 import RightTopicPage from "./right-content";
 import { useLocation } from "react-router-dom";

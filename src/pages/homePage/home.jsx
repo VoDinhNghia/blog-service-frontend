@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import MenuHomePage from "../menuPage/menuHomePage/index";
-import Footer from "../footer";
+import Footer from "../commons/footer";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import RightHomePage from "./components/rightPage/rightPage";

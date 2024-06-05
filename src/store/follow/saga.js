@@ -8,7 +8,12 @@ import { followAction } from "../action.store";
 import { fetchList, addNewItem, deleteItem } from "../saga-common.store";
 
 function* fetchAllFollows({ payload }) {
-  yield fetchList(getListFollowOfMe, payload, "Get list follow of me");
+  yield fetchList(
+    getListFollowOfMe,
+    payload,
+    followAction.GET_LIST_FOLLOW_SUCCESS,
+    "Get list follow of me"
+  );
 }
 
 function* addFollows({ payload }) {

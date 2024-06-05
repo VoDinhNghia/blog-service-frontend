@@ -5,15 +5,15 @@ import "./App.css";
 import Login from "./pages/loginPage";
 import Home from "./pages/homePage/home";
 import PrivateRoute from "./utils/protected-route.util";
-import NotFoundRoute from "./pages/notFoundPage/notfoundPage";
+import NotFoundPage from "./pages/commons/page-not-found";
 import { routes } from "./constants/constant";
 import "react-notifications/lib/notifications.css";
 import { NotificationContainer } from "react-notifications";
 import PersonelPage from "./pages/personelPage/index";
 import StudySpacePage from "./pages/studySpace";
 import TopicPage from "./pages/topic";
-import FollowedPage from "./pages/follow/followedPage";
-import FollowingPage from "./pages/follow/followingPage";
+import FollowedPage from "./pages/follow/followed";
+import FollowingPage from "./pages/follow/following";
 import MessagePage from "./pages/messagePage";
 
 class App extends Component {
@@ -79,7 +79,7 @@ class App extends Component {
               </PrivateRoute>
             }
           />
-          <Route path="*" element={<NotFoundRoute />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <NotificationContainer />
       </div>
