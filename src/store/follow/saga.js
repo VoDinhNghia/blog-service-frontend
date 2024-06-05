@@ -4,8 +4,8 @@ import {
   addFollow,
   removeFollow,
 } from "../../services/follow.service";
-import { followAction } from "../action";
-import { fetchList, addNewItem, deleteItem } from "../sagaCommon";
+import { followAction } from "../action.store";
+import { fetchList, addNewItem, deleteItem } from "../saga-common.store";
 
 function* fetchAllFollows({ payload }) {
   yield fetchList(getListFollowOfMe, payload, "Get list follow of me");

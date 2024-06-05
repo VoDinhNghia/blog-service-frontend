@@ -5,13 +5,13 @@ import { BsCamera2, BsTrash, BsPencilSquare } from "react-icons/bs";
 
 class ImageUploadingPage extends Component {
   render() {
-    const { images = [] } = this.props;
+    const { images = [], onChangeUpload } = this.props;
 
     return (
       <ImageUploading
         multiple
         value={images}
-        onChange={(imageList) => this.props.onChangeUpload(imageList)}
+        onChange={(imageList) => onChangeUpload(imageList)}
         maxNumber={69}
         dataURLKey="data_url"
       >

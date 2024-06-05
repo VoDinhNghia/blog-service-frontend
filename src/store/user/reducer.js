@@ -1,4 +1,4 @@
-import { userAction } from "../action";
+import { userAction } from "../action.store";
 
 const initState = {
   userInfo: {},

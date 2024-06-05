@@ -5,7 +5,7 @@ import MessageLeftPage from "./leftPage";
 import MessageRightPage from "./rightPage";
 import FooterPage from "../footerPage/footer";
 import { connect } from "react-redux";
-import { messageAction } from "../../store/action";
+import { messageAction } from "../../store/action.store";
 import { socket } from "../../services/socket";
 import { socketMesg } from "../../constants/constant";
 import {

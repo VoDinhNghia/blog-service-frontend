@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import NewGroup from "./newGroup";
 import { connect } from "react-redux";
 import "./index.css";
-import { studySpaceAction, userAction } from "../../../store/action";
-import PaginationPage from "../../commons/paginationPage";
+import { studySpaceAction, userAction } from "../../../store/action.store";
+import PaginationPage from "../../commons/pagination";
 import GroupListPage from "./groupList";
 
 class RightStudySpace extends Component {

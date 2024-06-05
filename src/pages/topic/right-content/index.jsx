@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./index.css";
-import { studySpaceAction } from "../../../store/action";
+import { studySpaceAction } from "../../../store/action.store";
 import moment from "moment/moment";
 import { formatDateTime, routes } from "../../../constants/constant";
 import { Button } from "react-bootstrap";

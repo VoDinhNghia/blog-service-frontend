@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
-import PostReducer from "./post/postReducer";
-import UserReducer from "./user/userReducer";
-import StudySpaceReducer from "./studySpace/studySpaceReducer";
-import FollowReducer from "./follow/followReducer";
-import MessageReducer from "./message/messageReducer";
+import PostReducer from "./post/reducer";
+import UserReducer from "./user/reducer";
+import StudySpaceReducer from "./study-space/reducer";
+import FollowReducer from "./follow/reducer";
+import MessageReducer from "./message/reducer";
 
 const rootReducer = combineReducers({
     PostReducer: PostReducer,

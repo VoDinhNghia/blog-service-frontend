@@ -5,11 +5,11 @@ import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { postAction } from "../../../../store/action";
+import { postAction } from "../../../../store/action.store";
 import "./index.css";
 import { typeModal } from "../../../../constants/constant";
 import Select from "react-select";
-import ImageUploadingPage from "../../ImageUploadingPage";
+import ImageUploadingPage from "../../image-uploading";
 import { optionPrivateMode } from "../../../../utils/new-post.util";
 
 class ActionPostItem extends Component {

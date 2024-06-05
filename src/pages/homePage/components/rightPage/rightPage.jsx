@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { postAction } from "../../../../store/action";
+import { postAction } from "../../../../store/action.store";
 import "./index.css";
-import PostListHomePage from "../../../commons/postListCommon";
-import NewPostCommon from "../../../commons/newPostCommon";
-import PaginationPage from "../../../commons/paginationPage";
+import PostListHomePage from "../../../commons/post-list";
+import NewPostCommon from "../../../commons/create-post";
+import PaginationPage from "../../../commons/pagination";
 
 class RightHomePage extends Component {
   constructor(props) {

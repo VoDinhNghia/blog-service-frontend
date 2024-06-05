@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Button, Form } from "react-bootstrap";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 import "./index.css";
-import { studySpaceAction } from "../../../../../../store/action";
+import { studySpaceAction } from "../../../../../../store/action.store";
 import ModalCommon from "../../../../../commons/modal";
 import { typeModal } from "../../../../../../constants/constant";
 

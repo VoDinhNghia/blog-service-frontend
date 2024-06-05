@@ -7,9 +7,9 @@ import {
   getListConversationByUser,
   updateStatusMessage,
 } from "../../services/message.service";
-import { messageAction } from "../action";
+import { messageAction } from "../action.store";
 import { NotificationManager } from "react-notifications";
-import { fetchById, fetchList, updateItem } from "../sagaCommon";
+import { fetchById, fetchList, updateItem } from "../saga-common.store";
 
 function* sendNewMessage({ payload }) {
   try {

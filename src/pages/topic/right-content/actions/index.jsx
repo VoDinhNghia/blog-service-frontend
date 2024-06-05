@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./index.css";
 import { connect } from "react-redux";
 import { Form } from "react-bootstrap";
-import { studySpaceAction } from "../../../../store/action";
+import { studySpaceAction } from "../../../../store/action.store";
 import ModalCommon from "../../../commons/modal";
 import DropdownCommon from "../../../commons/dropdown";
 

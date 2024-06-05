@@ -1,4 +1,4 @@
-import { messageAction } from "../action";
+import { messageAction } from "../action.store";
 
 const initState = {
   conversationInfo: {},

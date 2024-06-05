@@ -8,7 +8,7 @@ import { BsFillTrashFill, BsPencilSquare } from "react-icons/bs";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import { postAction } from "../../../../store/action";
+import { postAction } from "../../../../store/action.store";
 
 class ShowCommentHomePage extends Component {
   constructor(props) {

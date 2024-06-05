@@ -6,7 +6,7 @@ import Col from "react-bootstrap/Col";
 import RightHomePage from "./components/rightPage/rightPage";
 import LeftHomePage from "./components/leftPage/leftPage";
 import { connect } from "react-redux";
-import { messageAction, userAction } from "../../store/action";
+import { messageAction, userAction } from "../../store/action.store";
 import { Container } from "react-bootstrap";
 import { getNumberMsgNotRead } from "../../utils/message.util";
 import { socket } from "../../services/socket";

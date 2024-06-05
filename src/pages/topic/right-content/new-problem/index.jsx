@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./index.css";
 import { Form } from "react-bootstrap";
 import { connect } from "react-redux";
-import { studySpaceAction } from "../../../../store/action";
+import { studySpaceAction } from "../../../../store/action.store";
 import ModalCommon from "../../../commons/modal";
 
 class AddNewProblemModal extends Component {

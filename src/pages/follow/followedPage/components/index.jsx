@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { SlUserFollow } from "react-icons/sl";
-import { followAction } from "../../../../store/action";
+import { followAction } from "../../../../store/action.store";
 import { typeFollowPage, routes } from "../../../../constants/constant";
 import moment from "moment";
 import { formatDateTime } from "../../../../constants/constant";

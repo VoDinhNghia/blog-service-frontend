@@ -18,7 +18,7 @@ import {
 } from "../../../../constants/constant";
 import { connect } from "react-redux";
 import { socket } from "../../../../services/socket";
-import { messageAction } from "../../../../store/action";
+import { messageAction } from "../../../../store/action.store";
 import AuthService from "../../../../services/auth.service";
 import moment from "moment/moment";
 import _ from "lodash";

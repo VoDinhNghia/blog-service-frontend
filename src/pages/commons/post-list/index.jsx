@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment/moment";
 import { connect } from "react-redux";
-import { postAction } from "../../../store/action";
+import { postAction } from "../../../store/action.store";
 import {
   BsFillHandThumbsUpFill,
   BsFillChatLeftTextFill,
@@ -22,7 +22,7 @@ import {
 import AuthService from "../../../services/auth.service";
 import ShowCommentHomePage from "./comments";
 import ActionPostItem from "./actions";
-import ShowImagePost from "./showImages";
+import ShowImagePost from "./show-image";
 import {
   routes,
   typePostListPage,
