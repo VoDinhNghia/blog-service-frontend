@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import "./index.css";
 import { Link } from "react-router-dom";
 import AuthService from "../../../services/auth.service";
+import { getUserName } from "../../../utils/util";
 
-class MessageLeftPage extends Component {
+class LeftContentMessagePage extends Component {
   render() {
     const { messageNotRead = [] } = this.props;
     const currentUser = AuthService.getCurrentUser();
@@ -11,17 +12,18 @@ class MessageLeftPage extends Component {
     return (
       <div className="bg-light p-1 mb-2">
         {messageNotRead?.map((conver) => {
+          const { user = {}, chatWith = {}, id = "" } = conver;
           return (
-            <p className="m-3" key={conver?.id}>
+            <p className="m-3" key={id}>
               <img
                 src="/image/icon-login.png"
                 className="IconUserMessage"
                 alt=""
               />
               <Link onClick={() => this.props.goToConversation(conver)}>
-                {conver?.user?.id === currentUser?.id
-                  ? `${conver?.chatWith?.lastName} ${conver?.chatWith?.middleName} ${conver?.chatWith?.firstName}`
-                  : `${conver?.user?.lastName} ${conver?.user?.middleName} ${conver?.user?.firstName}`}
+                {user?.id === currentUser?.id
+                  ? getUserName(chatWith)
+                  : getUserName(user)}
               </Link>
             </p>
           );
@@ -31,4 +33,4 @@ class MessageLeftPage extends Component {
   }
 }
 
-export default MessageLeftPage;
+export default LeftContentMessagePage;
