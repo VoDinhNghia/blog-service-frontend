@@ -1,19 +1,20 @@
 import React, { Component } from "react";
+import { messageAction } from "../../../store/action.store";
 import { connect } from "react-redux";
-import MenuMain from "../menuMain";
-import { messageAction, studySpaceAction } from "../../../store/action.store";
+import MenuMain from "../index";
 import SearchMenuPageCommon from "../../commons/search";
 import { Navbar } from "react-bootstrap";
 import { getNumberMsgNotRead } from "../../../utils/message.util";
 import { socket } from "../../../services/socket";
 import { socketMesg } from "../../../constants/constant";
 
-class MenuStudySpacePage extends Component {
+class MenuMainCommon extends Component {
   constructor(props) {
     super(props);
     this.state = {
       searchKey: null,
     };
+    this.dispatch = this.props.dispatch;
   }
 
   componentDidMount() {
@@ -26,25 +27,6 @@ class MenuStudySpacePage extends Component {
     this.fetchNewMessage();
   }
 
-  onChangeSearch(event) {
-    const key = event.target.value;
-    this.setState({
-      searchKey: key,
-    });
-    this.searchGroup();
-  }
-
-  searchGroup() {
-    const { dispatch, userId } = this.props;
-    const { searchKey } = this.state;
-    setTimeout(() => {
-      dispatch({
-        type: studySpaceAction.GET_ALL_GROUP,
-        payload: { createdById: userId, searchKey },
-      });
-    }, 100);
-  }
-
   fetchNewMessage() {
     const { dispatch } = this.props;
     dispatch({
@@ -52,33 +34,50 @@ class MenuStudySpacePage extends Component {
     });
   }
 
+  onChangeSearch(event) {
+    const key = event.target.value;
+    this.setState({
+      searchKey: key,
+    });
+    this.onSearch();
+  }
+
+  onSearch() {
+    const { actionType, payload = {} } = this.props;
+    const { searchKey } = this.state;
+    setTimeout(() => {
+      this.dispatch({
+        type: actionType,
+        payload: { ...payload, searchKey },
+      });
+    }, 100);
+  }
+
   render() {
-    const { newMessages = [] } = this.props;
+    const { newMessages = [], title = '' } = this.props;
     const numberMsg = getNumberMsgNotRead(newMessages);
 
     return (
       <Navbar collapseOnSelect expand="sm" className="MenuMain">
         <Navbar.Brand>
           <SearchMenuPageCommon
-            title="Tìm kiếm nhóm theo tiêu đề..."
+            title={title}
+            search={() => this.onSearch()}
             onChangeSearch={(e) => this.onChangeSearch(e)}
-            search={() => this.searchGroup()}
           />
         </Navbar.Brand>
         <Navbar.Toggle
           aria-controls="navbarScroll"
           data-bs-target="#navbarScroll"
         />
-        <MenuMain numberMsg={numberMsg}/>
+        <MenuMain numberMsg={numberMsg} />
       </Navbar>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+export default connect((state) => {
   return {
     newMessages: state.MessageReducer.newMessages,
-  }
-}
-
-export default connect(mapStateToProps)(MenuStudySpacePage);
+  };
+})(MenuMainCommon);

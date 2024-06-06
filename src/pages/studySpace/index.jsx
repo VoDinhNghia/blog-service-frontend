@@ -1,5 +1,5 @@
 import React from "react";
-import MenuStudySpacePage from "../menuPage/menuStudySpace/index";
+import MenuStudySpacePage from "../menu/study-space";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Footer from "../commons/footer";

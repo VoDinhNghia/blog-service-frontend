@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import MenuPersonelPage from "../menuPage/menuPersonel/index";
+import MenuPersonelPage from "../menu/personel";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Footer from "../commons/footer";
