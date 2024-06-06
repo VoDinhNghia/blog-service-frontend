@@ -14,7 +14,7 @@ import StudySpacePage from "./pages/studySpace";
 import TopicPage from "./pages/topic";
 import FollowedPage from "./pages/follow/followed";
 import FollowingPage from "./pages/follow/following";
-import MessagePage from "./pages/messagePage";
+import MessagePage from "./pages/messages";
 
 class App extends Component {
   render() {

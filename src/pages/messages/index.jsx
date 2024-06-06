@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import MessageLeftPage from "./leftPage";
-import MessageRightPage from "./rightPage";
+import LeftContentMessagePage from "./left-content";
+import RightContentMessagePage from "./right-content";
 import FooterPage from "../commons/footer";
 import { connect } from "react-redux";
 import { messageAction } from "../../store/action.store";
@@ -16,6 +16,7 @@ class MessagePage extends Component {
     this.state = {
       conversation: null,
     };
+    this.dispatch = this.props.dispatch;
   }
 
   componentDidMount() {
@@ -29,15 +30,8 @@ class MessagePage extends Component {
   }
 
   fetchListMessage() {
-    const { dispatch } = this.props;
-    dispatch({
+    this.dispatch({
       type: messageAction.GET_CONVERSATION_BY_USER,
-    });
-  }
-
-  goToConversation(conver) {
-    this.setState({
-      conversation: conver,
     });
   }
 
@@ -52,14 +46,16 @@ class MessagePage extends Component {
         <Container className="mt-3 mb-3">
           <Row>
             <Col xl={3}>
-              <MessageLeftPage
+              <LeftContentMessagePage
                 messageNotRead={messageNotRead}
                 fetchListMessage={() => this.fetchListMessage()}
-                goToConversation={(conver) => this.goToConversation(conver)}
+                goToConversation={(conver) =>
+                  this.setState({ conversation: conver })
+                }
               />
             </Col>
             <Col xl={9}>
-              <MessageRightPage
+              <RightContentMessagePage
                 messageNotRead={messageNotRead}
                 conversation={conversation}
                 fetchListMessage={() => this.fetchListMessage()}
@@ -74,10 +70,8 @@ class MessagePage extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export default connect((state) => {
   return {
     newMessages: state.MessageReducer.newMessages,
   };
-};
-
-export default connect(mapStateToProps)(MessagePage);
+})(MessagePage);
