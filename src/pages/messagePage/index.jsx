@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import MenuMessagePage from "../menu/message";
 import { Col, Container, Row } from "react-bootstrap";
 import MessageLeftPage from "./leftPage";
 import MessageRightPage from "./rightPage";
@@ -8,16 +7,14 @@ import { connect } from "react-redux";
 import { messageAction } from "../../store/action.store";
 import { socket } from "../../services/socket";
 import { socketMesg } from "../../constants/constant";
-import {
-  getMessageNotRead,
-  getNumberMsgNotRead,
-} from "../../utils/message.util";
+import { getMessageNotRead } from "../../utils/message.util";
+import MenuMain from "../menu";
 
 class MessagePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        conversation: null,
+      conversation: null,
     };
   }
 
@@ -40,7 +37,7 @@ class MessagePage extends Component {
 
   goToConversation(conver) {
     this.setState({
-        conversation: conver,
+      conversation: conver,
     });
   }
 
@@ -48,11 +45,10 @@ class MessagePage extends Component {
     const { newMessages = [] } = this.props;
     const { conversation } = this.state;
     const messageNotRead = getMessageNotRead(newMessages);
-    const numberMsg = getNumberMsgNotRead(newMessages);
 
     return (
       <div>
-        <MenuMessagePage numberMsg={numberMsg} />
+        <MenuMain actionType="" payload={{}} title="Tìm kiếm bạn bè" />
         <Container className="mt-3 mb-3">
           <Row>
             <Col xl={3}>
