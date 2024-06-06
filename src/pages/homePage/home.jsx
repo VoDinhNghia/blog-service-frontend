@@ -1,16 +1,13 @@
 import React, { Component } from "react";
-import MenuHomePage from "../menu/home";
 import Footer from "../commons/footer";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import RightHomePage from "./components/rightPage/rightPage";
 import LeftHomePage from "./components/leftPage/leftPage";
 import { connect } from "react-redux";
-import { messageAction, userAction } from "../../store/action.store";
+import { userAction, postAction } from "../../store/action.store";
 import { Container } from "react-bootstrap";
-import { getNumberMsgNotRead } from "../../utils/message.util";
-import { socket } from "../../services/socket";
-import { socketMesg } from "../../constants/constant";
+import MenuMain from "../menu";
 
 class Home extends Component {
   constructor(props) {
@@ -25,14 +22,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    socket.connect();
-    socket.on(socketMesg.MESSAGE_NEW, (data) => {
-      if (data?.data) {
-        this.fetchNewMessage();
-      }
-    });
     this.fetchAllUsers();
-    this.fetchNewMessage();
   }
 
   fetchAllUsers() {
@@ -40,19 +30,16 @@ class Home extends Component {
     this.dispatch({ type: userAction.GET_ALL_USER, payload: { limit, page } });
   }
 
-  fetchNewMessage() {
-    this.dispatch({
-      type: messageAction.GET_CONVERSATION_BY_USER,
-    });
-  }
-
   render() {
-    const { userList = [], newMessages = [] } = this.props;
-    const numberMsg = getNumberMsgNotRead(newMessages);
+    const { userList = [] } = this.props;
 
     return (
       <>
-        <MenuHomePage numberMsg={numberMsg} />
+        <MenuMain
+          actionType={postAction.GET_ALL_POST}
+          payload={{}}
+          title="Tìm kiếm bài đăng theo tiêu đề..."
+        />
         <Container>
           <Row>
             <Col xs lg="4">
@@ -72,6 +59,5 @@ class Home extends Component {
 export default connect((state) => {
   return {
     userList: state.UserReducer.userList,
-    newMessages: state.MessageReducer.newMessages,
   };
 })(Home);
