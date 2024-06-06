@@ -17,18 +17,11 @@ class MenuMain extends Component {
     this.logOut = this.logOut.bind(this);
 
     this.state = {
-      currentUser: undefined,
       searchKey: null,
     };
   }
 
   componentDidMount() {
-    const user = AuthService.getCurrentUser();
-    if (user) {
-      this.setState({
-        currentUser: user,
-      });
-    }
     EventBus.on("logout", () => {
       this.logOut();
     });
@@ -41,9 +34,6 @@ class MenuMain extends Component {
   async logOut() {
     await AuthService.logout();
     AuthService.removeSessionFrontend();
-    this.setState({
-      currentUser: undefined,
-    });
   }
 
   render() {

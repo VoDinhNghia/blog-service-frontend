@@ -89,7 +89,7 @@ class Login extends Component {
                 </h5>
 
                 <Form
-                  onSubmit={this.handleLogin}
+                  onSubmit={(e) => this.handleLogin(e)}
                   ref={(c) => {
                     this.form = c;
                   }}
@@ -101,7 +101,7 @@ class Login extends Component {
                       className="form-control"
                       name="username"
                       value={this.state.username}
-                      onChange={this.onChangeUsername}
+                      onChange={(e) => this.onChangeUsername(e)}
                       validations={[requiredField]}
                     />
                   </div>
@@ -113,7 +113,7 @@ class Login extends Component {
                       className="form-control"
                       name="password"
                       value={this.state.password}
-                      onChange={this.onChangePassword}
+                      onChange={(e) => this.onChangePassword(e)}
                       validations={[requiredField]}
                     />
                   </div>

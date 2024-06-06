@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import MenuHomePage from "../menuPage/menuHomePage/index";
+import MenuHomePage from "../menu/home";
 import Footer from "../commons/footer";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";

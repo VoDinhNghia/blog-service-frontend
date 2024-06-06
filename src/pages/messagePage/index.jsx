@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import MenuMessagePage from "../menuPage/menuMessagePage";
+import MenuMessagePage from "../menu/message";
 import { Col, Container, Row } from "react-bootstrap";
 import MessageLeftPage from "./leftPage";
 import MessageRightPage from "./rightPage";
