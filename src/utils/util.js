@@ -14,3 +14,7 @@ export const showDateTime = (date) => {
 export const showDateTimeMessage = (date) => {
   return date ? moment(date).format(formatTimeMessage) : "";
 };
+
+export const calToTalPage = (total, limit) => {
+  return Math.round(Number(total / limit) + 0.45);
+};

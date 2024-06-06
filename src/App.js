@@ -9,7 +9,7 @@ import NotFoundPage from "./pages/commons/page-not-found";
 import { routes } from "./constants/constant";
 import "react-notifications/lib/notifications.css";
 import { NotificationContainer } from "react-notifications";
-import PersonelPage from "./pages/personelPage/index";
+import PersonelPage from "./pages/personel";
 import StudySpacePage from "./pages/studySpace";
 import TopicPage from "./pages/topic";
 import FollowedPage from "./pages/follow/followed";
