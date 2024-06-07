@@ -8,7 +8,8 @@ import "./index.css";
 class LeftStudySpace extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.dispatch = this.props.dispatch;
+    this.userId = this.props.userId;
   }
 
   componentDidMount() {
@@ -16,11 +17,10 @@ class LeftStudySpace extends Component {
   }
 
   fetchUserInfo() {
-    const { dispatch, userId } = this.props;
     const currentUser = AuthService.getCurrentUser();
-    dispatch({
+    this.dispatch({
       type: userAction.GET_USER_BY_ID,
-      payload: { userId: userId || currentUser?.id },
+      payload: { userId: this.userId || currentUser?.id },
     });
   }
 
@@ -36,9 +36,8 @@ class LeftStudySpace extends Component {
   }
 }
 
-function mapStateToProps(state) {
+export default connect((state) => {
   return {
     userInfo: state.UserReducer.userInfo,
   };
-}
-export default connect(mapStateToProps)(LeftStudySpace);
+})(LeftStudySpace);
