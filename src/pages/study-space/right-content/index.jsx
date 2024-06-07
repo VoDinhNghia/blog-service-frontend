@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import NewGroup from "./newGroup";
+import NewGroup from "./new-group";
 import { connect } from "react-redux";
 import "./index.css";
 import { studySpaceAction, userAction } from "../../../store/action.store";
 import PaginationPage from "../../commons/pagination";
-import GroupListPage from "./groupList";
+import GroupListPage from "./group-list";
+import { calCurrentPage, calToTalPage } from "../../../utils/util";
 
 class RightStudySpace extends Component {
   constructor(props) {
@@ -13,6 +14,8 @@ class RightStudySpace extends Component {
       limit: 20,
       page: 1,
     };
+    this.dispatch = this.props.dispatch;
+    this.userId = this.props.userId;
   }
 
   componentDidMount() {
@@ -21,49 +24,29 @@ class RightStudySpace extends Component {
   }
 
   fetchAllGroups() {
-    const { dispatch, userId } = this.props;
     const { limit, page } = this.state;
-    dispatch({
+    this.dispatch({
       type: studySpaceAction.GET_ALL_GROUP,
-      payload: { limit, page, createdById: userId },
+      payload: { limit, page, createdById: this.userId },
     });
   }
 
   fetchAllUsers() {
-    const { dispatch } = this.props;
-    dispatch({ type: userAction.GET_ALL_USER });
+    this.dispatch({ type: userAction.GET_ALL_USER });
   }
 
-  goToBackPage() {
-    const { dispatch, userId } = this.props;
+  goToPage(totalPage = 0, isNextPage = true) {
     const { page, limit } = this.state;
-    const currentPage = page > 1 ? page - 1 : 1;
+    const currentPage = calCurrentPage(page, totalPage, isNextPage);
     this.setState({
       page: currentPage,
     });
-    dispatch({
+    this.dispatch({
       type: studySpaceAction.GET_ALL_GROUP,
       payload: {
         limit,
         page: currentPage,
-        createdById: userId,
-      },
-    });
-  }
-
-  goToNextPage(totalPage) {
-    const { dispatch, userId } = this.props;
-    const { page, limit } = this.state;
-    const currentPage = page < totalPage ? page + 1 : totalPage;
-    this.setState({
-      page: currentPage,
-    });
-    dispatch({
-      type: studySpaceAction.GET_ALL_GROUP,
-      payload: {
-        limit,
-        page: currentPage,
-        createdById: userId,
+        createdById: this.userId,
       },
     });
   }
@@ -71,7 +54,7 @@ class RightStudySpace extends Component {
   render() {
     const { groupList = [], userId, totalGroup = 0 } = this.props;
     const { limit, page } = this.state;
-    const totalPage = Math.round(totalGroup / limit + 0.45);
+    const totalPage = calToTalPage(totalGroup, limit);
 
     return (
       <>
@@ -85,18 +68,17 @@ class RightStudySpace extends Component {
         <PaginationPage
           page={page}
           totalPage={totalPage}
-          goToBackPage={() => this.goToBackPage()}
-          goToNextPage={() => this.goToNextPage(totalPage)}
+          goToBackPage={() => this.goToPage(0, false)}
+          goToNextPage={() => this.goToPage(totalPage, true)}
         />
       </>
     );
   }
 }
 
-function mapStateToProps(state) {
+export default connect((state) => {
   return {
     groupList: state.StudySpaceReducer.groupList,
     totalGroup: state.StudySpaceReducer.totalGroup,
   };
-}
-export default connect(mapStateToProps)(RightStudySpace);
+})(RightStudySpace);

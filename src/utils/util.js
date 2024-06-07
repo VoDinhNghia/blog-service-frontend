@@ -25,3 +25,7 @@ export const calCurrentPage = (page = 1, totalPage = 0, isNextPage = true) => {
   const currentPage = isNextPage ? currentNextPage : currentBackPage;
   return currentPage;
 };
+
+export const sliceString = (content = "", length = 20) => {
+  return content?.length > length ? `${content?.slice(0, length)}...` : content;
+};

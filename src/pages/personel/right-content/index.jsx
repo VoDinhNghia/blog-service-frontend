@@ -13,7 +13,7 @@ class RightPersonelPage extends Component {
     this.fetchAllPosts = this.fetchAllPosts.bind(this);
     this.state = {
       page: 1,
-      limit: 2,
+      limit: 50,
       isShowNewPost: false,
     };
     this.dispatch = this.props.dispatch;

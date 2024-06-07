@@ -10,7 +10,7 @@ import { routes } from "./constants/constant";
 import "react-notifications/lib/notifications.css";
 import { NotificationContainer } from "react-notifications";
 import PersonelPage from "./pages/personel";
-import StudySpacePage from "./pages/studySpace";
+import StudySpacePage from "./pages/study-space";
 import TopicPage from "./pages/topic";
 import FollowedPage from "./pages/follow/followed";
 import FollowingPage from "./pages/follow/following";
