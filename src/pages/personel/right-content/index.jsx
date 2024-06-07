@@ -5,7 +5,7 @@ import "./index.css";
 import PostListHomePage from "../../commons/post-list";
 import NewPostCommon from "../../commons/create-post";
 import PaginationPage from "../../commons/pagination";
-import { calToTalPage } from "../../../utils/util";
+import { calCurrentPage, calToTalPage } from "../../../utils/util";
 
 class RightPersonelPage extends Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class RightPersonelPage extends Component {
     this.fetchAllPosts = this.fetchAllPosts.bind(this);
     this.state = {
       page: 1,
-      limit: 50,
+      limit: 2,
       isShowNewPost: false,
     };
     this.dispatch = this.props.dispatch;
@@ -28,20 +28,9 @@ class RightPersonelPage extends Component {
     this.fetchCommon(this.state.page);
   }
 
-  goToNextPage(totalPage) {
+  goToPage(totalPage = 0, isNextPage = true) {
     const { page } = this.state;
-    const currentPage = page < totalPage ? page + 1 : totalPage;
-    this.setState({
-      page: currentPage,
-    });
-    setTimeout(() => {
-      this.fetchCommon(currentPage);
-    }, 100);
-  }
-
-  goToBackPage() {
-    const { page } = this.state;
-    const currentPage = page > 1 ? page - 1 : 1;
+    const currentPage = calCurrentPage(page, totalPage, isNextPage);
     this.setState({
       page: currentPage,
     });
@@ -68,8 +57,8 @@ class RightPersonelPage extends Component {
         <PaginationPage
           page={page}
           totalPage={totalPage}
-          goToBackPage={() => this.goToBackPage()}
-          goToNextPage={() => this.goToNextPage(totalPage)}
+          goToBackPage={() => this.goToPage(0, false)}
+          goToNextPage={() => this.goToPage(totalPage, true)}
         />
       </>
     );
