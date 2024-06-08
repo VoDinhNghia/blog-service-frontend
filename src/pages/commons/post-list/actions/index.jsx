@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import Dropdown from "react-bootstrap/Dropdown";
 import { connect } from "react-redux";
-import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -11,6 +9,7 @@ import { typeModal } from "../../../../constants/constant";
 import Select from "react-select";
 import ImageUploadingPage from "../../image-uploading";
 import { optionPrivateMode } from "../../../../utils/new-post.util";
+import DropdownCommon from "../../../commons/dropdown";
 
 class ActionPostItem extends Component {
   constructor(props) {
@@ -127,29 +126,10 @@ class ActionPostItem extends Component {
     return (
       <>
         <div className="OptionsHeaderPostItem">
-          <Dropdown>
-            <Dropdown.Toggle
-              variant="light"
-              id="dropdown-basic"
-              className="OptionsHeaderIconPostItem"
-              size="sm"
-            ></Dropdown.Toggle>
-
-            <Dropdown.Menu className="OptionsHeaderMenuPostItem">
-              <Dropdown.Item
-                onClick={() => this.showModal()}
-                className="ItemOptionHeaderPost"
-              >
-                <BsPencilSquare className="BtnHeaderMenuPostItem" /> Chỉnh sửa
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => this.showModalDelete()}
-                className="ItemOptionHeaderPost"
-              >
-                <BsTrash className="BtnHeaderMenuPostItem" /> Xóa bài đăng
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          <DropdownCommon 
+            onShowModalUpdate={() => this.showModal()}
+            onShowModalDelete={() => this.showModalDelete()}
+          />
         </div>
         <div>
           <Modal show={isShowModal} onHide={() => this.closeModal(false)}>
