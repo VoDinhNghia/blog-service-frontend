@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Login from "./pages/login";
-import Home from "./pages/homePage/home";
+import Home from "./pages/home";
 import PrivateRoute from "./utils/protected-route.util";
 import NotFoundPage from "./pages/commons/page-not-found";
 import { routes } from "./constants/constant";

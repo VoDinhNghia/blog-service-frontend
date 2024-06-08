@@ -8,7 +8,7 @@ import "./index.css";
 import { messageAction, userAction } from "../../../../store/action.store";
 import { Link } from "react-router-dom";
 import { routes } from "../../../../constants/constant";
-import MessageModal from "../messageModal";
+import MessageModal from "../message";
 import { getAllMessByOneConver } from "../../../../services/message.service";
 import { filterStatusLoginUser } from "../../../../utils/home.util";
 import { getUserName } from "../../../../utils/util";
