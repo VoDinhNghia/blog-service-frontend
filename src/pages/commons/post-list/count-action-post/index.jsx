@@ -12,7 +12,7 @@ import { likeAction } from "../../../../constants/constant";
 
 class CountActionPost extends Component {
   render() {
-    const { post = {}, openedCommentId = "", showModal } = this.props;
+    const { post = {}, openedCommentId = "", showModal, showComment } = this.props;
     const likeNumber = countEmotionPost(post?.likes, likeAction.LIKE);
     const loveNumber = countEmotionPost(post?.likes, likeAction.LOVE);
     const heartNumber = countEmotionPost(post?.likes, likeAction.HEART);
@@ -45,7 +45,7 @@ class CountActionPost extends Component {
               className="NumberComment"
               variant="outline-light"
               aria-expanded={openedCommentId === post?.id}
-              onClick={() => this.showComment(post?.id)}
+              onClick={() => showComment(post?.id)}
             >
               <BsFillChatLeftTextFill /> {post?.comments?.length}
             </Button>{" "}
