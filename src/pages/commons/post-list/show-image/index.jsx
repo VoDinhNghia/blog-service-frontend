@@ -17,6 +17,7 @@ class ShowImagePost extends Component {
       imageId: "",
       indexImage: 0,
     };
+    this.dispatch = this.props.dispatch;
   }
 
   showModal(id, index) {
@@ -34,8 +35,7 @@ class ShowImagePost extends Component {
   }
 
   deleteImage(imageId) {
-    const { dispatch } = this.props;
-    dispatch({
+    this.dispatch({
       type: postAction.DELETE_IMAGE_POST,
       id: imageId,
     });
