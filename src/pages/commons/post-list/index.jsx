@@ -3,14 +3,13 @@ import { connect } from "react-redux";
 import { postAction } from "../../../store/action.store";
 import "./index.css";
 import ModalLikeHomepage from "./like-modal";
-import { Button, Collapse, Form, InputGroup } from "react-bootstrap";
 import AuthService from "../../../services/auth.service";
-import ShowCommentHomePage from "./comments";
 import ShowImagePost from "./show-image";
 import { typePostListPage } from "../../../constants/constant";
 import HeaderPost from "./header-post";
 import CountActionPost from "./count-action-post";
 import DisplayBtnActionPost from "./btn-action-post";
+import CollapseCommentPost from "./collapse-comment-post";
 
 class PostListHomePage extends Component {
   constructor(props) {
@@ -116,6 +115,7 @@ class PostListHomePage extends Component {
                 openedCommentId={openedCommentId}
                 post={post}
                 showModal={(data) => this.showModal(data)}
+                showComment={(id) => this.showComment(id)}
               />
               <DisplayBtnActionPost
                 post={post}
@@ -125,32 +125,15 @@ class PostListHomePage extends Component {
                 actionShare={(id) => this.actionShare(id)}
                 showComment={(id) => this.showComment(id)}
               />
-              <Collapse in={openedCommentId === post?.id}>
-                <div>
-                  <InputGroup className="mb-3">
-                    <Form.Control
-                      placeholder="Viết bình luận..."
-                      aria-label="comment post"
-                      aria-describedby="basic-addon-comment-post"
-                      value={commentPost}
-                      onChange={(event) => this.onchangeValueComment(event)}
-                    />
-                    <Button
-                      id="basic-addon-comment-post"
-                      variant="outline-primary"
-                      onClick={(event) => this.sendComment(event, post?.id)}
-                    >
-                      gửi
-                    </Button>
-                  </InputGroup>
-                  <ShowCommentHomePage
-                    commentList={post?.comments || []}
-                    userId={currentUser?.id}
-                    userPost={post?.user?.id}
-                    fetchPostList={() => this.fetchPostList()}
-                  />
-                </div>
-              </Collapse>
+              <CollapseCommentPost
+                openedCommentId={openedCommentId}
+                post={post}
+                commentPost={commentPost}
+                currentUser={currentUser}
+                onchangeValueComment={(e) => this.onchangeValueComment(e)}
+                sendComment={(e, id) => this.sendComment(e, id)}
+                fetchPostList={() => this.fetchPostList()}
+              />
             </div>
           );
         })}

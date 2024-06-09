@@ -22,12 +22,9 @@ export const findCurrentUserAction = (post = {}, currentUser, type) => {
 };
 
 export const displayBtnLikePost = (isLike, isHeart, isLove) => {
-  let color = "gray";
+  let color = isLike ? "blue" : "gray";
   let title = "Thích";
   let icon = <BsFillHandThumbsUpFill />;
-  if (isLike) {
-    color = "blue";
-  }
   if (isHeart) {
     color = "#e810c0";
     title = "Thả tim";
@@ -38,9 +35,10 @@ export const displayBtnLikePost = (isLike, isHeart, isLove) => {
     title = "Yêu thích";
     icon = <BsFillEmojiHeartEyesFill />;
   }
-  return {
+  const obj = {
     color,
     title,
     icon,
   };
+  return obj;
 };
