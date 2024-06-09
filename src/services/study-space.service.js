@@ -4,7 +4,7 @@ export const createNewGroup = (payload) => postMethod("group", payload);
 export const getAllGroup = (payload) => getMethod("group", payload);
 export const updateGroup = (id, payload) => putMethod(`group/${id}`, payload);
 export const addMember = (groupId, payload) =>
-  postMethod(`group/member/${groupId}`, payload);
+  putMethod(`group/member/${groupId}`, payload);
 export const deleteGroup = (id) => deleteMethod(`group/${id}`);
 export const deleteMember = (id) => deleteMethod(`group/member/${id}`);
 export const leaveGroup = (groupId) => deleteMethod(`group/leave/${groupId}`);

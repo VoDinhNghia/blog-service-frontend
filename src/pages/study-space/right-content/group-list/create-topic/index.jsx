@@ -13,7 +13,6 @@ class CreateNewTopicModal extends Component {
       description: "",
     };
     this.dispatch = this.props.dispatch;
-    this.groupId = this.props.groupId;
   }
 
   onChangeName(event) {
@@ -30,9 +29,10 @@ class CreateNewTopicModal extends Component {
 
   createNewTopic() {
     const { name, description } = this.state;
+    const { groupId } = this.props;
     this.dispatch({
       type: studySpaceAction.CREATE_NEW_TOPIC,
-      payload: { name, groupId: this.groupId, description },
+      payload: { name, groupId: groupId, description },
     });
     setTimeout(() => {
       this.props.fetchAllGroups();
