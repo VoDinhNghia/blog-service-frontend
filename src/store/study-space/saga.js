@@ -62,6 +62,7 @@ function* leaveGroups({ groupId }) {
 }
 
 function* createNewTopics({ payload }) {
+  console.log("ssjjs", payload);
   yield addNewItem(createNewTopic, payload, "Create new topic");
 }
 
