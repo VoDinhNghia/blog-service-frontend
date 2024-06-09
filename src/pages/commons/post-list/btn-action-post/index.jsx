@@ -42,7 +42,7 @@ class DisplayBtnActionPost extends Component {
               <Button
                 variant="outline-light"
                 onClick={() => actionLike(post?.id, likeAction.HEART)}
-                style={{ color: `${isHeart ? "red" : "gray"}`, fontSize: 25 }}
+                style={{ color: `${isHeart ? "#e810c0" : "gray"}`, fontSize: 25 }}
               >
                 <AiFillHeart />
               </Button>
@@ -50,7 +50,7 @@ class DisplayBtnActionPost extends Component {
                 variant="outline-light"
                 onClick={() => actionLike(post?.id, likeAction.LOVE)}
                 style={{
-                  color: `${isLove ? "#e810c0" : "gray"}`,
+                  color: `${isLove ? "red" : "gray"}`,
                   fontSize: 25,
                 }}
               >
